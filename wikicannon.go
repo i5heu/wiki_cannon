@@ -15,6 +15,7 @@ var HtmlStructHeader string = `./template/header.html`
 var HtmlStructFooter string = `./template/footer.html`
 
 var cwd, _ = os.Getwd()
+var fs = http.FileServer(http.Dir("static"))
 
 func main() {
 	// Create an sql.DB and check for errors
@@ -27,18 +28,20 @@ func main() {
 
 	db.Exec("CREATE TABLE IF NOT EXISTS `article` (id INT NOT NULL AUTO_INCREMENT, `timec` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,`namespace` VARCHAR (128) NOT NULL DEFAULT 'main'  ,`title` VARCHAR (128) NOT NULL DEFAULT 'NO TITLE', `text` longtext,`tags` text, PRIMARY KEY (id),FULLTEXT(title,text,tags,namespace),FULLTEXT INDEX (title,text));")
 
-	http.HandleFunc("/index/", IndexHandler)
+	http.HandleFunc("/desk/", DesktopHandler)
 	http.HandleFunc("/newentry", NewentryHandler)
 	http.HandleFunc("/p/", ViewHandler)
 	http.HandleFunc("/s/", SearchHandler)
 	http.HandleFunc("/e/", EditHandler)
 	http.HandleFunc("/api/", ApiHandler)
+
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", IndexHandler2)
 	http.ListenAndServe(":8080", nil)
 }
 
 func IndexHandler2(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, "/index", 302)
+	http.Redirect(w, r, "/desk", 302)
 
 }
 
