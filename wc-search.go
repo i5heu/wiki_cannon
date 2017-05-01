@@ -43,7 +43,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/desk", 302)
 
 	default:
-		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(text,1,100) FROM article WHERE MATCH (title,text) AGAINST (? IN BOOLEAN MODE)", newquery)
+		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(text,1,100) FROM article WHERE (needlogin = '0' OR needlogin = ?) AND MATCH (title,text) AGAINST (? IN BOOLEAN MODE)", checkLogin(r), newquery)
 	}
 
 	checkErr(err)
