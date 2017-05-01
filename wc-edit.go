@@ -18,7 +18,7 @@ type edit struct {
 	Text      template.HTML
 }
 
-var templatesEdit = template.Must(template.ParseFiles("edit.html", HtmlStructHeader, HtmlStructFooter))
+var templatesEdit = template.Must(template.ParseFiles("./template/edit.html", HtmlStructHeader, HtmlStructFooter))
 
 func EditHandler(w http.ResponseWriter, r *http.Request) {
 	u, err := url.Parse(r.URL.Path)

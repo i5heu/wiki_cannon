@@ -1,0 +1,29 @@
+{{define "header"}}
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Your Website</title>
+	<link rel="stylesheet" href="https://cdn.rawgit.com/i5heu/BASIC-CSS-templates/ff5043d4f916c9a6ae3e13ea2d6eecec5eca4cf2/multitower/main.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Share+Tech+Mono" rel="stylesheet">
+	<script  src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+</head>
+<header>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/AB-ende-blau.svg/150px-AB-ende-blau.svg.png">
+  <a id="logo" href="/">Blog_CANNON!!!</a>
+	<nav> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> </nav>
+<script>
+function search(ele) {
+    if(event.keyCode == 13) {
+        window.location.href = "/s/" + ele.value;
+
+    }
+}
+</script>
+
+<input type="text" placeholder="some text" class="search" onkeydown="search(this)"/>
+
+</header>
+
+{{.Body}}{{end}}

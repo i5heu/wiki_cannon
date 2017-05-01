@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"net/http"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -10,8 +11,10 @@ import (
 // Global sql.DB to access the database by all handlers
 var db *sql.DB
 var err error
-var HtmlStructHeader string = `header.html`
-var HtmlStructFooter string = `footer.html`
+var HtmlStructHeader string = `./template/header.html`
+var HtmlStructFooter string = `./template/footer.html`
+
+var cwd, _ = os.Getwd()
 
 func main() {
 	// Create an sql.DB and check for errors

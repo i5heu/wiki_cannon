@@ -25,7 +25,7 @@ const (
 	timeFormat = "2006-01-02 15:04 MST"
 )
 
-var templatesIndex = template.Must(template.ParseFiles("index.html", HtmlStructHeader, HtmlStructFooter))
+var templatesIndex = template.Must(template.ParseFiles("./template/index.html", HtmlStructHeader, HtmlStructFooter))
 var timecache int64 = time.Now().Unix() - 10
 var tmp []Article
 

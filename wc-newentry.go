@@ -20,7 +20,7 @@ func NewentryHandler(w http.ResponseWriter, r *http.Request) {
 
 		checkErr(err)
 
-		http.ServeFile(w, r, "newentry.html")
+		http.ServeFile(w, r, "./template/newentry.html")
 
 	}
 	fmt.Fprintf(w, `You have to login to do this! -> %s`, t)

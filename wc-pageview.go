@@ -18,7 +18,7 @@ type view struct {
 	Text        template.HTML
 }
 
-var templatesView = template.Must(template.ParseFiles("view.html", HtmlStructHeader, HtmlStructFooter))
+var templatesView = template.Must(template.ParseFiles("./template/view.html", HtmlStructHeader, HtmlStructFooter))
 
 func ViewHandler(w http.ResponseWriter, r *http.Request) {
 	u, err := url.Parse(r.URL.Path)
