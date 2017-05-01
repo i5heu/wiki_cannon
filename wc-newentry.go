@@ -14,11 +14,15 @@ func NewentryHandler(w http.ResponseWriter, r *http.Request) {
 		//if true == true {
 		t = "login: true"
 
-		newPublic := "0"
+		newPublic := "1"
 		newTitle := r.FormValue("Title")
 		newNamepace := r.FormValue("Namespace")
 		newPublic = r.FormValue("Public")
 		newText := r.FormValue("Text")
+
+		if len(newPublic) == 0 {
+			newPublic = "1"
+		}
 
 		if newNamepace == "" {
 			newNamepace = "main"

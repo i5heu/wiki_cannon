@@ -13,11 +13,18 @@ func ApiHandler(w http.ResponseWriter, r *http.Request) {
 		//if true == true {
 		t = "login: true"
 
+		newPublic := "1"
 		newID := r.FormValue("Id")
 		newNamepace := r.FormValue("Namespace")
+		newPublic = r.FormValue("Public")
 		newTitle := r.FormValue("Title")
 		newText := r.FormValue("Text")
-		db.Exec("UPDATE `article` SET `namespace` = ?, `title` = ?, `text` = ? WHERE `article`.`id` = ? ", ReplaceSpecialChars(newNamepace), ReplaceSpecialChars(newTitle), newText, newID)
+
+		if len(newPublic) == 0 {
+			newPublic = "1"
+		}
+
+		db.Exec("UPDATE `article` SET `namespace` = ?, `title` = ?, `text` = ? WHERE `article`.`id` = ?, `needlogin` = ? ", ReplaceSpecialChars(newNamepace), ReplaceSpecialChars(newTitle), newText, newID, newPublic)
 
 		checkErr(err)
 

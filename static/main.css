@@ -77,13 +77,14 @@ white-space: pre-wrap;}
 }
 
 .liner input,.liner textarea{
-  width:50%;
+  width:90%;
   min-width:150px;
+  max-width:600px;
   margin:10px 0 0 0;
 }
 
 .liner textarea{
-  min-height:60px;
+  min-height:100px;
 }
 
 

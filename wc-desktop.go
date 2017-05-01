@@ -3,7 +3,6 @@ package main
 import (
 	"html/template"
 	"net/http"
-	"time"
 
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/russross/blackfriday"
@@ -21,20 +20,21 @@ type lista struct {
 	Articles  []Article
 }
 
-const (
+/*const (
 	timeFormat = "2006-01-02 15:04 MST"
 )
-
+*/
 var templatesDesktop = template.Must(template.ParseFiles("./template/desktop.html", HtmlStructHeader, HtmlStructFooter))
-var timecache int64 = time.Now().Unix() - 10
+
+//var timecache int64 = time.Now().Unix() - 10
 var tmp []Article
 
 func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der IndexHandler
 	login := false
 
-	if int64(time.Now().Unix()) > timecache+5 {
-		cache()
-	}
+	//if int64(time.Now().Unix()) > timecache+5 {
+	cache(checkLogin(r))
+	//}
 
 	t := "login: false"
 	if checkLogin(r) == true {
@@ -52,10 +52,9 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	}
 }
 
-func cache() {
+func cache(login bool) {
 	tmp = tmp[:0]
-
-	ids, err := db.Query("SELECT id, namespace, title, LEFT (text,200) FROM `article` ORDER BY id DESC LIMIT 5")
+	ids, err := db.Query("SELECT id, namespace, title, LEFT (text,200) FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 5", login)
 	checkErr(err)
 
 	for ids.Next() {
@@ -76,5 +75,5 @@ func cache() {
 
 	}
 
-	timecache = time.Now().Unix()
+	//	timecache = time.Now().Unix()
 }
