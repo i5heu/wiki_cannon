@@ -25,7 +25,12 @@ var tmpSearch []SearchResult
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	tmpSearch = tmpSearch[:0]
+
 	searchterm := r.URL.Path[3:]
+	if len(searchterm) == 0 {
+		http.Redirect(w, r, "/desk", 302)
+		return
+	}
 
 	newquery := "*" + searchterm + "*"
 
@@ -34,6 +39,9 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	switch searchterm {
 	case "all":
 		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(text,1,100) FROM article ORDER BY timec DESC")
+	case "":
+		http.Redirect(w, r, "/desk", 302)
+
 	default:
 		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(text,1,100) FROM article WHERE MATCH (title,text) AGAINST (? IN BOOLEAN MODE)", newquery)
 	}
@@ -56,5 +64,4 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	searchs := search{searchterm, tmpSearch}
 
 	templatesSearch.Execute(w, searchs)
-
 }

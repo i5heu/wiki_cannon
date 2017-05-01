@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func NewentryHandler(w http.ResponseWriter, r *http.Request) {
@@ -16,6 +17,15 @@ func NewentryHandler(w http.ResponseWriter, r *http.Request) {
 		newTitle := r.FormValue("Title")
 		newNamepace := r.FormValue("Namespace")
 		newText := r.FormValue("Text")
+
+		if newNamepace == "" {
+			newNamepace = "main"
+		}
+		if newTitle == "" {
+			t := time.Now()
+			newTitle = t.String()[:len(t.String())-21]
+		}
+
 		db.Exec("INSERT INTO article(title,namespace,text) VALUES(?,?,?)", ReplaceSpecialChars(newTitle), ReplaceSpecialChars(newNamepace), newText)
 
 		checkErr(err)
