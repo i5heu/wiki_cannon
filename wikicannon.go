@@ -19,7 +19,7 @@ var fs = http.FileServer(http.Dir("static"))
 
 func main() {
 	// Create an sql.DB and check for errors
-	db, err = sql.Open("mysql", "USER:PASSWORD@/blog_cannon")
+	db, err = sql.Open("mysql", "USER:PASSWORD@/wiki_cannon")
 	if err != nil {
 		panic(err.Error())
 	}
