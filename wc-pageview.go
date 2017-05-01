@@ -30,16 +30,22 @@ func ViewHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "ERROR 404")
 	} else {
 
-		ids, err := db.Query("SELECT id,namespace,title,text FROM article WHERE title=(?) AND namespace=(?)", encodetpath1[3], encodetpath1[2])
+		ids, err := db.Query("SELECT id,needlogin,namespace,title,text FROM article WHERE title=(?) AND namespace=(?)", encodetpath1[3], encodetpath1[2])
 		checkErr(err)
 
 		ids.Next()
 		var id int
+		var needlogin bool
 		var namespace string
 		var title string
 		var text string
-		_ = ids.Scan(&id, &namespace, &title, &text)
+		_ = ids.Scan(&id, &needlogin, &namespace, &title, &text)
 		checkErr(err)
+
+		if needlogin == true && checkLogin(r) == false {
+			fmt.Fprintf(w, "ERROR YOU ARE NOT LOGED IN")
+			return
+		}
 
 		if id == 0 {
 			fmt.Fprintf(w, "ERROR 404")
