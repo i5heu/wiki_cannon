@@ -21,6 +21,7 @@ func NewentryHandler(w http.ResponseWriter, r *http.Request) {
 		newText := r.FormValue("Text")
 
 		if len(newPublic) == 0 {
+
 			newPublic = "1"
 		}
 

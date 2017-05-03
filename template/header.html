@@ -42,7 +42,8 @@ window.onload = function () {
 
 
 <div id="header_edit" class="headerbox" >
-	<input type="text" placeholder="some text" id="searchbar" onkeydown="search(this)"/><a style="background:#eee; color:#000; text-decoration:none;" href="/">D</a>
+	<a style="background:#eee; color:#000; text-decoration:none; padding:0 2px 0 2px; margin-right:3px;" href="/">D</a>
+	<input type="text" placeholder="some text" id="searchbar" onkeydown="search(this)"/>
 	<nav> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> </nav>
 
 </div>
@@ -51,6 +52,6 @@ window.onload = function () {
 <div class="settingsinpage" id="settingsinpage"></div>
 <div class="settingsinpage quickaddpage" id="quickaddpage"></div>
 <div id="spacer" style="height:60px;"></div>
-
+<div id="contcenter">
 
 {{.Body}}{{end}}

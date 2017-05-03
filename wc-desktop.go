@@ -9,9 +9,11 @@ import (
 )
 
 type Article struct {
-	ArticleId    int
-	Articletitle template.HTML
-	ArticleText  template.HTML
+	ArticleId        int
+	Url              template.HTML
+	ArticleNamespace template.HTML
+	Articletitle     template.HTML
+	ArticleText      template.HTML
 }
 
 type lista struct {
@@ -54,7 +56,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 
 func cache(login bool) {
 	tmp = tmp[:0]
-	ids, err := db.Query("SELECT id, namespace, title, LEFT (text,200) FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 10", login)
+	ids, err := db.Query("SELECT id, namespace, title, LEFT (text,100) FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 10", login)
 	checkErr(err)
 
 	for ids.Next() {
@@ -66,12 +68,14 @@ func cache(login bool) {
 		checkErr(err)
 
 		text = text + "..."
-		title = namespace + "/" + title
+		url := namespace + "/" + title
 
+		UrlTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(url)))
+		NamespaceTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(namespace)))
 		TitleTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title)))
 		TextTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes(blackfriday.MarkdownCommon([]byte(text))))
 
-		tmp = append(tmp, Article{id, TitleTMP, TextTMP})
+		tmp = append(tmp, Article{id, UrlTMP, NamespaceTMP, TitleTMP, TextTMP})
 
 	}
 

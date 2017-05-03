@@ -1,35 +1,37 @@
 {{template "header" }}
 
 
-<p style="color:#fff; font-size:120; background:#000; margin:0;"> ${{.LoginText}}</p>
+<p style="color:#fff; font-size:0.85em; background:#000; margin:0; padding:2px 0 2px 3px;"> ${{.LoginText}}</p>
 
+<div class="tilebox">
+<div class="tile">
 {{if .Login}}
 <div class="liner">
 <form action="/newentry" method="post">
-<input type="text" name="Title">Title</input><br>
-<input type="text" name="Namespace">Namespace</input><br>
-<input type="checkbox" id="publicradio" name="Public" value="0">Public</input>
-<textarea type="text" name="Text">Text</textarea>
+<input type="text" name="Title" placeholder="Title"></input><br>
+<input type="text" name="Namespace" placeholder="Namespace"></input><br>
+<input type="checkbox" id="publicradio" name="Public" value="0">Public</input><br>
+<textarea type="text" name="Text" placeholder="Text"></textarea>
 <br>
 <button type="submit">SEND</button></form>
 </div>
 {{end}}
+</div>
 
 
-
-
-
+<div class="tile">
 <table class="borderfull">
 {{range $.Articles}}
 <tr class="borderfull">
-  <th class="borderfull"><a href="/p/{{.Articletitle}}"><b>#{{.Articletitle}}</b><a></th>
+  <th class="borderfull">{{.ArticleNamespace}}</th>
+  <th class="borderfull"><a href="/p/{{.Url}}"><b>#{{.Articletitle}}</b><a></th>
   <th class="borderfull">{{.ArticleText}}</th>
 </tr>
 {{end}}
 </table>
+</div>
 
-
-
+</div>
 
 
 <script language="JavaScript">
