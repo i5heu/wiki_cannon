@@ -28,37 +28,37 @@ func ViewHandler(w http.ResponseWriter, r *http.Request) {
 
 	if len(encodetpath1) < 4 {
 		fmt.Fprintf(w, "ERROR 404")
+		return
+	}
+
+	ids, err := db.Query("SELECT id,needlogin,namespace,title,text FROM article WHERE title=(?) AND namespace=(?)", encodetpath1[3], encodetpath1[2])
+	checkErr(err)
+
+	ids.Next()
+	var id int
+	var needlogin bool
+	var namespace string
+	var title string
+	var text string
+	_ = ids.Scan(&id, &needlogin, &namespace, &title, &text)
+	checkErr(err)
+
+	if needlogin == true && checkLogin(r) == false {
+		fmt.Fprintf(w, "ERROR YOU ARE NOT LOGED IN")
+		return
+	}
+
+	if id == 0 {
+		fmt.Fprintf(w, "ERROR 404")
 	} else {
 
-		ids, err := db.Query("SELECT id,needlogin,namespace,title,text FROM article WHERE title=(?) AND namespace=(?)", encodetpath1[3], encodetpath1[2])
-		checkErr(err)
+		title = namespace + "/" + title
 
-		ids.Next()
-		var id int
-		var needlogin bool
-		var namespace string
-		var title string
-		var text string
-		_ = ids.Scan(&id, &needlogin, &namespace, &title, &text)
-		checkErr(err)
+		TitleTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title)))
+		TextTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes(blackfriday.MarkdownCommon([]byte(text))))
 
-		if needlogin == true && checkLogin(r) == false {
-			fmt.Fprintf(w, "ERROR YOU ARE NOT LOGED IN")
-			return
-		}
-
-		if id == 0 {
-			fmt.Fprintf(w, "ERROR 404")
-		} else {
-
-			title = namespace + "/" + title
-
-			TitleTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes(blackfriday.MarkdownCommon([]byte(title))))
-			TextTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes(blackfriday.MarkdownCommon([]byte(text))))
-
-			views := view{encodetpath1[2], title, TitleTMP, TextTMP}
-			templatesView.Execute(w, views)
-		}
-
+		views := view{encodetpath1[2], title, TitleTMP, TextTMP}
+		templatesView.Execute(w, views)
 	}
+
 }
