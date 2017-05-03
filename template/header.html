@@ -6,9 +6,14 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Your Website</title>
 	<link rel="stylesheet" href="/static/main.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width">
+	<meta name="theme-color" content="#000">
 
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+	 integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=
+	 sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f
+	 sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA=="
+	 crossorigin="anonymous"></script>
 
 <script>
 function search(ele) {
@@ -17,15 +22,35 @@ function search(ele) {
 
     }
 }
+
+//CALIBRATING SPACER FOR HEADER
+function resizeHeader(){
+ var header = $("header").height();
+ document.getElementById("spacer").style.height = header + "px";
+}
+
+//CALIBRATING SPACER FOR HEADER on pageload
+window.onload = function () {
+ resizeHeader();
+}
 </script>
 
 </head>
 <body>
 
 <header>
-  <input type="text" placeholder="some text" id="searchbar" onkeydown="search(this)"/>
-  <nav> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> </nav>
+
+
+<div id="header_edit" class="headerbox" >
+	<input type="text" placeholder="some text" id="searchbar" onkeydown="search(this)"/><a style="background:#eee; color:#000; text-decoration:none;" href="/">D</a>
+	<nav> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> </nav>
+
+</div>
 </header>
+<!-- SPACER IS PART OF HEADER!!! -->
+<div class="settingsinpage" id="settingsinpage"></div>
+<div class="settingsinpage quickaddpage" id="quickaddpage"></div>
+<div id="spacer" style="height:60px;"></div>
+
 
 {{.Body}}{{end}}
-

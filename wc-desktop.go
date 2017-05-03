@@ -54,7 +54,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 
 func cache(login bool) {
 	tmp = tmp[:0]
-	ids, err := db.Query("SELECT id, namespace, title, LEFT (text,200) FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 5", login)
+	ids, err := db.Query("SELECT id, namespace, title, LEFT (text,200) FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 10", login)
 	checkErr(err)
 
 	for ids.Next() {

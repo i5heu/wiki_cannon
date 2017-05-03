@@ -1,15 +1,15 @@
 {{template "header" }}
 
 
-<p style="color:#fff; font-size:120; background:#000;"> ${{.LoginText}}</p>
+<p style="color:#fff; font-size:120; background:#000; margin:0;"> ${{.LoginText}}</p>
 
 {{if .Login}}
 <div class="liner">
 <form action="/newentry" method="post">
 <input type="text" name="Title">Title</input><br>
-<input type="text" name="Namespace">Namespace</input><br> 
+<input type="text" name="Namespace">Namespace</input><br>
 <input type="checkbox" id="publicradio" name="Public" value="0">Public</input>
-<textarea type="text" name="Text">Text</textarea> 
+<textarea type="text" name="Text">Text</textarea>
 <br>
 <button type="submit">SEND</button></form>
 </div>
@@ -19,15 +19,14 @@
 
 
 
-
+<table class="borderfull">
 {{range $.Articles}}
-<article>
-<a href="/p/{{.Articletitle}}">#{{.Articletitle}}<a>
-<h1>{{.Articletitle}}</h1>
-{{.ArticleText}}<br>
-</article>
+<tr class="borderfull">
+  <th class="borderfull"><a href="/p/{{.Articletitle}}"><b>#{{.Articletitle}}</b><a></th>
+  <th class="borderfull">{{.ArticleText}}</th>
+</tr>
 {{end}}
-
+</table>
 
 
 
