@@ -1,0 +1,12 @@
+{{template "header" }}
+sdadasdsa
+{{range $.NamespaceResults}}
+<a href="/p/{{.Articletitle}}">#{{.Articletitle}}<a><br>
+<b>{{.ArticleId}} -->{{.Articletitle}}</b>
+{{.ArticleText}}<br>
+<hr>
+{{end}}
+
+
+
+{{template "footer" .}}

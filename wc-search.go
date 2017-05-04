@@ -39,7 +39,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	switch searchterm {
 	case "all":
-		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(text,1,100) FROM article ORDER BY timec DESC")
+		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(text,1,100) FROM article ORDER BY timec DESC LIMIT 100")
 	case "":
 		http.Redirect(w, r, "/desk", 302)
 
