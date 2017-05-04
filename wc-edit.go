@@ -21,6 +21,7 @@ type edit struct {
 var templatesEdit = template.Must(template.ParseFiles("./template/edit.html", HtmlStructHeader, HtmlStructFooter))
 
 func EditHandler(w http.ResponseWriter, r *http.Request) {
+	guestmodechek(w, r)
 
 	if checkLogin(r) == false {
 		fmt.Fprintf(w, "ERROR YOU ARE NOT LOGGED IN")

@@ -21,6 +21,7 @@ type view struct {
 var templatesView = template.Must(template.ParseFiles("./template/view.html", HtmlStructHeader, HtmlStructFooter))
 
 func ViewHandler(w http.ResponseWriter, r *http.Request) {
+	guestmodechek(w, r)
 	u, err := url.Parse(r.URL.Path)
 
 	checkErr(err)

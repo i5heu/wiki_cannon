@@ -6,7 +6,7 @@ import (
 )
 
 func ApiHandler(w http.ResponseWriter, r *http.Request) {
-
+	guestmodechek(w, r)
 	t := "login: false"
 
 	if checkLogin(r) == true {

@@ -65,7 +65,7 @@ func guestmodechek(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if cookie == "guest" {
+	if cookie == "GUESTPWD" {
 		return
 	}
 	http.Redirect(w, r, "/static/guestlogin.html", 302)

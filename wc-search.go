@@ -24,6 +24,7 @@ var templatesSearch = template.Must(template.ParseFiles("./template/search.html"
 var tmpSearch []SearchResult
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
+	guestmodechek(w, r)
 	tmpSearch = tmpSearch[:0]
 
 	searchterm := r.URL.Path[3:]

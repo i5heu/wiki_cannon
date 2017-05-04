@@ -7,6 +7,7 @@ import (
 )
 
 func NewentryHandler(w http.ResponseWriter, r *http.Request) {
+	guestmodechek(w, r)
 
 	t := "login: false"
 
