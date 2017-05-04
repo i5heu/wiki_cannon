@@ -47,3 +47,28 @@ func ReplaceSpecialChars(s string) (sc string) {
 	sc = re.ReplaceAllString(s, "-")
 	return
 }
+
+func guestmodechek(w http.ResponseWriter, r *http.Request) {
+
+	if guestmode == false {
+		return
+	}
+
+	var cookie string
+	var cookieTMP *http.Cookie
+
+	if sessionExists(r, "pwdguest") == true {
+		cookieTMP, _ = r.Cookie("pwdguest")
+		cookie = cookieTMP.Value
+	} else {
+		http.Redirect(w, r, "/static/guestlogin.html", 302)
+		return
+	}
+
+	if cookie == "guest" {
+		return
+	}
+	http.Redirect(w, r, "/static/guestlogin.html", 302)
+	return
+
+}

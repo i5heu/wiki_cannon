@@ -32,6 +32,8 @@ var templatesDesktop = template.Must(template.ParseFiles("./template/desktop.htm
 var tmp []Article
 
 func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der IndexHandler
+	guestmodechek(w, r)
+
 	login := false
 
 	//if int64(time.Now().Unix()) > timecache+5 {

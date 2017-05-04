@@ -1,0 +1,38 @@
+
+<!DOCTYPE HTML>
+<html>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+	 integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=
+	 sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f
+	 sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA=="
+	 crossorigin="anonymous"></script>
+
+
+<script language="JavaScript">
+
+
+
+expireAt = new Date;
+expireAt.setMonth(expireAt.getMonth() + 1);
+password = "";
+
+function cockie() {
+     if(event.keyCode == 13) {
+       password = document.passform.password.value
+       document.cookie = "pwdguest=" + password + ";expires=" + expireAt.toGMTString() + ";path=/"
+       window.location.href = "/desk/"
+
+     }}
+
+$(document).ready(function() {
+$('#form').submit(function () {
+          event.preventDefault();
+          window.location.href = "/desk/"
+});});
+
+</script>
+<form name="passform" id="form" >
+  <input type="text" placeholder="ENTER PASSWORD" id="searchbar" name="password" onkeydown="cockie()"></input>
+</form>
+</html>

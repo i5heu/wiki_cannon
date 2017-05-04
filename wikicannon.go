@@ -8,6 +8,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var guestmode bool = true
+
 // Global sql.DB to access the database by all handlers
 var db *sql.DB
 var err error
