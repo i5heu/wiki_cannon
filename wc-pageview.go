@@ -44,7 +44,6 @@ func ViewHandler(w http.ResponseWriter, r *http.Request) {
 		NamespaceHandler(w, r)
 		return
 	}
-	fmt.Println(len(encodetpath1))
 	if len(encodetpath1) < 4 {
 		fmt.Fprintf(w, "ERROR 404")
 		return
