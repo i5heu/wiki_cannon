@@ -15,38 +15,52 @@
 	 sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA=="
 	 crossorigin="anonymous"></script>
 
-<script>
-function search(ele) {
-    if(event.keyCode == 13) {
-        window.location.href = "/s/" + ele.value;
-
-    }
-}
-
-//CALIBRATING SPACER FOR HEADER
-function resizeHeader(){
- var header = $("header").height();
- document.getElementById("spacer").style.height = header + "px";
-}
-
-//CALIBRATING SPACER FOR HEADER on pageload
-window.onload = function () {
- resizeHeader();
-}
-</script>
+	 <script src="/static/dev.js"></script>
 
 </head>
 <body>
 
 <header>
 
+<div id="header1" class="headerbox">
+	<div class="close_button" style="display: none;">X</div>
+	<span id="clickscroll" style="display: block;"><a href="/desk/">
+	<span class="head_icon">#</span>WIKI</a></span>
+<button class="go" id="go_button" style="display: block;">GO</button><!--type="submit"-->
 
-<div id="header_edit" class="headerbox" >
-	<a style="background:#eee; color:#000; text-decoration:none; padding:0 2px 0 2px; margin-right:3px;" href="/">D</a>
-	<input type="text" placeholder="some text" id="searchbar" onkeydown="search(this)"/>
-	<nav> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> <a href="/link1.html">Link1</a> </nav>
+<form class="goto" id="goto_form" action="/s/" method="get" style="visibility: hidden; display: none; opacity: 0; transition: opacity 500ms;">
+
+<input id="goto" placeholder="Go To" name="goto" value="" />
+<button class="go" id="g_" type="submit">GO</button>
+
+</form>
+<div id="afterGO">
+
+
+<!--<button class="m_function_button mfb" id="editbutton" style="background-color: blue; color: yellow; visibility: visible;">EDIT</button>-->
+
+
+
+
+<div class="menue-button">≡</div>
+
+<ul id="menue">
+<li><a href="/desktop" title="Test">test</a></li>
+<li><a href="/desktop" title="Test">test</a></li>
+<li><a href="/desktop" title="Test">test</a></li>
+<li><a href="/desktop" title="Test">test</a></li>
+<li><a href="/desktop" title="Test">test</a></li>
+<li><i class="fa header_icon fa-cog" id="header_option_gear" aria-hidden="true"></i></li>
+
+</ul>
 
 </div>
+</div>
+
+
+
+
+
 </header>
 <!-- SPACER IS PART OF HEADER!!! -->
 <div class="settingsinpage" id="settingsinpage"></div>
