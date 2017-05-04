@@ -4,8 +4,10 @@
 <p style="color:#fff; font-size:0.85em; background:#000; margin:0; padding:2px 0 2px 3px;"> ${{.LoginText}}</p>
 
 <div class="tilebox">
-<div class="tile">
+
+
 {{if .Login}}
+<div class="tile">
 <div class="liner">
 <form action="/newentry" method="post">
 <input type="text" name="Title" placeholder="Title"></input><br>
@@ -15,8 +17,8 @@
 <br>
 <button type="submit">SEND</button></form>
 </div>
-{{end}}
 </div>
+{{end}}
 
 
 <div class="tile">
@@ -34,24 +36,36 @@
 </div>
 
 
+
+
+
+
+
+
+{{if not .Login}}
 <script language="JavaScript">
 expireAt = new Date;
 expireAt.setMonth(expireAt.getMonth() + 1);
 password = "";
 
-function makeCookie()
-{
-password = document.passform.password.value
-document.cookie = "pwd=" + password + ";expires=" + expireAt.toGMTString() + ";path=/"
-}
+function cockie() {
+     if(event.keyCode == 13) {
+       password = document.passform.password.value
+       document.cookie = "pwd=" + password + ";expires=" + expireAt.toGMTString() + ";path=/"
+       window.location.href = "/desk/"
+
+     }}
+
+$(document).ready(function() {
+$('#form').submit(function () {
+          event.preventDefault();
+          window.location.href = "/desk/"
+});});
 
 </script>
-
-<form name="passform">
-<P>Password: <input type="text" name="password"><br>
-<a href="/" onclick="makeCookie()">continue ...</a></p>
+<form name="passform" id="form" >
+  <input type="password" placeholder="ENTER PASSWORD" id="searchbar" name="password" onkeydown="cockie()"></input>
 </form>
-
-</article>
+{{end}}
 
 {{template "footer" .}}
