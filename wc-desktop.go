@@ -20,15 +20,11 @@ type lista struct {
 	Login     bool
 	LoginText string
 	Articles  []Article
+	Geldlog   template.HTML
 }
 
-/*const (
-	timeFormat = "2006-01-02 15:04 MST"
-)
-*/
 var templatesDesktop = template.Must(template.ParseFiles("./template/desktop.html", HtmlStructHeader, HtmlStructFooter))
-
-//var timecache int64 = time.Now().Unix() - 10
+var GeldlogTMPCACHE template.HTML
 var tmp []Article
 
 func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der IndexHandler
@@ -46,7 +42,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 		login = true
 	}
 
-	lists := lista{login, t, tmp}
+	lists := lista{login, t, tmp, Geldlogfunc()}
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -81,5 +77,22 @@ func cache(login bool) {
 
 	}
 
-	//	timecache = time.Now().Unix()
+}
+
+func Geldlogfunc() (GeldlogTMP template.HTML) {
+	ids, err := db.Query("SELECT title FROM `article`")
+	checkErr(err)
+
+	GeldlogTMP = template.HTML("<h1>TEST</h1>")
+
+	for ids.Next() {
+		var title string
+		_ = ids.Scan(&title)
+		checkErr(err)
+
+		GeldlogTMP += template.HTML("<b>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title))) + template.HTML("</b> <br>")
+		GeldlogTMPCACHE = GeldlogTMP
+	}
+
+	return
 }
