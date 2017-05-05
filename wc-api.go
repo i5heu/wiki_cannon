@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 )
 
 func ApiHandler(w http.ResponseWriter, r *http.Request) {
@@ -25,6 +26,10 @@ func ApiHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		db.Exec("UPDATE `article` SET `namespace` = ?, `title` = ?, `text` = ? WHERE `article`.`id` = ?, `needlogin` = ? ", ReplaceSpecialChars(newNamepace), ReplaceSpecialChars(newTitle), newText, newID, newPublic)
+
+		eventname := "UPDATE >" + ReplaceSpecialChars(newNamepace) + "/" + ReplaceSpecialChars(newTitle) + "< to articles"
+		eventID, _ := strconv.Atoi(newID)
+		Eventloger(eventname, "wc-newentry", eventID)
 
 		checkErr(err)
 

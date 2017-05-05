@@ -48,6 +48,11 @@ func ReplaceSpecialChars(s string) (sc string) {
 	return
 }
 
+func Eventloger(name string, changeAPP string, changeID int) {
+	db.Exec("INSERT INTO eventlog(name,changeAPP,changeID) VALUES(?,?,?)", name, changeAPP, changeID)
+}
+
+///////////////////
 func guestmodechek(w http.ResponseWriter, r *http.Request) {
 
 	if guestmode == false {

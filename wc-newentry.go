@@ -35,7 +35,8 @@ func NewentryHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		db.Exec("INSERT INTO article(needlogin,title,namespace,text) VALUES(?,?,?,?)", newPublic, ReplaceSpecialChars(newTitle), ReplaceSpecialChars(newNamepace), newText)
-
+		eventname := "ADD >" + ReplaceSpecialChars(newNamepace) + "/" + ReplaceSpecialChars(newTitle) + "< to articles"
+		Eventloger(eventname, "wc-newentry", 0)
 		checkErr(err)
 
 		http.ServeFile(w, r, "./template/newentry.html")
