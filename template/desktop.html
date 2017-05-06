@@ -22,21 +22,15 @@
 
 
 <div class="tile">
-<table class="borderfull">
-{{range $.Articles}}
-<tr class="borderfull">
-  <th class="borderfull">{{.ArticleNamespace}}</th>
-  <th class="borderfull"><a href="/p/{{.Url}}"><b>#{{.Articletitle}}</b><a></th>
-  <th class="borderfull">{{.ArticleText}}</th>
-</tr>
-{{end}}
-</table>
+{{ .Articles}}
 </div>
 
 
+{{if .Login}}
 <div class="tile">
 {{.Geldlog}}
 </div>
+{{end}}
 
 </div>
 

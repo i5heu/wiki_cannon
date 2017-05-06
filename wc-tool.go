@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
+	"time"
 )
 
 ///////////////////////////
@@ -75,5 +76,18 @@ func guestmodechek(w http.ResponseWriter, r *http.Request) {
 	}
 	http.Redirect(w, r, "/static/guestlogin.html", 302)
 	return
+
+}
+
+var timecache int64 = int64(time.Now().Unix()) - 10
+
+func timer() (a bool) {
+	//if read = false write will be executet
+	if int64(time.Now().Unix()) > timecache+5 {
+		timecache = int64(time.Now().Unix())
+		return true
+	} else {
+		return false
+	}
 
 }
