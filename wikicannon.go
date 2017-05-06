@@ -9,7 +9,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var guestmode bool = true
+var guestmode bool = false
 
 // Global sql.DB to access the database by all handlers
 var db *sql.DB

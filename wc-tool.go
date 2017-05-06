@@ -79,12 +79,17 @@ func guestmodechek(w http.ResponseWriter, r *http.Request) {
 
 }
 
-var timecache int64 = int64(time.Now().Unix()) - 10
+var timemap = make(map[string]int64)
 
-func timer() (a bool) {
-	//if read = false write will be executet
-	if int64(time.Now().Unix()) > timecache+5 {
-		timecache = int64(time.Now().Unix())
+func timer(foo string) (a bool) {
+	if timemap[foo] == 0 {
+		timemap[foo] = int64(time.Now().Unix())
+		return true
+	}
+
+	if int64(time.Now().Unix()) > timemap[foo]+5 {
+		timemap[foo] = int64(time.Now().Unix())
+
 		return true
 	} else {
 		return false

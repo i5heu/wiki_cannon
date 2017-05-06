@@ -3,6 +3,7 @@ package main
 import (
 	"html/template"
 	"net/http"
+	"strconv"
 
 	"github.com/microcosm-cc/bluemonday"
 )
@@ -15,18 +16,20 @@ type lista struct {
 }
 
 var templatesDesktop = template.Must(template.ParseFiles("./template/desktop.html", HtmlStructHeader, HtmlStructFooter))
-var GeldlogTMPCACHE template.HTML
-var tmp template.HTML
+var GeldlogTMPCACHE = make(map[string]template.HTML)
+var ArticleTMPCACHE = make(map[string]template.HTML)
 
 func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der IndexHandler
 	guestmodechek(w, r)
 
 	login := false
-
-	cache(checkLogin(r))
-
-	if timer() == true && checkLogin(r) == true {
-		Geldlogfunc()
+	cachetimername := "article-" + strconv.FormatBool(checkLogin(r))
+	cachegeldlogname := "geldlog-" + strconv.FormatBool(checkLogin(r))
+	if timer(cachetimername) == true {
+		cache(checkLogin(r), cachetimername)
+	}
+	if timer(cachegeldlogname) == true {
+		Geldlogfunc(cachegeldlogname)
 	}
 
 	t := "login: false"
@@ -35,7 +38,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 		login = true
 	}
 
-	lists := lista{login, t, tmp, GeldlogTMPCACHE}
+	lists := lista{login, t, ArticleTMPCACHE[cachetimername], GeldlogTMPCACHE[cachegeldlogname]}
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -45,8 +48,8 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	}
 }
 
-func cache(login bool) {
-	tmp = template.HTML("<h1>TEST</h1><br><hr>")
+func cache(login bool, foo string) {
+	ArticleTMPCACHE[foo] = template.HTML("<h1>TEST</h1><br><hr>")
 	ids, err := db.Query("SELECT id, namespace, title FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 10", login)
 
 	checkErr(err)
@@ -63,13 +66,12 @@ func cache(login bool) {
 		UrlTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(url)))
 		NamespaceTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(namespace)))
 		TitleTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title)))
-		tmp += template.HTML("<h1>") + template.HTML(id) + template.HTML("</h1>") + template.HTML("<a href='/p/") + UrlTMP + template.HTML("'>") + NamespaceTMP + TitleTMP + template.HTML("</a><br>\n")
+		ArticleTMPCACHE[foo] += template.HTML("<b>") + template.HTML(id) + template.HTML("</b>  ") + template.HTML("<a href='/p/") + UrlTMP + template.HTML("'>") + NamespaceTMP + template.HTML("/") + TitleTMP + template.HTML("</a><br>\n")
 
 	}
-
 }
 
-func Geldlogfunc() (GeldlogTMP template.HTML) {
+func Geldlogfunc(foo string) (GeldlogTMP template.HTML) {
 
 	ids, err := db.Query("SELECT title FROM `article` ORDER by ID DESC LIMIT 15")
 	checkErr(err)
@@ -85,7 +87,6 @@ func Geldlogfunc() (GeldlogTMP template.HTML) {
 
 	}
 
-	GeldlogTMPCACHE = GeldlogTMP
-
+	GeldlogTMPCACHE[foo] = GeldlogTMP
 	return
 }
