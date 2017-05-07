@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"regexp"
@@ -80,19 +82,56 @@ func guestmodechek(w http.ResponseWriter, r *http.Request) {
 }
 
 var timemap = make(map[string]int64)
+var TMPCACHECACHE = make(map[string]template.HTML)
+
+func racepreventer(foo string) (bar template.HTML) {
+	TMPCACHEWRITE = true
+	/*if TMPCACHEWRITE == false {
+	bar = TMPCACHE[foo]
+	*/
+
+	if TMPCACHECACHEWRITE == false {
+		bar = TMPCACHECACHE[foo]
+	}
+	TMPCACHEWRITE = false
+	return
+}
+
+var timeracer int8 = 0
+var timenowracer int8 = 0
 
 func timer(foo string) (a bool) {
-	if timemap[foo] == 0 {
-		timemap[foo] = int64(time.Now().Unix())
-		return true
+	if timecachewrite == false {
+		timecachewrite = true
+		if timemap[foo] == 0 {
+			timemap[foo] = int64(time.Now().Unix())
+			timecachewrite = false
+			return true
+			fmt.Println("0")
+		}
+		timecachewrite = false
 	}
+	if timecachewrite == false {
+		if timenowracer == 0 {
+			timenowracer++
+			if int64(time.Now().Unix()) > timemap[foo]+5 {
+				timecachewrite = true
+				timenowracer++
+				timeracer++
+				if timeracer == 0 {
+					timeracer++
+					timemap[foo] = int64(time.Now().Unix())
+					timeracer = 0
+					timenowracer = 0
+				}
+				timecachewrite = false
+				return true
+			}
+			timenowracer = 0
+		}
 
-	if int64(time.Now().Unix()) > timemap[foo]+5 {
-		timemap[foo] = int64(time.Now().Unix())
-
-		return true
+		return false
 	} else {
 		return false
 	}
-
 }
