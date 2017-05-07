@@ -59,8 +59,11 @@ func main() {
 	}()
 
 	go func() {
-		time.Sleep(5 * time.Second)
-		peageview = 0
+		for {
+			time.Sleep(5 * time.Second)
+			peageviewlastsec = peageview
+			peageview = 0
+		}
 	}()
 
 	http.HandleFunc("/desk/", DesktopHandler)

@@ -10,6 +10,8 @@ import (
 
 func ApiHandler(w http.ResponseWriter, r *http.Request) {
 	guestmodechek(w, r)
+	peageview++
+
 	u, err := url.Parse(r.URL.Path)
 	checkErr(err)
 	encodetpath1 := strings.Split(u.Path, "/")

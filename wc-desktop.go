@@ -22,9 +22,11 @@ var TMPCACHECACHE = make(map[string]template.HTML)
 var TMPCACHEWRITE bool = false
 var TMPCACHECACHEWRITE bool = false
 var peageview int = 0
+var peageviewlastsec int = 0
 
 func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der IndexHandler
 	guestmodechek(w, r)
+	peageview++
 
 	login := false
 	cachetimername := "article-" + strconv.FormatBool(checkLogin(r))
@@ -32,7 +34,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 
 	t := "login: false"
 	if checkLogin(r) == true {
-		t = "login: true | avg. req/hour last 15min sec >" + humanize.Comma(int64(peageview)*12*60)
+		t = "login: true | req/sec >" + humanize.Comma(int64(peageviewlastsec)/5)
 		login = true
 	}
 	lists := lista{}
@@ -50,7 +52,6 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 
 	} else {
 		templatesDesktop.Execute(w, lists)
-		peageview++
 	}
 }
 

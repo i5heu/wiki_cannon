@@ -25,6 +25,8 @@ var tmpSearch []SearchResult
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	guestmodechek(w, r)
+	peageview++
+
 	tmpSearch = tmpSearch[:0]
 
 	searchterm := r.URL.Path[3:]

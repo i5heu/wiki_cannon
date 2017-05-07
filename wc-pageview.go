@@ -35,6 +35,8 @@ var templatesView = template.Must(template.ParseFiles("./template/view.html", Ht
 
 func ViewHandler(w http.ResponseWriter, r *http.Request) {
 	guestmodechek(w, r)
+	peageview++
+
 	u, err := url.Parse(r.URL.Path)
 
 	checkErr(err)
