@@ -24,10 +24,47 @@ func ApiHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "NO METHOD SELECTED")
 	case "editpost":
 		ArticleEdit(w, r)
+	case "geldlog":
+		AddGeldlog(w, r)
 	default:
 		fmt.Fprintf(w, "NO WORKING MONKEYS")
 	}
 
+}
+
+func AddGeldlog(w http.ResponseWriter, r *http.Request) {
+	if checkLogin(r) == false {
+		fmt.Fprintf(w, `You have to login to do this!`)
+		return
+	}
+	newTitle := r.FormValue("Title")
+	newTitle2 := r.FormValue("Title2")
+	newText := r.FormValue("Text")
+	newTags := r.FormValue("Tags")
+	newNum := r.FormValue("Num")
+
+	if strings.ContainsAny(newNum, ",") == true {
+		if strings.Index(newNum, ",") == len(newNum)-3 {
+			newNum = strings.Replace(newNum, ",", "", -1)
+		} else if strings.Index(newNum, ",") == len(newNum)-2 {
+			newNum = strings.Replace(newNum, ",", "", -1)
+			foo, _ := strconv.Atoi(newNum)
+			newNum = strconv.Itoa(foo * 10)
+		} else {
+			fmt.Fprintf(w, `only 2 digits after "," alowed`)
+			return
+		}
+	} else {
+		foo, _ := strconv.Atoi(newNum)
+		newNum = strconv.Itoa(foo * 100)
+	}
+
+	if newNum == "" {
+		newNum = "0"
+	}
+	db.Exec("INSERT INTO `items` ( `APP`, `title1`, `title2`, `text1`, `tags1`, `num1`) VALUES (?,?,?,?,?,?);", "geldlog", newTitle, newTitle2, newText, newTags, newNum)
+
+	fmt.Fprintf(w, `<h1>WAS SEND!</h1> <meta http-equiv="refresh" content="0; url=/">	`)
 }
 
 func ArticleEdit(w http.ResponseWriter, r *http.Request) {

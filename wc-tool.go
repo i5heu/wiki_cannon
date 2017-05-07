@@ -77,3 +77,16 @@ func guestmodechek(w http.ResponseWriter, r *http.Request) {
 	return
 
 }
+
+func numberswithcoma(foo string) (bar string) {
+	if len(foo) < 2 {
+		bar = foo
+		return
+	} else {
+		if len(foo) < 3 {
+			foo = "0" + foo
+		}
+		bar = foo[:len(foo)-2] + "," + foo[len(foo)-2:]
+		return
+	}
+}

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
+	humanize "github.com/dustin/go-humanize"
 	"github.com/microcosm-cc/bluemonday"
 )
 
@@ -20,7 +21,7 @@ var TMPCACHE = make(map[string]template.HTML)
 var TMPCACHECACHE = make(map[string]template.HTML)
 var TMPCACHEWRITE bool = false
 var TMPCACHECACHEWRITE bool = false
-var peageview int64
+var peageview int = 0
 
 func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der IndexHandler
 	guestmodechek(w, r)
@@ -31,18 +32,17 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 
 	t := "login: false"
 	if checkLogin(r) == true {
-		t = "login: true"
+		t = "login: true | avg. req/hour last 15min sec >" + humanize.Comma(int64(peageview)*12*60)
 		login = true
 	}
-
 	lists := lista{}
 
 	if TMPCACHEWRITE == false {
 		lists = lista{login, t, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname]}
+	} else if TMPCACHECACHEWRITE == true {
+		lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname]}
 	} else {
-		if TMPCACHECACHEWRITE == true {
-			lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname]}
-		}
+		lists = lista{login, "PLEASE RELOAD", template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>")}
 	}
 
 	if err != nil {
@@ -79,18 +79,24 @@ func cache(login bool, foo string) {
 
 func Geldlogfunc(foo string) (GeldlogTMP template.HTML) {
 
-	ids, err := db.Query("SELECT title FROM `article` ORDER by ID DESC LIMIT 15")
+	ids, err := db.Query("SELECT SUM(num1) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 3 DAY )")
+	ids.Next()
+	var sume string
+	_ = ids.Scan(&sume)
+	sume = numberswithcoma(sume)
+	GeldlogTMP = template.HTML("<h1>Geldlog</h1>") + template.HTML(sume) + template.HTML("<hr>")
+
+	ids, err = db.Query("SELECT title1, num1, DATEDIFF(CURDATE(),timecreate) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 3 DAY ) ORDER by timecreate DESC LIMIT 15")
 	checkErr(err)
 
-	GeldlogTMP = template.HTML("<h1>TEST</h1>")
-
 	for ids.Next() {
-		var title string
-		_ = ids.Scan(&title)
+		var title1 string
+		var num1 string
+		var daysago string
+		_ = ids.Scan(&title1, &num1, &daysago)
 		checkErr(err)
-
-		GeldlogTMP += template.HTML("<b>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title))) + template.HTML("</b> <br>")
-
+		num1 = numberswithcoma(num1)
+		GeldlogTMP += template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(daysago))) + template.HTML("-> <b>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title1))) + template.HTML(" - ") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(num1))) + template.HTML("</b> <br>")
 	}
 
 	TMPCACHE[foo] = GeldlogTMP
