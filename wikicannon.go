@@ -7,7 +7,6 @@ import (
 	"os"
 	"time"
 
-	humanize "github.com/dustin/go-humanize"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -58,8 +57,9 @@ func main() {
 			TMPCACHECACHE = TMPCACHE
 			TMPCACHECACHEWRITE = false
 
-			fmt.Println(">", humanize.Comma(peageview))
 			time.Sleep(5 * time.Second)
+			//fmt.Println("req/s>", humanize.Comma(peageview/5))
+			peageview = 0
 		}
 	}()
 
