@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
-	"time"
 )
 
 ///////////////////////////
@@ -76,23 +75,5 @@ func guestmodechek(w http.ResponseWriter, r *http.Request) {
 	}
 	http.Redirect(w, r, "/static/guestlogin.html", 302)
 	return
-
-}
-
-var timemap = make(map[string]int64)
-
-func timer(foo string) (a bool) {
-	if timemap[foo] == 0 {
-		timemap[foo] = int64(time.Now().Unix())
-		return true
-	}
-
-	if int64(time.Now().Unix()) > timemap[foo]+5 {
-		timemap[foo] = int64(time.Now().Unix())
-
-		return true
-	} else {
-		return false
-	}
 
 }

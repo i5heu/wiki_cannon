@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 
+	humanize "github.com/dustin/go-humanize"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -40,6 +42,26 @@ func main() {
 	db.Exec("CREATE TABLE `BUitems` ( `BUItemID` int(11) NOT NULL, `ItemID` int(11) DEFAULT NULL, `id` int(11) DEFAULT NULL, `timecreate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, `timelastedit` timestamp NULL DEFAULT NULL, `needlogin` tinyint(1) DEFAULT NULL, `APP` varchar(20) DEFAULT NULL, `viewcounter` int(11) DEFAULT NULL, `editcounter` int(11) DEFAULT NULL, `title1` varchar(128) DEFAULT NULL, `title2` varchar(128) NOT NULL, `text1` text, `text2` text, `tags1` int(11) DEFAULT NULL, `num1` int(11) DEFAULT NULL, `num2` int(11) DEFAULT NULL, `num3` int(11) DEFAULT NULL, PRIMARY KEY (`BUItemID`)) ENGINE=InnoDB DEFAULT CHARSET=latin1")
 
 	fmt.Println("START")
+	var test int8 = 0
+	go func() {
+		for {
+			TMPCACHEWRITE = true
+			test++
+			fmt.Println(test)
+			Geldlogfunc("geldlog-false")
+			Geldlogfunc("geldlog-true")
+			cache(false, "article-false")
+			cache(true, "article-true")
+			TMPCACHEWRITE = false
+
+			TMPCACHECACHEWRITE = true
+			TMPCACHECACHE = TMPCACHE
+			TMPCACHECACHEWRITE = false
+
+			fmt.Println(">", humanize.Comma(peageview))
+			time.Sleep(5 * time.Second)
+		}
+	}()
 
 	http.HandleFunc("/desk/", DesktopHandler)
 	http.HandleFunc("/newentry", NewentryHandler)

@@ -16,8 +16,11 @@ type lista struct {
 }
 
 var templatesDesktop = template.Must(template.ParseFiles("./template/desktop.html", HtmlStructHeader, HtmlStructFooter))
-var GeldlogTMPCACHE = make(map[string]template.HTML)
-var ArticleTMPCACHE = make(map[string]template.HTML)
+var TMPCACHE = make(map[string]template.HTML)
+var TMPCACHECACHE = make(map[string]template.HTML)
+var TMPCACHEWRITE bool = false
+var TMPCACHECACHEWRITE bool = false
+var peageview int64
 
 func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der IndexHandler
 	guestmodechek(w, r)
@@ -25,12 +28,6 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	login := false
 	cachetimername := "article-" + strconv.FormatBool(checkLogin(r))
 	cachegeldlogname := "geldlog-" + strconv.FormatBool(checkLogin(r))
-	if timer(cachetimername) == true {
-		cache(checkLogin(r), cachetimername)
-	}
-	if timer(cachegeldlogname) == true {
-		Geldlogfunc(cachegeldlogname)
-	}
 
 	t := "login: false"
 	if checkLogin(r) == true {
@@ -38,18 +35,27 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 		login = true
 	}
 
-	lists := lista{login, t, ArticleTMPCACHE[cachetimername], GeldlogTMPCACHE[cachegeldlogname]}
+	lists := lista{}
+
+	if TMPCACHEWRITE == false {
+		lists = lista{login, t, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname]}
+	} else {
+		if TMPCACHECACHEWRITE == true {
+			lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname]}
+		}
+	}
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 
 	} else {
 		templatesDesktop.Execute(w, lists)
+		peageview++
 	}
 }
 
 func cache(login bool, foo string) {
-	ArticleTMPCACHE[foo] = template.HTML("<h1>TEST</h1><br><hr>")
+	TMPCACHE[foo] = template.HTML("<h1>TEST</h1><br><hr>")
 	ids, err := db.Query("SELECT id, namespace, title FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 10", login)
 
 	checkErr(err)
@@ -66,7 +72,7 @@ func cache(login bool, foo string) {
 		UrlTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(url)))
 		NamespaceTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(namespace)))
 		TitleTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title)))
-		ArticleTMPCACHE[foo] += template.HTML("<b>") + template.HTML(id) + template.HTML("</b>  ") + template.HTML("<a href='/p/") + UrlTMP + template.HTML("'>") + NamespaceTMP + template.HTML("/") + TitleTMP + template.HTML("</a><br>\n")
+		TMPCACHE[foo] += template.HTML("<b>") + template.HTML(id) + template.HTML("</b>  ") + template.HTML("<a href='/p/") + UrlTMP + template.HTML("'>") + NamespaceTMP + template.HTML("/") + TitleTMP + template.HTML("</a><br>\n")
 
 	}
 }
@@ -87,6 +93,6 @@ func Geldlogfunc(foo string) (GeldlogTMP template.HTML) {
 
 	}
 
-	GeldlogTMPCACHE[foo] = GeldlogTMP
+	TMPCACHE[foo] = GeldlogTMP
 	return
 }
