@@ -1,0 +1,406 @@
+START
+==================
+WARNING: DATA RACE
+Read at 0x00c4201af560 by goroutine 23:
+  runtime.mapaccess1_faststr()
+      /usr/local/go/src/runtime/hashmap_fast.go:208 +0x0
+  main.timer()
+      /home/her/CODE/wiki_cannon/wc-tool.go:85 +0x74
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:28 +0x15d
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Previous write at 0x00c4201af560 by goroutine 22:
+  runtime.mapassign()
+      /usr/local/go/src/runtime/hashmap.go:485 +0x0
+  main.timer()
+      /home/her/CODE/wiki_cannon/wc-tool.go:86 +0x240
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:28 +0x15d
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Goroutine 23 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+
+Goroutine 22 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c420282088 by goroutine 23:
+  main.timer()
+      /home/her/CODE/wiki_cannon/wc-tool.go:85 +0x8a
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:28 +0x15d
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Previous write at 0x00c420282088 by goroutine 22:
+  main.timer()
+      /home/her/CODE/wiki_cannon/wc-tool.go:86 +0x256
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:28 +0x15d
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Goroutine 23 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+
+Goroutine 22 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c420282090 by goroutine 28:
+  main.timer()
+      /home/her/CODE/wiki_cannon/wc-tool.go:85 +0x8a
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:31 +0x182
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Previous write at 0x00c420282090 by goroutine 27:
+  main.timer()
+      /home/her/CODE/wiki_cannon/wc-tool.go:86 +0x256
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:31 +0x182
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Goroutine 28 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+
+Goroutine 27 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c420282090 by goroutine 23:
+  main.timer()
+      /home/her/CODE/wiki_cannon/wc-tool.go:85 +0x8a
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:31 +0x182
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Previous write at 0x00c420282090 by goroutine 27:
+  main.timer()
+      /home/her/CODE/wiki_cannon/wc-tool.go:86 +0x256
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:31 +0x182
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Goroutine 23 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+
+Goroutine 27 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c420014360 by goroutine 23:
+  runtime.mapaccess1_faststr()
+      /usr/local/go/src/runtime/hashmap_fast.go:208 +0x0
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:41 +0x20c
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Previous write at 0x00c420014360 by goroutine 22:
+  runtime.mapassign()
+      /usr/local/go/src/runtime/hashmap.go:485 +0x0
+  main.cache()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:52 +0x9e
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:29 +0x4c1
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Goroutine 23 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+
+Goroutine 22 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c420284088 by goroutine 23:
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:41 +0x225
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Previous write at 0x00c420284088 by goroutine 22:
+  main.cache()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:52 +0xb7
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:29 +0x4c1
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Goroutine 23 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+
+Goroutine 22 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+==================
+==================
+WARNING: DATA RACE
+Write at 0x00c420014330 by goroutine 27:
+  runtime.mapassign()
+      /usr/local/go/src/runtime/hashmap.go:485 +0x0
+  main.Geldlogfunc()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:90 +0x324
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:32 +0x48a
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Previous read at 0x00c420014330 by goroutine 35:
+  runtime.mapaccess1_faststr()
+      /usr/local/go/src/runtime/hashmap_fast.go:208 +0x0
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:41 +0x281
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Goroutine 27 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+
+Goroutine 35 (finished) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+==================
+==================
+WARNING: DATA RACE
+Read at 0x00c4202fae08 by goroutine 17:
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:41 +0x29a
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Previous write at 0x00c4202fae08 by goroutine 27:
+  main.Geldlogfunc()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:90 +0x33a
+  main.DesktopHandler()
+      /home/her/CODE/wiki_cannon/wc-desktop.go:32 +0x48a
+  net/http.HandlerFunc.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:1942 +0x51
+  net/http.(*ServeMux).ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2238 +0xa2
+  net/http.serverHandler.ServeHTTP()
+      /usr/local/go/src/net/http/server.go:2568 +0xbc
+  net/http.(*conn).serve()
+      /usr/local/go/src/net/http/server.go:1825 +0x71a
+
+Goroutine 17 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+
+Goroutine 27 (running) created at:
+  net/http.(*Server).Serve()
+      /usr/local/go/src/net/http/server.go:2668 +0x35f
+  net/http.(*Server).ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2585 +0xe0
+  net/http.ListenAndServe()
+      /usr/local/go/src/net/http/server.go:2787 +0xee
+  main.main()
+      /home/her/CODE/wiki_cannon/wikicannon.go:53 +0x528
+==================
+signal: interrupt

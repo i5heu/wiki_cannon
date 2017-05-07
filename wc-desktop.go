@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -16,20 +17,49 @@ type lista struct {
 }
 
 var templatesDesktop = template.Must(template.ParseFiles("./template/desktop.html", HtmlStructHeader, HtmlStructFooter))
-var GeldlogTMPCACHE = make(map[string]template.HTML)
-var ArticleTMPCACHE = make(map[string]template.HTML)
+var TMPCACHE = make(map[string]template.HTML)
+var TMPCACHEREAD bool = false
+var TMPCACHEWRITE bool = false
+var TMPCACHECACHEWRITE bool = false
+var timecachewrite bool = false
+var reacewriteer int8 = 0
 
 func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der IndexHandler
+
 	guestmodechek(w, r)
 
 	login := false
 	cachetimername := "article-" + strconv.FormatBool(checkLogin(r))
 	cachegeldlogname := "geldlog-" + strconv.FormatBool(checkLogin(r))
-	if timer(cachetimername) == true {
-		cache(checkLogin(r), cachetimername)
-	}
-	if timer(cachegeldlogname) == true {
-		Geldlogfunc(cachegeldlogname)
+
+	if TMPCACHEWRITE == false {
+		if timecachewrite == false {
+			if timer(cachetimername) == true {
+				if TMPCACHEREAD == false {
+					if TMPCACHECACHEWRITE == false {
+						TMPCACHECACHEWRITE = true
+						reacewriteer++
+						cache(checkLogin(r), cachetimername)
+						TMPCACHECACHEWRITE = false
+					}
+				}
+			}
+		}
+		if timecachewrite == false {
+			if TMPCACHEREAD == false {
+				if timer(cachegeldlogname) == true {
+					if TMPCACHECACHEWRITE == false {
+						TMPCACHECACHEWRITE = true
+						Geldlogfunc(cachegeldlogname)
+
+						TMPCACHECACHEWRITE = false
+					}
+				}
+			}
+		}
+		TMPCACHEWRITE = true
+		TMPCACHE = TMPCACHECACHE
+		TMPCACHEWRITE = false
 	}
 
 	t := "login: false"
@@ -38,7 +68,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 		login = true
 	}
 
-	lists := lista{login, t, ArticleTMPCACHE[cachetimername], GeldlogTMPCACHE[cachegeldlogname]}
+	lists := lista{login, t, racepreventer(cachetimername), racepreventer(cachegeldlogname)}
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -49,7 +79,12 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 }
 
 func cache(login bool, foo string) {
-	ArticleTMPCACHE[foo] = template.HTML("<h1>TEST</h1><br><hr>")
+	fmt.Println(reacewriteer)
+	if reacewriteer == 1 {
+		reacewriteer++
+		fmt.Println(">", reacewriteer)
+		TMPCACHECACHE[foo] = template.HTML("<h1>TEST</h1><br><hr>")
+	}
 	ids, err := db.Query("SELECT id, namespace, title FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 10", login)
 
 	checkErr(err)
@@ -66,9 +101,10 @@ func cache(login bool, foo string) {
 		UrlTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(url)))
 		NamespaceTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(namespace)))
 		TitleTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title)))
-		ArticleTMPCACHE[foo] += template.HTML("<b>") + template.HTML(id) + template.HTML("</b>  ") + template.HTML("<a href='/p/") + UrlTMP + template.HTML("'>") + NamespaceTMP + template.HTML("/") + TitleTMP + template.HTML("</a><br>\n")
+		TMPCACHECACHE[foo] += template.HTML("<b>") + template.HTML(id) + template.HTML("</b>  ") + template.HTML("<a href='/p/") + UrlTMP + template.HTML("'>") + NamespaceTMP + template.HTML("/") + TitleTMP + template.HTML("</a><br>\n")
 
 	}
+	reacewriteer = 0
 }
 
 func Geldlogfunc(foo string) (GeldlogTMP template.HTML) {
@@ -86,7 +122,6 @@ func Geldlogfunc(foo string) (GeldlogTMP template.HTML) {
 		GeldlogTMP += template.HTML("<b>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title))) + template.HTML("</b> <br>")
 
 	}
-
-	GeldlogTMPCACHE[foo] = GeldlogTMP
+	TMPCACHECACHE[foo] = GeldlogTMP
 	return
 }
