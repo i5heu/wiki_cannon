@@ -7,6 +7,102 @@ input:focus,select:focus,textarea:focus,button:focus{outline: none;}
 
 
 
+
+/*-------------------------------\
+----- GLOBAL ---- FORMATIONS -----
+\-------------------------------*/
+
+code {
+  margin:2px;
+  font-size:80%;
+  font-weight:normal;
+  color:#111;
+  display:inline-block;
+  border:1px solid #ddd;
+  padding:0 2px 0 2px;
+  background-color:#eee;
+  white-space: pre;}
+
+
+hr {
+  border:0;
+  border-bottom: 1px solid #bbb;
+  height: 20px;}
+
+h1 {
+  font-size:1.0em;
+  border-top:1px solid #000;
+  border-bottom:1px solid #000;
+  border-left:1px solid #bbb;
+  border-right:1px solid #bbb;
+  padding:2px 0 2px 3px;
+  margin:55px 10px 15px 3px;
+  background-color:#eee;
+  font-weight: bold;}
+
+h2 {
+  display: block;
+  font-size:0.8em;
+  color:#555;
+  margin:40px 10px 15px 5px;
+  border-bottom:1px solid #999;
+  padding:0 0 3px 0;
+  font-weight: bold;}
+article h2::before { content: "-> "; }
+article h2::after { content: " <-"; }
+
+h3 {
+  font-size:1.3em;
+  color:#333;
+  margin:15px 0 16px 30px;
+}
+
+
+
+h4 {
+  font-size: 28px;
+  margin: 5px;
+  color: #210B61;
+}
+
+h7 {
+  font-size: 28px;
+  margin: 5px 0 30px 5px;
+  color: #210B61;
+}
+
+blockquote {
+  display: block;
+  font-size:94%;
+  border-radius:8px;
+  padding:15px 6px 15px 10px;
+  border: 2px solid #888;
+  border-left:5px solid #888;
+  border-right:5px solid #888;
+  background-color:#eee;
+  margin:25px 5px 25px 7px;
+  line-height:140%;
+}
+
+
+img, video { /*Mobil full widht and Desktop perfect Size*/
+  max-width:400px;
+  width:90vw;
+  min-width:10px;}
+
+textinput { radius:0; }
+
+
+
+
+
+
+
+
+/*##################################################
+######################## BEGIN #####################
+###################################################*/
+
 /*Fork this Template on Github: https://github.com/i5heu/15-lines-template/tree/master */
 :root {--header-height:35px;}
 html,body {
@@ -159,6 +255,7 @@ white-space: pre-wrap;}
   display:flex;
   flex-wrap: wrap;
   margin-top: 3px;
+  word-wrap: break-word;
 
 }
 
@@ -171,7 +268,8 @@ white-space: pre-wrap;}
   max-height: 500px;
   overflow:auto;
   border:1px solid black;
-    padding: 3px;
+  padding: 3px;
+  word-wrap: break-word;
 }
 
 
