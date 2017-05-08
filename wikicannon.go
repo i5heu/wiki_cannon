@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -63,11 +64,21 @@ func main() {
 	}()
 
 	go func() {
+		foo := 0
+		bar := make(map[string]int)
 		for {
-			time.Sleep(100000000)
-			peageviewlastsec = peageview
+
+			time.Sleep(1 * time.Second)
+			bar[strconv.Itoa(foo)] = peageview
+			peageviewlastsec = (bar["1"] + bar["2"] + bar["3"] + bar["4"] + bar["5"])
 			peageview = 0
-			fmt.Println(db.Stats())
+
+			if foo > 5 {
+				fmt.Println("ss")
+				foo = 0
+			} else {
+				foo++
+			}
 		}
 	}()
 

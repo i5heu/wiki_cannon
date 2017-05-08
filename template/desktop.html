@@ -3,14 +3,47 @@
 
 <p style="color:#fff; font-size:0.85em; background:#000; margin:0; padding:2px 0 2px 3px;"> ${{.LoginText}}</p>
 
+
+<script>
+function openCity(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+<style>
+#geldlog{display:none;}
+.small{font-size: 80%;}
+</style>
+
 <div class="tilebox">
+  {{if .Login}}
+  <div class="tile">
 
+  <div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'newentry')">NewEntry</button>
+    <button class="tablinks" onclick="openCity(event, 'geldlog')">GeldLog</button>
+  </div>
 
-{{if .Login}}
-<div class="tile">
 <div class="liner">
-<div>
-<form action="/api/editpost" method="post">
+<div id="newentry" class="tabcontent">
+<span class="small">newentry</span>
+<form action="/newentry" method="post">
 <input type="text" name="Title" placeholder="Title"></input><br>
 <input type="text" name="Namespace" placeholder="Namespace"></input><br>
 <input type="checkbox" id="publicradio" name="Public" value="0">Public</input><br>
@@ -18,7 +51,8 @@
 <button type="submit">SEND</button></form>
 </div>
 
-<div>
+<div id="geldlog" class="tabcontent">
+<span class="small">GeldLog</span>
 <form action="/api/geldlog" method="post">
 <input type="text" name="Title" placeholder="Title"></input><br>
 <input type="text" name="Title2" placeholder="Category"></input><br>
