@@ -52,6 +52,7 @@ func ViewHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ids, err := db.Query("SELECT id,needlogin,namespace,title,text FROM article WHERE title=(?) AND namespace=(?)", encodetpath1[3], encodetpath1[2])
+	defer ids.Close()
 	checkErr(err)
 
 	ids.Next()
@@ -105,6 +106,7 @@ func NamespaceHandler(w http.ResponseWriter, r *http.Request) {
 
 	default:
 		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(text,1,100) FROM article WHERE (needlogin = '0' OR needlogin = ?) AND namespace = ? ORDER BY timec DESC LIMIT 100", checkLogin(r), newquery)
+		defer ids.Close()
 	}
 
 	checkErr(err)

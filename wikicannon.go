@@ -24,6 +24,10 @@ var fs = http.FileServer(http.Dir("static"))
 func main() {
 	// Create an sql.DB and check for errors
 	db, err = sql.Open("mysql", "USER:PASSWORD@/wiki_cannon")
+	db.SetConnMaxLifetime(time.Second * 2)
+	db.SetMaxIdleConns(10)
+	db.SetMaxOpenConns(25)
+
 	if err != nil {
 		panic(err.Error())
 	}
@@ -60,9 +64,10 @@ func main() {
 
 	go func() {
 		for {
-			time.Sleep(5 * time.Second)
+			time.Sleep(100000000)
 			peageviewlastsec = peageview
 			peageview = 0
+			fmt.Println(db.Stats())
 		}
 	}()
 

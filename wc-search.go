@@ -42,11 +42,13 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	switch searchterm {
 	case "all":
 		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(text,1,100) FROM article ORDER BY timec DESC LIMIT 100")
+		defer ids.Close()
 	case "":
 		http.Redirect(w, r, "/desk", 302)
 
 	default:
 		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(text,1,100) FROM article WHERE (needlogin = '0' OR needlogin = ?) AND MATCH (title,text) AGAINST (? IN BOOLEAN MODE)", checkLogin(r), newquery)
+		defer ids.Close()
 	}
 
 	checkErr(err)

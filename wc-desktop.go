@@ -58,7 +58,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 func cache(login bool, foo string) {
 	TMPCACHE[foo] = template.HTML("<h1>TEST</h1><br><hr>")
 	ids, err := db.Query("SELECT id, namespace, title FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 10", login)
-
+	defer ids.Close()
 	checkErr(err)
 
 	for ids.Next() {
@@ -76,11 +76,13 @@ func cache(login bool, foo string) {
 		TMPCACHE[foo] += template.HTML("<b>") + template.HTML(id) + template.HTML("</b>  ") + template.HTML("<a href='/p/") + UrlTMP + template.HTML("'>") + NamespaceTMP + template.HTML("/") + TitleTMP + template.HTML("</a><br>\n")
 
 	}
+
 }
 
 func Geldlogfunc(foo string) (GeldlogTMP template.HTML) {
 
 	ids, err := db.Query("SELECT SUM(num1) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 3 DAY )")
+	defer ids.Close()
 	ids.Next()
 	var sume string
 	_ = ids.Scan(&sume)

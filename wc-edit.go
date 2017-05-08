@@ -38,6 +38,7 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 
 		ids, err := db.Query("SELECT id,namespace,title,text FROM article WHERE title=(?) AND namespace=(?)", encodetpath1[3], encodetpath1[2])
+		defer ids.Close()
 		checkErr(err)
 
 		ids.Next()
