@@ -74,7 +74,6 @@ func main() {
 			peageview = 0
 
 			if foo > 5 {
-				fmt.Println("ss")
 				foo = 0
 			} else {
 				foo++
