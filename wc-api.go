@@ -10,7 +10,6 @@ import (
 
 func ApiHandler(w http.ResponseWriter, r *http.Request) {
 	guestmodechek(w, r)
-	peageview++
 
 	u, err := url.Parse(r.URL.Path)
 	checkErr(err)
@@ -66,7 +65,12 @@ func AddGeldlog(w http.ResponseWriter, r *http.Request) {
 	}
 	db.Exec("INSERT INTO `items` ( `APP`, `title1`, `title2`, `text1`, `tags1`, `num1`) VALUES (?,?,?,?,?,?);", "geldlog", newTitle, newTitle2, newText, newTags, newNum)
 
+	
+	eventname := "ADD >" + ReplaceSpecialChars(newTitle) + " - " + ReplaceSpecialChars(newNum) + "€"
+	Eventloger(eventname, "geldlog", 0)
+
 	fmt.Fprintf(w, `<h1>WAS SEND!</h1> <meta http-equiv="refresh" content="0; url=/">	`)
+
 }
 
 func ArticleEdit(w http.ResponseWriter, r *http.Request) {
@@ -89,7 +93,7 @@ func ArticleEdit(w http.ResponseWriter, r *http.Request) {
 
 		db.Exec("INSERT INTO BUarticle(id,timec,timelastedit,needlogin,namespace,title,text,tags,viewcounter,editcounter)SELECT id,timec,timelastedit,needlogin,namespace,title,text,tags,viewcounter,editcounter FROM article WHERE id = ?", newID)
 
-		db.Exec("UPDATE `article` SET `namespace` = ?, `title` = ?, `text` = ?, `needlogin` = ? WHERE `article`.`id` = ? ", ReplaceSpecialChars(newNamepace), ReplaceSpecialChars(newTitle), newText, newPublic, newID)
+		db.Exec("UPDATE `article` SET `timelastedit` = NOW() ,`namespace` = ?, `title` = ?, `text` = ?, `needlogin` = ? WHERE `id` = ? ", ReplaceSpecialChars(newNamepace), ReplaceSpecialChars(newTitle), newText, newPublic, newID)
 
 		eventname := "UPDATE >" + ReplaceSpecialChars(newNamepace) + "/" + ReplaceSpecialChars(newTitle) + "< to articles"
 		eventID, _ := strconv.Atoi(newID)

@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strconv"
 
-	humanize "github.com/dustin/go-humanize"
 	"github.com/microcosm-cc/bluemonday"
 )
 
@@ -21,12 +20,9 @@ var TMPCACHE = make(map[string]template.HTML)
 var TMPCACHECACHE = make(map[string]template.HTML)
 var TMPCACHEWRITE bool = false
 var TMPCACHECACHEWRITE bool = false
-var peageview int = 0
-var peageviewlastsec int = 0
 
 func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der IndexHandler
 	guestmodechek(w, r)
-	peageview++
 
 	login := false
 	cachetimername := "article-" + strconv.FormatBool(checkLogin(r))
@@ -34,7 +30,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 
 	t := "login: false"
 	if checkLogin(r) == true {
-		t = "login: true | req/sec >" + humanize.Comma(int64(peageviewlastsec)/5)
+		t = "login: true "
 		login = true
 	}
 	lists := lista{}
@@ -56,8 +52,8 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 }
 
 func cache(login bool, foo string) {
-	TMPCACHE[foo] = template.HTML("<h1>TEST</h1><br><hr>")
-	ids, err := db.Query("SELECT id, namespace, title FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 10", login)
+	TMPCACHE[foo] = template.HTML("<h1>Last Article</h1><br>")
+	ids, err := db.Query("SELECT id, namespace, title FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 15", login)
 	defer ids.Close()
 	checkErr(err)
 
@@ -73,7 +69,7 @@ func cache(login bool, foo string) {
 		UrlTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(url)))
 		NamespaceTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(namespace)))
 		TitleTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title)))
-		TMPCACHE[foo] += template.HTML("<b>") + template.HTML(id) + template.HTML("</b>  ") + template.HTML("<a href='/p/") + UrlTMP + template.HTML("'>") + NamespaceTMP + template.HTML("/") + TitleTMP + template.HTML("</a><br>\n")
+		TMPCACHE[foo] += template.HTML(`<tr><td class='borderfull'>`) + template.HTML(id) + template.HTML("</td><td class='borderfull'>") + template.HTML("<a href='/p/") + UrlTMP + template.HTML("'>") + NamespaceTMP + template.HTML("/") + TitleTMP + template.HTML("</a></td></tr>\n")
 
 	}
 
@@ -81,15 +77,15 @@ func cache(login bool, foo string) {
 
 func Geldlogfunc(foo string) (GeldlogTMP template.HTML) {
 
-	ids, err := db.Query("SELECT SUM(num1) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 3 DAY )")
+	ids, err := db.Query("SELECT SUM(num1) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 30 DAY )")
 	defer ids.Close()
 	ids.Next()
 	var sume string
 	_ = ids.Scan(&sume)
 	sume = numberswithcoma(sume)
-	GeldlogTMP = template.HTML("<h1>Geldlog</h1>") + template.HTML(sume) + template.HTML("<hr>")
+	GeldlogTMP = template.HTML("<h1>Geldlog</h1>") + template.HTML(sume) + template.HTML("€ sum of last 30Days <hr>")
 
-	ids, err = db.Query("SELECT title1, num1, DATEDIFF(CURDATE(),timecreate) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 3 DAY ) ORDER by timecreate DESC LIMIT 15")
+	ids, err = db.Query("SELECT title1, num1, DATEDIFF(CURDATE(),timecreate) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 3 DAY ) ORDER by timecreate DESC LIMIT 13")
 	checkErr(err)
 
 	for ids.Next() {
@@ -99,7 +95,7 @@ func Geldlogfunc(foo string) (GeldlogTMP template.HTML) {
 		_ = ids.Scan(&title1, &num1, &daysago)
 		checkErr(err)
 		num1 = numberswithcoma(num1)
-		GeldlogTMP += template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(daysago))) + template.HTML("-> <b>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title1))) + template.HTML(" - ") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(num1))) + template.HTML("</b> <br>")
+		GeldlogTMP += template.HTML("<tr><td class='borderfull'>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(daysago))) + template.HTML("</td><td class='borderfull'>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title1))) + template.HTML("</td><td class='borderfull'> ") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(num1))) + template.HTML("</td></tr>")
 	}
 
 	TMPCACHE[foo] = GeldlogTMP

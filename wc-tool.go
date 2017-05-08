@@ -32,7 +32,7 @@ func checkLogin(r *http.Request) bool {
 		return false
 	}
 
-	if cookie == "PASSWORD" {
+	if cookie == personalpwd {
 		return true
 	}
 	return false
@@ -70,7 +70,7 @@ func guestmodechek(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if cookie == "GUESTPWD" {
+	if cookie == guestpwd {
 		return
 	}
 	http.Redirect(w, r, "/static/guestlogin.html", 302)
