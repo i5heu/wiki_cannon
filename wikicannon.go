@@ -60,27 +60,6 @@ func main() {
 		}
 	}()
 
-<<<<<<< HEAD
-=======
-	go func() {
-		foo := 0
-		bar := make(map[string]int)
-		for {
-
-			time.Sleep(1 * time.Second)
-			bar[strconv.Itoa(foo)] = peageview
-			peageviewlastsec = (bar["1"] + bar["2"] + bar["3"] + bar["4"] + bar["5"])
-			peageview = 0
-
-			if foo > 5 {
-				foo = 0
-			} else {
-				foo++
-			}
-		}
-	}()
-
->>>>>>> 9816a304e3c00f8227ec64fef3dff9d4493fe2bf
 	http.HandleFunc("/desk/", DesktopHandler)
 	http.HandleFunc("/newentry", NewentryHandler)
 	http.HandleFunc("/p/", ViewHandler)
