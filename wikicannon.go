@@ -56,6 +56,8 @@ func main() {
 			Geldlogfunc("geldlog-true")
 			cache(false, "article-false")
 			cache(true, "article-true")
+			Eventlogfunc("event-false")
+			Eventlogfunc("event-true")
 			TMPCACHEWRITE = false
 
 			TMPCACHECACHEWRITE = true
