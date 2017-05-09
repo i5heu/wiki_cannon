@@ -65,8 +65,7 @@ func AddGeldlog(w http.ResponseWriter, r *http.Request) {
 	}
 	db.Exec("INSERT INTO `items` ( `APP`, `title1`, `title2`, `text1`, `tags1`, `num1`) VALUES (?,?,?,?,?,?);", "geldlog", newTitle, newTitle2, newText, newTags, newNum)
 
-	
-	eventname := "ADD >" + ReplaceSpecialChars(newTitle) + " - " + ReplaceSpecialChars(newNum) + "€"
+	eventname := "ADD >" + ReplaceSpecialChars(newTitle) + " - " + ReplaceSpecialChars(numberswithcoma(newNum)) + "€"
 	Eventloger(eventname, "geldlog", 0)
 
 	fmt.Fprintf(w, `<h1>WAS SEND!</h1> <meta http-equiv="refresh" content="0; url=/">	`)
