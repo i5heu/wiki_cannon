@@ -39,7 +39,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 
 	if TMPCACHEWRITE == false {
 		lists = lista{login, t, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname]}
-	} else if TMPCACHECACHEWRITE == true {
+	} else if TMPCACHECACHEWRITE == false {
 		lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname]}
 	} else {
 		lists = lista{login, "PLEASE RELOAD", template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>")}
