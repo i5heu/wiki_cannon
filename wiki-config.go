@@ -1,6 +1,6 @@
 package main
 
-var guestmode bool = true
+var guestmode bool = false
 var dblogin string = "USER:PASSWORD@/wiki_cannon"
 var personalpwd string = "wiki"
 var guestpwd string = "cannon"
