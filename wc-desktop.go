@@ -4,16 +4,18 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/microcosm-cc/bluemonday"
 )
 
 type lista struct {
-	Login     bool
-	LoginText string
-	Articles  template.HTML
-	Geldlog   template.HTML
-	Eventlog  template.HTML
+	Login      bool
+	LoginText  string
+	Articles   template.HTML
+	Geldlog    template.HTML
+	Eventlog   template.HTML
+	Rendertime time.Duration
 }
 
 var templatesDesktop = template.Must(template.ParseFiles("./template/desktop.html", HtmlStructHeader, HtmlStructFooter))
@@ -23,6 +25,7 @@ var TMPCACHEWRITE bool = false
 var TMPCACHECACHEWRITE bool = false
 
 func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der IndexHandler
+	start := time.Now()
 	guestmodechek(w, r)
 
 	login := false
@@ -38,11 +41,11 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	lists := lista{}
 
 	if TMPCACHEWRITE == false {
-		lists = lista{login, t, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname]}
+		lists = lista{login, t, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], time.Since(start)}
 	} else if TMPCACHECACHEWRITE == false {
-		lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname]}
+		lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], time.Since(start)}
 	} else {
-		lists = lista{login, "PLEASE RELOAD", template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>")}
+		lists = lista{login, "PLEASE RELOAD", template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), time.Since(start)}
 	}
 
 	if err != nil {

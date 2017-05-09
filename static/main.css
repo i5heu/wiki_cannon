@@ -1,5 +1,5 @@
 /*MAYER CSS RESET*/
-a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
 
 /*i5heu CSS RESET*/
 input:focus,select:focus,textarea:focus,button:focus{outline: none;}
@@ -7,10 +7,16 @@ input:focus,select:focus,textarea:focus,button:focus{outline: none;}
 
 
 
-
 /*-------------------------------\
 ----- GLOBAL ---- FORMATIONS -----
 \-------------------------------*/
+
+html{
+  word-wrap: break-word;
+  font-size:100%;
+ line-height:1.20em;
+ font-family: "Liberation Sans";
+}
 
 code {
   margin:2px;
@@ -69,6 +75,10 @@ h7 {
   font-size: 28px;
   margin: 5px 0 30px 5px;
   color: #210B61;
+}
+
+p {
+  margin: 10px  0 15px 0;
 }
 
 blockquote {
@@ -130,7 +140,7 @@ input, textarea{
     position: fixed;
     top:0;
     left:0;
-    font-family:Arial, Helvetica, sans-serif}
+    font-family:Arial, Helvetica, sans-serif;}
 
   .headerbox { /*CONTAINER*/
     font-size:16px;
@@ -175,7 +185,6 @@ article{
 margin: 0 auto 100px auto;
 padding:20px;
 max-width:600px;
-font-family:Arial, Helvetica, sans-serif;
 border-left: 1px solid black;}
 
 article h1{

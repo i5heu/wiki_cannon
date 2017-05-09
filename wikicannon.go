@@ -52,6 +52,7 @@ func main() {
 	go func() {
 		for {
 			TMPCACHEWRITE = true
+			time.Sleep(500 * time.Millisecond)
 			Geldlogfunc("geldlog-false")
 			Geldlogfunc("geldlog-true")
 			cache(false, "article-false")
@@ -59,9 +60,15 @@ func main() {
 			Eventlogfunc("event-false")
 			Eventlogfunc("event-true")
 			TMPCACHEWRITE = false
+			time.Sleep(500 * time.Millisecond)
 
 			TMPCACHECACHEWRITE = true
-			TMPCACHECACHE = TMPCACHE
+			time.Sleep(500 * time.Millisecond)
+
+			for key, value := range TMPCACHE {
+				TMPCACHECACHE[key] = value
+			}
+
 			TMPCACHECACHEWRITE = false
 
 			time.Sleep(5 * time.Second)
