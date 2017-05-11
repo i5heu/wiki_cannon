@@ -60,7 +60,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 
 func cache(login bool, foo string) {
 	TMPCACHE[foo] = template.HTML("Last Article<br>----------<br>")
-	ids, err := db.Query("SELECT id, namespace, title FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 15", login)
+	ids, err := db.Query("SELECT id, namespace, title FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 25", login)
 	defer ids.Close()
 	checkErr(err)
 
@@ -94,7 +94,7 @@ func Geldlogfunc(foo string) {
 	sume = numberswithcoma(sume)
 	GeldlogTMP = template.HTML("Geldlog<br>----------<br>") + template.HTML(sume) + template.HTML("€ sum of last 30Days")
 
-	ids, err = db.Query("SELECT title1, num1, DATEDIFF(CURDATE(),timecreate) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 3 DAY ) ORDER by timecreate DESC LIMIT 13")
+	ids, err = db.Query("SELECT title1, num1, DATEDIFF(CURDATE(),timecreate) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 3 DAY ) ORDER by timecreate DESC LIMIT 25")
 	checkErr(err)
 
 	for ids.Next() {
@@ -114,7 +114,7 @@ func Geldlogfunc(foo string) {
 func Eventlogfunc(foo string) {
 	var EventlogTMP template.HTML
 
-	ids, err := db.Query("SELECT id,name,changeAPP num1 FROM `eventlog` ORDER by time DESC LIMIT 20")
+	ids, err := db.Query("SELECT id,name,changeAPP num1 FROM `eventlog` ORDER by time DESC LIMIT 25")
 	defer ids.Close()
 	checkErr(err)
 
@@ -144,7 +144,7 @@ func Namespacefunc(foo string) {
 		_ = ids.Scan(&namespace)
 		checkErr(err)
 
-		NamespaceTMP += template.HTML("<tr><td class='borderfull'>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(namespace))) + template.HTML("</td></tr>")
+		NamespaceTMP += template.HTML(`<tr><td class='borderfull'><a href="/p/`) + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(namespace))) + template.HTML(`">`) + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(namespace))) + template.HTML("</a></td></tr>")
 	}
 
 	TMPCACHE[foo] = NamespaceTMP
