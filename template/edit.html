@@ -5,7 +5,7 @@
 
 <article>
 <div class="liner">
-<form action="/api/editpost" method="post">
+<form action="/api/editpost" method="post" class="editform">
 <input type="hidden" value="{{.ID}}" name="Id"/><br>
 <input type="text" name="Namespace" value="{{.Namespace}}">Namespace</input><br>
 <input type="text" name="Title" value="{{.Title}}">Title</input><br>
@@ -16,5 +16,3 @@
 </div>
 </article>
 {{template "footer" .}}
-
-

@@ -15,6 +15,7 @@ type lista struct {
 	Articles   template.HTML
 	Geldlog    template.HTML
 	Eventlog   template.HTML
+	Namespace  template.HTML
 	Rendertime time.Duration
 }
 
@@ -32,6 +33,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	cachetimername := "article-" + strconv.FormatBool(checkLogin(r))
 	cachegeldlogname := "geldlog-" + strconv.FormatBool(checkLogin(r))
 	cacheeventname := "event-" + strconv.FormatBool(checkLogin(r))
+	namespacename := "namespace-" + strconv.FormatBool(checkLogin(r))
 
 	t := "login: false"
 	if checkLogin(r) == true {
@@ -41,11 +43,11 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	lists := lista{}
 
 	if TMPCACHEWRITE == false {
-		lists = lista{login, t, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], time.Since(start)}
+		lists = lista{login, t, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], TMPCACHECACHE[namespacename], time.Since(start)}
 	} else if TMPCACHECACHEWRITE == false {
-		lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], time.Since(start)}
+		lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], TMPCACHECACHE[namespacename], time.Since(start)}
 	} else {
-		lists = lista{login, "PLEASE RELOAD", template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), time.Since(start)}
+		lists = lista{login, "PLEASE RELOAD", template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), time.Since(start)}
 	}
 
 	if err != nil {
@@ -80,7 +82,9 @@ func cache(login bool, foo string) {
 
 }
 
-func Geldlogfunc(foo string) (GeldlogTMP template.HTML) {
+func Geldlogfunc(foo string) {
+
+	var GeldlogTMP template.HTML
 
 	ids, err := db.Query("SELECT SUM(num1) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 30 DAY )")
 	defer ids.Close()
@@ -107,7 +111,8 @@ func Geldlogfunc(foo string) (GeldlogTMP template.HTML) {
 	return
 }
 
-func Eventlogfunc(foo string) (EventlogTMP template.HTML) {
+func Eventlogfunc(foo string) {
+	var EventlogTMP template.HTML
 
 	ids, err := db.Query("SELECT id,name,changeAPP num1 FROM `eventlog` ORDER by time DESC LIMIT 20")
 	defer ids.Close()
@@ -124,5 +129,24 @@ func Eventlogfunc(foo string) (EventlogTMP template.HTML) {
 	}
 
 	TMPCACHE[foo] = EventlogTMP
+	return
+}
+
+func Namespacefunc(foo string) {
+	var NamespaceTMP template.HTML
+
+	ids, err := db.Query("SELECT DISTINCT(namespace) FROM article ORDER BY namespace ASC;")
+	defer ids.Close()
+	checkErr(err)
+
+	for ids.Next() {
+		var namespace string
+		_ = ids.Scan(&namespace)
+		checkErr(err)
+
+		NamespaceTMP += template.HTML("<tr><td class='borderfull'>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(namespace))) + template.HTML("</td></tr>")
+	}
+
+	TMPCACHE[foo] = NamespaceTMP
 	return
 }

@@ -89,6 +89,15 @@ function openCity(evt, cityName) {
 </div>
 {{end}}
 
+{{if .Login}}
+<div class="tile">
+  <table style="width:100%">
+{{.Namespace}}
+</table>
+</div>
+{{end}}
+
+
 
 {{if .Login}}
 <div class="tile small">

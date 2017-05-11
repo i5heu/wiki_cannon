@@ -57,6 +57,8 @@ func main() {
 			Geldlogfunc("geldlog-true")
 			cache(false, "article-false")
 			cache(true, "article-true")
+			Namespacefunc("namespace-true")
+			Namespacefunc("namespace-false")
 			Eventlogfunc("event-false")
 			Eventlogfunc("event-true")
 			TMPCACHEWRITE = false

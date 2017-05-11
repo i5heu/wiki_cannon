@@ -478,3 +478,8 @@ header ul {
   color:#fff;}
 
 }/*END @MEDIA*/
+
+
+.editform textarea{
+  min-height: 80vh;
+}
