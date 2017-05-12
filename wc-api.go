@@ -1,11 +1,14 @@
 package main
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func ApiHandler(w http.ResponseWriter, r *http.Request) {
@@ -27,6 +30,8 @@ func ApiHandler(w http.ResponseWriter, r *http.Request) {
 		ArticleEdit(w, r)
 	case "geldlog":
 		AddGeldlog(w, r)
+	case "authenticator":
+		Authenticator(w, r)
 	default:
 		fmt.Fprintf(w, "NO WORKING MONKEYS")
 	}
@@ -105,4 +110,19 @@ func ArticleEdit(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, `You have to login to do this! -> %s`, t)
 
+}
+
+func Authenticator(w http.ResponseWriter, r *http.Request) {
+
+	UserInputTMP := r.FormValue("pwd")
+
+	foo := sha256.Sum256([]byte(UserInputTMP))
+
+	bar := hex.EncodeToString(foo[:])
+
+	expiration := time.Now().Add(365 * 24 * time.Hour)
+	cookie := http.Cookie{Name: "pwd", Value: bar, Path: "/", Expires: expiration}
+
+	http.SetCookie(w, &cookie)
+	http.Redirect(w, r, "/", 302)
 }

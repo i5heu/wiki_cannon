@@ -119,28 +119,8 @@ function openCity(evt, cityName) {
 
 
 {{if not .Login}}
-<script language="JavaScript">
-expireAt = new Date;
-expireAt.setMonth(expireAt.getMonth() + 1);
-password = "";
-
-function cockie() {
-     if(event.keyCode == 13) {
-       password = document.passform.password.value
-       document.cookie = "pwd=" + password + ";expires=" + expireAt.toGMTString() + ";path=/"
-       window.location.href = "/desk/"
-
-     }}
-
-$(document).ready(function() {
-$('#form').submit(function () {
-          event.preventDefault();
-          window.location.href = "/desk/"
-});});
-
-</script>
-<form name="passform" id="form" >
-  <input type="password" placeholder="ENTER PASSWORD" id="searchbar" name="password" onkeydown="cockie()"></input>
+<form action="/api/authenticator" method="post" name="passform" id="form" >
+  <input type="password" placeholder="ENTER PASSWORD" id="searchbar" name="pwd"></input>
 </form>
 {{end}}
 
