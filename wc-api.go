@@ -97,7 +97,7 @@ func ArticleEdit(w http.ResponseWriter, r *http.Request) {
 
 		db.Exec("INSERT INTO BUarticle(id,timec,timelastedit,needlogin,namespace,title,text,tags,viewcounter,editcounter)SELECT id,timec,timelastedit,needlogin,namespace,title,text,tags,viewcounter,editcounter FROM article WHERE id = ?", newID)
 
-		db.Exec("UPDATE `article` SET `timelastedit` = NOW() ,`namespace` = ?, `title` = ?, `text` = ?, `needlogin` = ? WHERE `id` = ? ", ReplaceSpecialChars(newNamepace), ReplaceSpecialChars(newTitle), newText, newPublic, newID)
+		db.Exec("UPDATE `article` SET `timelastedit` = NOW() ,`namespace` = ?, `title` = ?, `text` = ?, `needlogin` = ?, `editcounter` = IFNULL(`editcounter`, 0) + 1  WHERE `id` = ? ", ReplaceSpecialChars(newNamepace), ReplaceSpecialChars(newTitle), newText, newPublic, newID)
 
 		eventname := "UPDATE >" + ReplaceSpecialChars(newNamepace) + "/" + ReplaceSpecialChars(newTitle) + "< to articles"
 		eventID, _ := strconv.Atoi(newID)

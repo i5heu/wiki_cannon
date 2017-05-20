@@ -15,6 +15,7 @@ type edit struct {
 	Namespace template.HTML
 	Path      string
 	Title     template.HTML
+	Tags      string
 	Text      template.HTML
 }
 
@@ -37,7 +38,7 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "ERROR 404")
 	} else {
 
-		ids, err := db.Query("SELECT id,namespace,title,text FROM article WHERE title=(?) AND namespace=(?)", encodetpath1[3], encodetpath1[2])
+		ids, err := db.Query("SELECT id,namespace,title,tags,text FROM article WHERE title=(?) AND namespace=(?)", encodetpath1[3], encodetpath1[2])
 		defer ids.Close()
 		checkErr(err)
 
@@ -45,8 +46,9 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 		var id int
 		var namespace string
 		var title string
+		var tags string
 		var text string
-		_ = ids.Scan(&id, &namespace, &title, &text)
+		_ = ids.Scan(&id, &namespace, &title, &tags, &text)
 		checkErr(err)
 
 		if id == 0 {
@@ -57,7 +59,7 @@ func EditHandler(w http.ResponseWriter, r *http.Request) {
 			TitleTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title)))
 			TextTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(text)))
 
-			edits := edit{id, NamespaceTMP, encodetpath1[2], TitleTMP, TextTMP}
+			edits := edit{id, NamespaceTMP, encodetpath1[2], TitleTMP, tags, TextTMP}
 			templatesEdit.Execute(w, edits)
 		}
 

@@ -16,7 +16,10 @@ type view struct {
 	Articlename string
 	Path        string
 	Title       template.HTML
+	Tags        string
 	Text        template.HTML
+	Viewcounter int
+	Editcounter int
 }
 
 type NamespaceResult struct {
@@ -50,7 +53,7 @@ func ViewHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ids, err := db.Query("SELECT id,needlogin,namespace,title,text FROM article WHERE title=(?) AND namespace=(?)", encodetpath1[3], encodetpath1[2])
+	ids, err := db.Query("SELECT id,needlogin,namespace,title,tags,text,viewcounter,editcounter FROM article WHERE title=(?) AND namespace=(?)", encodetpath1[3], encodetpath1[2])
 	defer ids.Close()
 	checkErr(err)
 
@@ -59,8 +62,11 @@ func ViewHandler(w http.ResponseWriter, r *http.Request) {
 	var needlogin bool
 	var namespace string
 	var title string
+	var tags string
 	var text string
-	_ = ids.Scan(&id, &needlogin, &namespace, &title, &text)
+	var viewcounter int
+	var editcounter int
+	_ = ids.Scan(&id, &needlogin, &namespace, &title, &tags, &text, &viewcounter, &editcounter)
 	checkErr(err)
 
 	if needlogin == true && checkLogin(r) == false {
@@ -77,8 +83,11 @@ func ViewHandler(w http.ResponseWriter, r *http.Request) {
 		TitleTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title)))
 		TextTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes(blackfriday.MarkdownCommon([]byte(text))))
 
-		views := view{encodetpath1[2], title, TitleTMP, TextTMP}
+		views := view{encodetpath1[2], title, TitleTMP, tags, TextTMP, viewcounter, editcounter}
 		templatesView.Execute(w, views)
+
+		db.Exec("UPDATE `article` SET viewcounter = IFNULL(`viewcounter`, 0) + 1 WHERE id = ?", id)
+
 	}
 
 }

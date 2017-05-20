@@ -20,6 +20,7 @@ func NewentryHandler(w http.ResponseWriter, r *http.Request) {
 		newNamepace := r.FormValue("Namespace")
 		newPublic = r.FormValue("Public")
 		newText := r.FormValue("Text")
+		newTags := r.FormValue("Tags")
 
 		if len(newPublic) == 0 {
 
@@ -47,10 +48,9 @@ func NewentryHandler(w http.ResponseWriter, r *http.Request) {
 			exist = true
 			t := time.Now()
 			newTitle = newTitle + "-" + t.Format("2006-01-02-15-04-05")
-			fmt.Println(newTitle)
 		}
 
-		db.Exec("INSERT INTO article(needlogin,title,namespace,text) VALUES(?,?,?,?)", newPublic, ReplaceSpecialChars(newTitle), ReplaceSpecialChars(newNamepace), newText)
+		db.Exec("INSERT INTO article(needlogin,title,namespace,text,tags,editcounter) VALUES(?,?,?,?,?,?)", newPublic, ReplaceSpecialChars(newTitle), ReplaceSpecialChars(newNamepace), newText, ReplaceSpecialChars(newTags), "1")
 		eventname := "ADD >" + ReplaceSpecialChars(newNamepace) + "/" + ReplaceSpecialChars(newTitle) + "< to articles"
 		Eventloger(eventname, "wc-newentry", 0)
 		checkErr(err)
