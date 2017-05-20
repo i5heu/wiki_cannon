@@ -86,15 +86,15 @@ func Geldlogfunc(foo string) {
 
 	var GeldlogTMP template.HTML
 
-	ids, err := db.Query("SELECT SUM(num1) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 30 DAY )")
+	ids, err := db.Query("SELECT SUM(num1) FROM `items` WHERE APP='geldlog' AND MONTH(timecreate) = MONTH(NOW())")
 	defer ids.Close()
 	ids.Next()
 	var sume string
 	_ = ids.Scan(&sume)
 	sume = numberswithcoma(sume)
-	GeldlogTMP = template.HTML("Geldlog<br>----------<br>") + template.HTML(sume) + template.HTML("€ sum of last 30Days")
+	GeldlogTMP = template.HTML("Geldlog<br>----------<br>") + template.HTML(sume) + template.HTML("€ sum of curent Month")
 
-	ids, err = db.Query("SELECT title1, num1, DATEDIFF(CURDATE(),timecreate) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 3 DAY ) ORDER by timecreate DESC LIMIT 25")
+	ids, err = db.Query("SELECT title1, num1, DATEDIFF(CURDATE(),timecreate) FROM `items` WHERE APP='geldlog' AND timecreate >= ( CURDATE() - INTERVAL 7 DAY ) ORDER by timecreate DESC LIMIT 50")
 	checkErr(err)
 
 	for ids.Next() {
