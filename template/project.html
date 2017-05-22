@@ -1,0 +1,18 @@
+{{template "header" }}
+
+
+<b>
+{{.Test}}
+</b>
+<hr>
+{{range $.ProjectResults}}
+
+{{.ProjectTitle1}}
+{{.ProjectTitle2}}
+{{.ProjectTags1}}
+{{.ProjectNum1}}
+{{.ProjectNum2}}
+<hr>
+{{end}}
+
+{{template "footer" .}}

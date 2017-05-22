@@ -82,6 +82,7 @@ func main() {
 	http.HandleFunc("/p/", ViewHandler)
 	http.HandleFunc("/s/", SearchHandler)
 	http.HandleFunc("/e/", EditHandler)
+	http.HandleFunc("/project/", ProjectHandler)
 	http.HandleFunc("/api/", ApiHandler)
 
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
