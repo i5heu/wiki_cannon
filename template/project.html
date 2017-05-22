@@ -5,14 +5,25 @@
 {{.Test}}
 </b>
 <hr>
-{{range $.ProjectResults}}
 
-{{.ProjectTitle1}}
-{{.ProjectTitle2}}
-{{.ProjectTags1}}
-{{.ProjectNum1}}
-{{.ProjectNum2}}
-<hr>
+<table class="borderfull">
+<tr>
+  <th class="borderfull">Titele1</th>
+  <th class="borderfull">Titele2</th>
+  <th class="borderfull">Tags1</th>
+  <th class="borderfull">Num1</th>
+  <th class="borderfull">Num2</th>
+</tr>
+
+{{range $.ProjectResults}}
+<tr>
+  <td class="borderfull">{{.ProjectTitle1}}</td>
+  <td class="borderfull">{{.ProjectTitle2}}</td>
+  <td class="borderfull">{{.ProjectTags1}}</td>
+  <td class="borderfull">{{.ProjectNum1}}</td>
+  <td class="borderfull">{{.ProjectNum2}}</td>
+</tr>
 {{end}}
+</table>
 
 {{template "footer" .}}
