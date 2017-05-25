@@ -32,8 +32,13 @@ func ApiHandler(w http.ResponseWriter, r *http.Request) {
 		AddGeldlog(w, r)
 	case "authenticator":
 		Authenticator(w, r)
+	case "project":
+		Project(w, r)
+	case "projectDel":
+		ProjectDel(w, r, encodetpath1[3])
 	default:
 		fmt.Fprintf(w, "NO WORKING MONKEYS")
+		return
 	}
 
 }
@@ -125,4 +130,51 @@ func Authenticator(w http.ResponseWriter, r *http.Request) {
 
 	http.SetCookie(w, &cookie)
 	http.Redirect(w, r, "/", 302)
+}
+
+func Project(w http.ResponseWriter, r *http.Request) {
+	if checkLogin(r) == false {
+		fmt.Fprintf(w, `You have to login to do this!`)
+		return
+	}
+
+	newTitle1 := r.FormValue("Title1")
+	newTitle2 := r.FormValue("Title2")
+	newTags1 := r.FormValue("Tags1")
+	newNum1 := r.FormValue("Num1")
+	newNum2 := r.FormValue("Num2")
+
+	if CheckIfOnlyNumbers(w, r, newNum1) == false {
+		return
+	}
+	if CheckIfOnlyNumbers(w, r, newNum2) == false {
+		return
+	}
+
+	db.Exec("INSERT INTO `items` ( `APP`, `title1`, `title2`, `tags1`, `num1`, `num2`) VALUES (?,?,?,?,?,?);", "project", ReplaceSpecialChars(newTitle1), ReplaceSpecialChars(newTitle2), ReplaceSpecialChars(newTags1), newNum1, newNum2)
+
+	http.Redirect(w, r, "/project/", 302)
+	eventname := "ADD >" + ReplaceSpecialChars(newTitle1) + "< to Project"
+	Eventloger(eventname, "project", 0)
+}
+
+func ProjectDel(w http.ResponseWriter, r *http.Request, idTMP string) {
+	if checkLogin(r) == false {
+		fmt.Fprintf(w, `You have to login to do this!`)
+		return
+	}
+
+	id, err := strconv.Atoi(idTMP)
+	if err != nil {
+		fmt.Fprintf(w, `The Attribute is not convertible to an Int`)
+	}
+
+	ItemBackuper(id)
+	eventname := "DEL >" + strconv.Itoa(id) + "< from Project"
+	Eventloger(eventname, "project", id)
+
+	db.Exec("DELETE from items WHERE ItemID = ?", id)
+
+	http.Redirect(w, r, "/project/", 302)
+	return
 }

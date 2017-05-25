@@ -4,24 +4,37 @@
 <b>
 {{.Test}}
 </b>
+
+
+<form action="/api/project" method="post" class="liner" style="max-width:350px;">
+<input type="text" name="Title1" placeholder="Title1"></input><br>
+<input type="text" name="Title2" placeholder="Title2"></input><br>
+<input type="text" name="Tags1" placeholder="Tags1"></input><br>
+<input type="text" name="Num1" placeholder="Num1"></input><br>
+<input type="text" name="Num2" placeholder="Num2"></input><br>
+<button type="submit">SEND</button></form>
+
 <hr>
 
-<table class="borderfull">
+<table class="borderfull" style="width:100%;">
 <tr>
   <th class="borderfull">Titele1</th>
   <th class="borderfull">Titele2</th>
   <th class="borderfull">Tags1</th>
   <th class="borderfull">Num1</th>
   <th class="borderfull">Num2</th>
+  <th class="borderfull">D</th>
 </tr>
 
 {{range $.ProjectResults}}
-<tr>
+<tr class="{{.ProjectRowClass}}">
   <td class="borderfull">{{.ProjectTitle1}}</td>
   <td class="borderfull">{{.ProjectTitle2}}</td>
   <td class="borderfull">{{.ProjectTags1}}</td>
   <td class="borderfull">{{.ProjectNum1}}</td>
   <td class="borderfull">{{.ProjectNum2}}</td>
+  <td class="borderfull"><a href="/api/projectDel/{{.ProjectId}}">X</a></td>
+
 </tr>
 {{end}}
 </table>

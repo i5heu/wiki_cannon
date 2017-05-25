@@ -483,3 +483,10 @@ header ul {
 .editform textarea{
   min-height: 80vh;
 }
+
+
+
+
+/*---------------- PROJECT ------------------*/
+.ProjectTableDark{ background: #dbdbdb;}
+.ProjectTableBright {background: #fff;}

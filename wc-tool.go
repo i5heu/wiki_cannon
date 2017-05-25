@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -89,4 +91,19 @@ func numberswithcoma(foo string) (bar string) {
 		bar = foo[:len(foo)-2] + "," + foo[len(foo)-2:]
 		return
 	}
+}
+
+func CheckIfOnlyNumbers(w http.ResponseWriter, r *http.Request, v string) (re bool) {
+	if _, err := strconv.Atoi(v); err == nil {
+		re = true
+		return
+	} else {
+		re = false
+		fmt.Fprintf(w, "%q looks like not a number.\n", v)
+		return
+	}
+}
+
+func ItemBackuper(id int) {
+	db.Exec("INSERT INTO BUitems(ItemID,timecreate,timelastedit,needlogin,APP,viewcounter,editcounter,title1,title2,text1,text2,tags1,num1,num2,num3)SELECT ItemID,timecreate,timelastedit,needlogin,APP,viewcounter,editcounter,title1,title2,text1,text2,tags1,num1,num2,num3 FROM items WHERE ItemID = ?", id)
 }
