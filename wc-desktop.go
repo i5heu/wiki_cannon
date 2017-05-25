@@ -15,6 +15,7 @@ type lista struct {
 	Articles   template.HTML
 	Geldlog    template.HTML
 	Eventlog   template.HTML
+	Project    template.HTML
 	Namespace  template.HTML
 	Rendertime time.Duration
 }
@@ -34,6 +35,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	cachegeldlogname := "geldlog-" + strconv.FormatBool(checkLogin(r))
 	cacheeventname := "event-" + strconv.FormatBool(checkLogin(r))
 	namespacename := "namespace-" + strconv.FormatBool(checkLogin(r))
+	projectname := "project-" + strconv.FormatBool(checkLogin(r))
 
 	t := "login: false"
 	if checkLogin(r) == true {
@@ -43,11 +45,11 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	lists := lista{}
 
 	if TMPCACHEWRITE == false {
-		lists = lista{login, t, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], TMPCACHECACHE[namespacename], time.Since(start)}
+		lists = lista{login, t, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], TMPCACHE[projectname], TMPCACHECACHE[namespacename], time.Since(start)}
 	} else if TMPCACHECACHEWRITE == false {
-		lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], TMPCACHECACHE[namespacename], time.Since(start)}
+		lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], TMPCACHE[projectname], TMPCACHECACHE[namespacename], time.Since(start)}
 	} else {
-		lists = lista{login, "PLEASE RELOAD", template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), time.Since(start)}
+		lists = lista{login, "PLEASE RELOAD", template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), time.Since(start)}
 	}
 
 	if err != nil {
@@ -149,4 +151,25 @@ func Namespacefunc(foo string) {
 
 	TMPCACHE[foo] = NamespaceTMP
 	return
+}
+
+func Projectfunc(foo string) {
+	var ProjectTMP template.HTML
+
+	ids, err := db.Query("SELECT title1,title2,num2 FROM items WHERE APP='project' ORDER BY num2 DESC LIMIT 50")
+	defer ids.Close()
+	checkErr(err)
+
+	for ids.Next() {
+		var title1 string
+		var title2 string
+		var num2 string
+
+		_ = ids.Scan(&title1, &title2, &num2)
+		checkErr(err)
+
+		ProjectTMP += template.HTML("<tr><td class='borderfull'>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title1))) + template.HTML("</td><td class='borderfull'>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title2))) + template.HTML("</td><td class='borderfull'>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(num2))) + template.HTML("</td></tr>")
+	}
+
+	TMPCACHE[foo] = ProjectTMP
 }

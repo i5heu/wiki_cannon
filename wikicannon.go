@@ -61,6 +61,8 @@ func main() {
 			Namespacefunc("namespace-false")
 			Eventlogfunc("event-false")
 			Eventlogfunc("event-true")
+			Projectfunc("project-false")
+			Projectfunc("project-true")
 			TMPCACHEWRITE = false
 			time.Sleep(500 * time.Millisecond)
 
