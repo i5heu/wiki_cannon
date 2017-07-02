@@ -10,7 +10,7 @@ run ```go run *.go```
   
 go with your webbrowser to ```YOURIP:8080```  
   
-*Note*
+*Note*  
 You have to edit wiki-conifg.go
   
   
