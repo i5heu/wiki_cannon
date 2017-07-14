@@ -43,7 +43,7 @@ func checkLogin(r *http.Request) bool {
 
 ////////////////////////////
 func ReplaceSpecialChars(s string) (sc string) {
-	chars := []string{"]", "^", "\\\\", "[", ".", "(", ")", "<", ">", "/", "#", "?", "=", "ß", "*", "'", "´", "\"", "%", ";", ":", "&", " "}
+	chars := []string{"]", "^", "\\\\", "[", ".", "(", ")", "<", ">", "+", "/", "#", "?", "=", "ß", "*", "'", "´", "\"", "%", ";", ":", "&", " "}
 	r := strings.Join(chars, "")
 	re := regexp.MustCompile("[" + r + "]+")
 	sc = re.ReplaceAllString(s, "-")

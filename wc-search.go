@@ -34,6 +34,8 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	searchterm = ReplaceSpecialChars(searchterm)
+
 	newquery := "*" + searchterm + "*"
 
 	var ids *sql.Rows
