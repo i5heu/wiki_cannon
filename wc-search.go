@@ -35,9 +35,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if len(searchterm) == 1 {
-		searchterm = ReplaceSpecialCharsWith_(searchterm)
-	}
+	searchterm = ReplaceSpecialCharsWith_(searchterm)
 
 	newquery := "*" + searchterm + "*"
 
