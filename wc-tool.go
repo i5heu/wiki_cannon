@@ -50,6 +50,14 @@ func ReplaceSpecialChars(s string) (sc string) {
 	return
 }
 
+func ReplaceSpecialCharsWith_(s string) (sc string) {
+	chars := []string{"]", "^", "\\\\", "[", ".", "(", ")", "<", ">", "+", "/", "#", "?", "=", "ß", "*", "'", "´", "\"", "%", ";", ":", "&", " "}
+	r := strings.Join(chars, "")
+	re := regexp.MustCompile("[" + r + "]+")
+	sc = re.ReplaceAllString(s, "_")
+	return
+}
+
 func Eventloger(name string, changeAPP string, changeID int) {
 	db.Exec("INSERT INTO eventlog(name,changeAPP,changeID) VALUES(?,?,?)", name, changeAPP, changeID)
 }
