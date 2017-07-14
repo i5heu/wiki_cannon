@@ -29,10 +29,14 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	tmpSearch = tmpSearch[:0]
 
 	searchterm := r.URL.Path[3:]
-	searchterm = ReplaceSpecialCharsWith_(searchterm)
+
 	if len(searchterm) == 0 {
 		http.Redirect(w, r, "/desk", 302)
 		return
+	}
+
+	if len(searchterm) == 1 {
+		searchterm = ReplaceSpecialCharsWith_(searchterm)
 	}
 
 	newquery := "*" + searchterm + "*"
