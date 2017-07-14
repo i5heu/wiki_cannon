@@ -99,6 +99,6 @@ func IndexHandler2(w http.ResponseWriter, r *http.Request) {
 
 func checkErr(err error) {
 	if err != nil {
-		panic(err)
+		fmt.Println("\033[0;31m", err, "\033[0m")
 	}
 }
