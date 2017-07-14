@@ -51,7 +51,7 @@ func ReplaceSpecialChars(s string) (sc string) {
 }
 
 func ReplaceSpecialCharsWith_(s string) (sc string) {
-	chars := []string{"]", "^", "\\\\", "[", ".", "(", ")", "<", ">", "+", "/", "#", "?", "=", "ß", "*", "'", "´", "\"", "%", ";", ":", "&", " "}
+	chars := []string{"]", "^", "\\\\", "[", ".", "(", ")", "<", ">", "+", "-", "/", "#", "?", "=", "ß", "*", "'", "´", "\"", "%", ";", ":", "&", " "}
 	r := strings.Join(chars, "")
 	re := regexp.MustCompile("[" + r + "]+")
 	sc = re.ReplaceAllString(s, "_")
