@@ -11,6 +11,7 @@ var personalpwdTMP string = "wiki"
 var guestpwd string = "cannon"
 
 /*############# END OF CONFIG ################*/
+var wcversion string = "WC-Beta-1.2.23"
 
 var foo = sha256.Sum256([]byte(personalpwdTMP))
 var personalpwd = hex.EncodeToString(foo[:])

@@ -10,15 +10,18 @@ import (
 )
 
 type lista struct {
-	Login      bool
-	LoginText  string
-	Articles   template.HTML
-	Geldlog    template.HTML
-	Eventlog   template.HTML
-	Project    template.HTML
-	Namespace  template.HTML
-	Lastedit   template.HTML
-	Rendertime time.Duration
+	Login         bool
+	LoginText     string
+	CurentVersion string
+	Update        bool
+	UpdateVersion string
+	Articles      template.HTML
+	Geldlog       template.HTML
+	Eventlog      template.HTML
+	Project       template.HTML
+	Namespace     template.HTML
+	Lastedit      template.HTML
+	Rendertime    time.Duration
 }
 
 var templatesDesktop = template.Must(template.ParseFiles("./template/desktop.html", HtmlStructHeader, HtmlStructFooter))
@@ -47,11 +50,11 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	lists := lista{}
 
 	if TMPCACHEWRITE == false {
-		lists = lista{login, t, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], TMPCACHE[projectname], TMPCACHE[namespacename], TMPCACHE[lasteditname], time.Since(start)}
+		lists = lista{login, t, wcversion, WcVersionUpdateBOOL, WcVersionUpdate, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], TMPCACHE[projectname], TMPCACHE[namespacename], TMPCACHE[lasteditname], time.Since(start)}
 	} else if TMPCACHECACHEWRITE == false {
-		lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], TMPCACHE[projectname], TMPCACHECACHE[namespacename], TMPCACHECACHE[lasteditname], time.Since(start)}
+		lists = lista{login, t, wcversion, WcVersionUpdateBOOL, WcVersionUpdate, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], TMPCACHE[projectname], TMPCACHECACHE[namespacename], TMPCACHECACHE[lasteditname], time.Since(start)}
 	} else {
-		lists = lista{login, "PLEASE RELOAD", template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), time.Since(start)}
+		lists = lista{login, "PLEASE RELOAD", wcversion, WcVersionUpdateBOOL, WcVersionUpdate, template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), time.Since(start)}
 	}
 
 	if err != nil {
@@ -158,7 +161,7 @@ func Namespacefunc(foo string) {
 func Lasteditfunc(foo string) {
 	var TMP template.HTML
 
-	ids, err := db.Query("SELECT title, namespace FROM article ORDER BY timelastedit DESC;")
+	ids, err := db.Query("SELECT title, namespace FROM article ORDER BY timelastedit DESC LIMIT 50;")
 	defer ids.Close()
 	checkErr(err)
 

@@ -3,8 +3,10 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -18,6 +20,8 @@ var HtmlStructFooter string = `./template/footer.html`
 
 var cwd, _ = os.Getwd()
 var fs = http.FileServer(http.Dir("static"))
+var WcVersionUpdate string = ""
+var WcVersionUpdateBOOL bool = false
 
 func main() {
 	// Create an sql.DB and check for errors
@@ -78,6 +82,32 @@ func main() {
 			TMPCACHECACHEWRITE = false
 
 			time.Sleep(5 * time.Second)
+		}
+	}()
+
+	go func() {
+		for {
+			timeout := time.Duration(5 * time.Second)
+			client := http.Client{
+				Timeout: timeout,
+			}
+			resp, err := client.Get("https://i5heu.github.io/wiki_cannon/curentversion.html")
+			checkErr(err)
+			defer resp.Body.Close()
+			body, err := ioutil.ReadAll(resp.Body)
+			checkErr(err)
+
+			CurentVersionReponse := string(body)
+
+			CurentVersionReponse = strings.Join(strings.Fields(CurentVersionReponse), " ")
+
+			if CurentVersionReponse != wcversion {
+				WcVersionUpdate = CurentVersionReponse
+				WcVersionUpdateBOOL = true
+			} else {
+				WcVersionUpdateBOOL = false
+			}
+			time.Sleep(15 * time.Minute)
 		}
 	}()
 

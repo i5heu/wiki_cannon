@@ -36,6 +36,7 @@ func NewentryHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		ids, err := db.Query("SELECT title , namespace FROM article WHERE title = ? AND namespace = ?", ReplaceSpecialChars(newTitle), ReplaceSpecialChars(newNamepace))
+		checkErr(err)
 		defer ids.Close()
 		var namespace string
 		var title string
