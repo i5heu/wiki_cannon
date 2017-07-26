@@ -63,6 +63,8 @@ func main() {
 			Eventlogfunc("event-true")
 			Projectfunc("project-false")
 			Projectfunc("project-true")
+			Lasteditfunc("lastedit-false")
+			Lasteditfunc("lastedit-true")
 			TMPCACHEWRITE = false
 			time.Sleep(500 * time.Millisecond)
 

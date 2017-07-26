@@ -70,6 +70,15 @@ function openCity(evt, cityName) {
 {{end}}
 
 
+{{if .Login}}
+<div class="tile">
+  Lastedit:
+  <table style="width:100%">
+{{ .Lastedit}}
+</table>
+</div>
+{{end}}
+
 <div class="tile">
   <table style="width:100%">
 {{ .Articles}}

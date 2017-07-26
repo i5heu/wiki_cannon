@@ -17,6 +17,7 @@ type lista struct {
 	Eventlog   template.HTML
 	Project    template.HTML
 	Namespace  template.HTML
+	Lastedit   template.HTML
 	Rendertime time.Duration
 }
 
@@ -36,6 +37,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	cacheeventname := "event-" + strconv.FormatBool(checkLogin(r))
 	namespacename := "namespace-" + strconv.FormatBool(checkLogin(r))
 	projectname := "project-" + strconv.FormatBool(checkLogin(r))
+	lasteditname := "lastedit-" + strconv.FormatBool(checkLogin(r))
 
 	t := "login: false"
 	if checkLogin(r) == true {
@@ -45,11 +47,11 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	lists := lista{}
 
 	if TMPCACHEWRITE == false {
-		lists = lista{login, t, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], TMPCACHE[projectname], TMPCACHECACHE[namespacename], time.Since(start)}
+		lists = lista{login, t, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], TMPCACHE[projectname], TMPCACHE[namespacename], TMPCACHE[lasteditname], time.Since(start)}
 	} else if TMPCACHECACHEWRITE == false {
-		lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], TMPCACHE[projectname], TMPCACHECACHE[namespacename], time.Since(start)}
+		lists = lista{login, t, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], TMPCACHE[projectname], TMPCACHECACHE[namespacename], TMPCACHECACHE[lasteditname], time.Since(start)}
 	} else {
-		lists = lista{login, "PLEASE RELOAD", template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), time.Since(start)}
+		lists = lista{login, "PLEASE RELOAD", template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), time.Since(start)}
 	}
 
 	if err != nil {
@@ -61,7 +63,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 }
 
 func cache(login bool, foo string) {
-	TMPCACHE[foo] = template.HTML("Last Article<br>----------<br>")
+	TMPCACHE[foo] = template.HTML("Last New Article<br>----------<br>")
 	ids, err := db.Query("SELECT id, namespace, title FROM `article` WHERE (needlogin = '0' OR needlogin = ?) ORDER BY id DESC LIMIT 25", login)
 	defer ids.Close()
 	checkErr(err)
@@ -150,6 +152,28 @@ func Namespacefunc(foo string) {
 	}
 
 	TMPCACHE[foo] = NamespaceTMP
+	return
+}
+
+func Lasteditfunc(foo string) {
+	var TMP template.HTML
+
+	ids, err := db.Query("SELECT title, namespace FROM article ORDER BY timelastedit DESC;")
+	defer ids.Close()
+	checkErr(err)
+
+	for ids.Next() {
+		var title, namespace string
+		_ = ids.Scan(&title, &namespace)
+		checkErr(err)
+
+		url := namespace + "/" + title
+		UrlTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(url)))
+
+		TMP += template.HTML(`<tr><td class='borderfull'><a href="/p/`) + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(UrlTMP))) + template.HTML(`">`) + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(UrlTMP))) + template.HTML("</a></td></tr>")
+	}
+
+	TMPCACHE[foo] = TMP
 	return
 }
 
