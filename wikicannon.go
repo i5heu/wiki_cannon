@@ -10,6 +10,7 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/microcosm-cc/bluemonday"
 )
 
 // Global sql.DB to access the database by all handlers
@@ -100,6 +101,8 @@ func main() {
 			CurentVersionReponse := string(body)
 
 			CurentVersionReponse = strings.Join(strings.Fields(CurentVersionReponse), " ")
+
+			CurentVersionReponse = string(bluemonday.UGCPolicy().SanitizeBytes([]byte(CurentVersionReponse)))
 
 			if CurentVersionReponse != wcversion {
 				WcVersionUpdate = CurentVersionReponse
