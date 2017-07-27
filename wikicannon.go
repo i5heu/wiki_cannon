@@ -16,8 +16,8 @@ import (
 // Global sql.DB to access the database by all handlers
 var db *sql.DB
 var err error
-var HtmlStructHeader string = `./template/header.html`
-var HtmlStructFooter string = `./template/footer.html`
+var HtmlStructHeader string = templatefolder + `/header.html`
+var HtmlStructFooter string = templatefolder + `/footer.html`
 
 var cwd, _ = os.Getwd()
 var fs = http.FileServer(http.Dir("static"))
