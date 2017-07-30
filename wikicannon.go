@@ -121,8 +121,10 @@ func main() {
 	http.HandleFunc("/e/", EditHandler)
 	http.HandleFunc("/project/", ProjectHandler)
 	http.HandleFunc("/api/", ApiHandler)
+	http.HandleFunc("/api-search/", ApiSearch)
 
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	http.HandleFunc("/favicon.ico", FaviconHandler)
 	http.HandleFunc("/", IndexHandler2)
 	http.ListenAndServe(":8080", nil)
 }
@@ -132,8 +134,14 @@ func IndexHandler2(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func FaviconHandler(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/static/favicon/favicon.ico", 302)
+
+}
+
 func checkErr(err error) {
 	if err != nil {
 		fmt.Println("\033[0;31m", err, "\033[0m")
+		err = nil
 	}
 }

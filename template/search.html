@@ -1,14 +1,13 @@
 {{template "header" }}
 
-{{range $.SeachResults}}
-<a href="/p/{{.Articletitle}}">#{{.Articletitle}}<a><br>
-<b>{{.ArticleId}} -->{{.Articletitle}}</b>
-{{.ArticleText}}<br>
-<hr>
-{{end}}
+<b>Searchterm:"<span id="searchterm">{{.Searchterm}}</span>"</b>
 
-
+<div class="flexparent">
+  <div class="SearchFlexChild">
+    {{range $.SeachResults}}
+    #{{.ArticleId}} <a href="/p/{{.Articletitle}}">{{.Articletitle}}</a> [ {{.ArticleTags}} ]<hr>
+    {{end}}
+  </div>
+</div>
 
 {{template "footer" .}}
-
-

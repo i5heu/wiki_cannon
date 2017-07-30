@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -63,6 +64,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	} else {
 		templatesDesktop.Execute(w, lists)
 	}
+	fmt.Println("DESK:", time.Since(start))
 }
 
 func cache(login bool, foo string) {

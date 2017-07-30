@@ -6,13 +6,12 @@ import (
 	"net/http"
 
 	"github.com/microcosm-cc/bluemonday"
-	"github.com/russross/blackfriday"
 )
 
 type SearchResult struct {
 	ArticleId    int
 	Articletitle template.HTML
-	ArticleText  template.HTML
+	ArticleTags  template.HTML
 }
 
 type search struct {
@@ -37,19 +36,19 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	searchterm = ReplaceSpecialCharsWith_(searchterm)
 
-	newquery := "*" + searchterm + "*"
+	newquery := "%" + searchterm + "%"
 
 	var ids *sql.Rows
 
 	switch searchterm {
 	case "all":
-		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(text,1,100) FROM article ORDER BY timec DESC LIMIT 100")
+		ids, err = db.Query("SELECT  id,namespace,title,tags FROM article ORDER BY timec DESC LIMIT 100")
 		defer ids.Close()
 	case "":
 		http.Redirect(w, r, "/desk", 302)
 
 	default:
-		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(text,1,100) FROM article WHERE (needlogin = '0' OR needlogin = ?) AND MATCH (title,text) AGAINST (? IN BOOLEAN MODE)", checkLogin(r), newquery)
+		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(tags,1,100) FROM article WHERE (needlogin = '0' OR needlogin = ?) AND CONCAT(title,tags,namespace) LIKE ?", checkLogin(r), newquery)
 		defer ids.Close()
 	}
 
@@ -58,15 +57,15 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		var id int
 		var namespace string
 		var title string
-		var text string
-		_ = ids.Scan(&id, &namespace, &title, &text)
+		var tags string
+		_ = ids.Scan(&id, &namespace, &title, &tags)
 		checkErr(err)
 		title = namespace + "/" + title
-		text = text + "..."
+		tags = tags + "…"
 
 		TitleTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title)))
-		TextTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes(blackfriday.MarkdownCommon([]byte(text))))
-		tmpSearch = append(tmpSearch, SearchResult{id, TitleTMP, TextTMP})
+		TagsTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(tags)))
+		tmpSearch = append(tmpSearch, SearchResult{id, TitleTMP, TagsTMP})
 	}
 	searchs := search{searchterm, tmpSearch}
 
