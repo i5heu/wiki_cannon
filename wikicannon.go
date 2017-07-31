@@ -13,6 +13,9 @@ import (
 	"github.com/microcosm-cc/bluemonday"
 )
 
+//VERSION
+var wcversion string = "WC-Beta-1.2.24"
+
 // Global sql.DB to access the database by all handlers
 var db *sql.DB
 var err error
