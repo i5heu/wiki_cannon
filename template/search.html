@@ -1,8 +1,8 @@
 {{template "header" }}
 
-<b>Searchterm:"<span id="searchterm">{{.Searchterm}}</span>"</b>
+<b>Searchterm:"<span id="searchterm">{{.Searchterm}}</span>" -orderd by lastedit </b>
 
-<div class="flexparent">
+<div class="flexparent paddingright10">
   <div class="SearchFlexChild">
     {{range $.SeachResults}}
     #{{.ArticleId}} <a href="/p/{{.Articletitle}}">{{.Articletitle}}</a> [ {{.ArticleTags}} ]<hr>

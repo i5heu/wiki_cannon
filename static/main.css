@@ -109,8 +109,13 @@ textinput { radius:0; }
   word-wrap: break-word;
 }
 
+.paddingright10 {
+  padding-right: 10px;
+}
 
-
+@media screen and (max-width: 500px) {
+  .paddingright10{  padding-right: 30px;}
+}
 
 
 
@@ -288,7 +293,9 @@ white-space: pre-wrap;}
 
 .small{ font-size: 80%;}
 
-
+.lightgreybackgorund {
+  background-color: #e6e6e6;
+}
 
 
 /*############## AUS WIKI @ HOME #######################*/
@@ -488,7 +495,7 @@ header ul {
 /* ############################### SEARCH ##########################*/
 
 .SearchFlexChild{
-  max-height: 500px;
+  max-height: 40vh;
   min-width: 100%;
   width: 100%;
   overflow: auto;

@@ -58,6 +58,14 @@ func ReplaceSpecialCharsWith_(s string) (sc string) {
 	return
 }
 
+func ReplaceSpecialCharsWithSpaceSpaceALLOWED(s string) (sc string) {
+	chars := []string{"]", "^", "\\\\", "[", ".", "(", ")", "<", ">", "+", "-", "/", "#", "?", "=", "ß", "*", "'", "´", "\"", "%", ";", ":", "&", "\n"}
+	r := strings.Join(chars, "")
+	re := regexp.MustCompile("[" + r + "]+")
+	sc = re.ReplaceAllString(s, " ")
+	return
+}
+
 func Eventloger(name string, changeAPP string, changeID int) {
 	db.Exec("INSERT INTO eventlog(name,changeAPP,changeID) VALUES(?,?,?)", name, changeAPP, changeID)
 }

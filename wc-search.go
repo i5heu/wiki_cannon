@@ -42,13 +42,13 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	switch searchterm {
 	case "all":
-		ids, err = db.Query("SELECT  id,namespace,title,tags FROM article ORDER BY timec DESC LIMIT 100")
+		ids, err = db.Query("SELECT  id,namespace,title,tags FROM article ORDER BY timec DESC ORDER BY timelastedit DESC LIMIT 200")
 		defer ids.Close()
 	case "":
 		http.Redirect(w, r, "/desk", 302)
 
 	default:
-		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(tags,1,100) FROM article WHERE (needlogin = '0' OR needlogin = ?) AND CONCAT(title,tags,namespace) LIKE ?", checkLogin(r), newquery)
+		ids, err = db.Query("SELECT  id,namespace,title,SUBSTR(tags,1,100) FROM article WHERE (needlogin = '0' OR needlogin = ?) AND CONCAT(title,tags,namespace) LIKE ? ORDER BY timelastedit DESC LIMIT 200", checkLogin(r), newquery)
 		defer ids.Close()
 	}
 
