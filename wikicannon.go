@@ -124,6 +124,7 @@ func main() {
 	http.HandleFunc("/e/", EditHandler)
 	http.HandleFunc("/project/", ProjectHandler)
 	http.HandleFunc("/api/", ApiHandler)
+	http.HandleFunc("/api2", ApiHandler2)
 	http.HandleFunc("/api-search/", ApiSearch)
 
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
