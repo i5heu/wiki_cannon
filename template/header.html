@@ -27,6 +27,8 @@
 	 <script src="/static/dev.js"></script>
 	 <script src="/static/search.js"></script>
 	 <script src="/static/PwdManager.js"></script>
+	 <script src="/static/show-hide-loding.js"></script>
+
 
 </head>
 <body>
@@ -73,6 +75,14 @@
 <div class="settingsinpage" id="settingsinpage"></div>
 <div class="settingsinpage quickaddpage" id="quickaddpage"></div>
 <div id="spacer" style="height:50px;"></div>
-<div id="contcenter">
 
+
+<div id="DefaultModalContainer" class="modal">
+	<div id="DefaultModal"  class="modal-box">
+		<span id="DefaultModalClose" class="ModalClose">&times;</span>
+		<div id="DefaultModalContent" class="modal-content"></div>
+	</div>
+</div>
+
+<div id="contcenter">
 {{.Body}}{{end}}
