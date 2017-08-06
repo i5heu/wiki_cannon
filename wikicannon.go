@@ -14,7 +14,7 @@ import (
 )
 
 //VERSION
-var wcversion string = "WC-Beta-1.2.24"
+var wcversion string = "WC-Beta-1.2.25"
 
 // Global sql.DB to access the database by all handlers
 var db *sql.DB

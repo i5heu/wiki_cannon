@@ -11,6 +11,18 @@ $( document ).ready(function() {
    resizeHeader();
   }
 
+
+  $( ".fancybutton" ).click(function() {//OPEN
+    $( "#HotkeyModalContainer" ).toggle();
+  });
+
+  $( "#HotkeyModalClose" ).click(function() {//OPEN
+    $( "#HotkeyModalContainer" ).hide();
+  });
+
+
+
+
   //MOBILE MENUE BUTTON
   $( ".menue-button" ).click(function() {
     $( "#menue" ).toggle();
@@ -41,26 +53,6 @@ $("#goto").blur(function() {
   }
 });
 
-//FOCUS ON KEYPRESS
-$(document).keypress(function(e) {
-if (! ($(e.target).is('input, textarea, .ed, #editarea, .divinput, .textarea, #tags__, #namespace_, #slug_, .texta'))) { //NOT TRIGGER IF INPUT ETC.
-  openGO()
-  $("#goto").focus();
-}
-});
-
-function openGO(){
-$( "#go_button" ).hide();
-$(".goto").css("visibility", "visible");
-$(".goto").css("display", "flex");
-$(".goto").css("opacity", "1");
-$("#clickscroll").css("display", "none");
-$(".close_button").css("display", "block");
-$("#goto").focus();
-if (screen.width < 550) {
-  $("#afterGO").hide();
-}
-}
 
 function closeGO(){
 if ($(".goto").is(':visible')) {//CHEK IF OPEN

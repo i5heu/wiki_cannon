@@ -55,13 +55,13 @@ function PwdManager(){
               success: function (response){
                     var json = $.parseJSON(response);
                     $("#DefaultModalContent").html(` `)
-                    $("#DefaultModalContent").append(`<button class="AddPassword" >Add Password</button><br><br> <table class="fancytable"><tr><td>Site</td><td>Username</td><td>Password</td></tr></table>`)
+                    $("#DefaultModalContent").append(`<button class="AddPassword" >Add Password</button><br><br> <table class="fancytable"><tr><th>Site</th><th>Username</th><th>Password</th></tr></table>`)
                     var switcher = "tablelight"
 
                     $(json.PwdResult).each(function(index, item) {
                         var decrypted = CryptoJS.AES.decrypt(item.text1, pwdhash);
 
-                        foo = "<tr class='" + switcher + "'><th>"+item.title1+"</th><th>"+item.title2+"</th><th>"+decrypted.toString(CryptoJS.enc.Utf8)+"</th></tr>"
+                        foo = "<tr class='" + switcher + "'><td>"+item.title1+"</td><td>"+item.title2+"</td><td>"+decrypted.toString(CryptoJS.enc.Utf8)+"</td></tr>"
 
 
                         $('#DefaultModalContent tr:last').after(foo);

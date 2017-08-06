@@ -313,15 +313,24 @@ white-space: pre-wrap;}
 }
 
 
-.fancytable td{
+.fancytable th{
   color:#fff;
   background: #000;
   padding-bottom: 5px;
 }
 
 
-.fancytable th{
+.fancytable tr td{
   padding:2px;
+}
+
+.fancybutton{
+  display:inline;
+  float: left;
+  color:#000;
+  padding: 5px;
+  background: #e6e6e6;
+  border-radius: 8px;
 }
 
 /*############## AUS WIKI @ HOME #######################*/
