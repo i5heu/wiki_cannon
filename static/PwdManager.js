@@ -1,14 +1,19 @@
 //################## PwdManager  ###################
-
-
+var pwdhash
 
 $( document ).ready(function() {
 
   $("#PwdManagerTrigger").mousedown(function() {
+    PwdManagerMaterPW();
+  });
+
+  $('#DefaultModalContainer').on( 'click', '#PwdManagerTriggerAfterMaterPW', function () {
+    PwdManagerMaterPWSave();
     PwdManager();
   });
 
   $("#DefaultModalClose").mousedown(function() {
+    pwdhash = 0
     defaultModalHide();
   });
 
@@ -16,9 +21,27 @@ $( document ).ready(function() {
     PwdManagerAddview();
   });
 
+  $('#DefaultModalContainer').on( 'click', '.SubmitPassword', function () {
+    PwdManagerAddAPI($('#PwdInput-site').val(),$('#PwdInput-username').val(),$('#PwdInput-password').val(),);
+  });
+
 
 
 }); // DO NOT REMOVE DOC RDY
+
+
+
+function PwdManagerMaterPW(){
+  defaultModalShow();
+  $("#DefaultModalContent").html(`<input id="masterpw">MasterPWD</input> <button id="PwdManagerTriggerAfterMaterPW">SHOW ME</button>`)
+}
+
+function PwdManagerMaterPWSave(){
+  var foo = $('#masterpw').val();
+  pwdhash = CryptoJS.SHA256(foo).toString(CryptoJS.enc.Hex);
+
+}
+
 
 
 function PwdManager(){
@@ -31,17 +54,30 @@ function PwdManager(){
               data:data,
               success: function (response){
                     var json = $.parseJSON(response);
-                    console.log("PwdManager");
-                    $("#DefaultModalContent").html(`<button class="AddPassword" >Add Password</button><br><br><table>`)
-                    $(json.PwdResult).each(function(index, item) {
+                    $("#DefaultModalContent").html(` `)
+                    $("#DefaultModalContent").append(`<button class="AddPassword" >Add Password</button><br><br> <table class="fancytable"><tr><td>Site</td><td>Username</td><td>Password</td></tr></table>`)
+                    var switcher = "tablelight"
 
-                        foo = "<tr><th>"+item.title1+"</th><th>"+item.title2+"</th><th>"+item.text1+"</th></tr>"
-                        $("#DefaultModalContent").append(foo)
+                    $(json.PwdResult).each(function(index, item) {
+                        var decrypted = CryptoJS.AES.decrypt(item.text1, pwdhash);
+
+                        foo = "<tr class='" + switcher + "'><th>"+item.title1+"</th><th>"+item.title2+"</th><th>"+decrypted.toString(CryptoJS.enc.Utf8)+"</th></tr>"
+
+
+                        $('#DefaultModalContent tr:last').after(foo);
+
+
+                        if(switcher == "tablelight") {
+                          switcher = "tabledark"
+                        }else{
+                          switcher = "tablelight"
+                        }
                     });
-                    $("#DefaultModalContent").append(`</table>`)
+
                   }
         });
 }
+
 
 
 function PwdManagerAddview(){
@@ -50,9 +86,12 @@ function PwdManagerAddview(){
 
 }
 
-function PwdManagerAddAPI(){
+function PwdManagerAddAPI(site,username,passsword){
 
-  data = '{"PWD":"'+  $.cookie("pwd") + `", "APP":"PwdManager"}`;
+
+  var encrypted = CryptoJS.AES.encrypt(passsword, pwdhash);
+
+  data = '{"PWD":"'+  $.cookie("pwd") + `", "APP":"ItemWrite"` + `, "APPWRITE":"PwdManager","Title1":"` + site + `","Title2":"` + username + `"` + `,"Text1":"`+encrypted+`"` +`}`;
 
   $.ajax({
               type:"POST",
@@ -71,9 +110,9 @@ function PwdManagerAddAPI(){
 
 
 
+
 //////////////////// HTML /////////////////////////////
 var PwdInput = `
-<form>
 <ul class="PwdInput">
 <li class="PwdInput">
   <label class="PwdInput" for="text_id">Site</label>
@@ -88,4 +127,5 @@ var PwdInput = `
   <input type="text" class="PwdInput" name="passsword" id="PwdInput-password" value="" />
 </li>
 </ul>
-</form>`;
+<button class="SubmitPassword" >SubmitPassword</button>
+`;

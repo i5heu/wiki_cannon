@@ -12,22 +12,23 @@ import (
 type API2STRUCT struct {
 	PWD       string
 	APP       string
-	title1    string
-	title2    string
-	text1     string
-	text2     string
-	tags1     string
-	num1      int
-	num2      int
-	num3      int
-	needlogin bool
+	APPWRITE  string
+	Title1    string
+	Title2    string
+	Text1     string
+	Text2     string
+	Tags1     string
+	Num1      int
+	Num2      int
+	Num3      int
+	Needlogin bool
 	//ADDATIONAL
-	string1 string
-	string2 string
-	string3 string
-	int1    int
-	int2    int
-	int3    int
+	String1 string
+	String2 string
+	String3 string
+	Int1    int
+	Int2    int
+	Int3    int
 }
 
 func ApiHandler2(w http.ResponseWriter, r *http.Request) { //THIS ONE IS WORKING WITH JSON Requests
@@ -61,8 +62,10 @@ func ApiHandler2(w http.ResponseWriter, r *http.Request) { //THIS ONE IS WORKING
 }
 
 func ItemWrite(w http.ResponseWriter, json API2STRUCT) {
+	db.Exec("INSERT INTO items(APP,title1,title2,text1,text2,tags1,num1,num2,num3,needlogin) VALUES(?,?,?,?,?,?,?,?,?,?)", json.APPWRITE, json.Title1, json.Title2, json.Text1, json.Text2, json.Tags1, json.Num1, json.Num2, json.Num3, json.Needlogin)
 
-	db.Exec("INSERT INTO items(APP,title1,title2,text1,text2,tags1,num1,num2,num3,needlogin) VALUES(?,?,?,?,?,?,?,?,?,?)", json.APP, json.title1, json.title2, json.text1, json.text2, json.tags1, json.num1, json.num2, json.num3, json.needlogin)
+	Eventloger("Write Password", "PwdManager", 0)
+
 	fmt.Fprintf(w, `{"status":"OK"}`)
 	return
 }

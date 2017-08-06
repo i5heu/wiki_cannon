@@ -297,6 +297,32 @@ white-space: pre-wrap;}
   background-color: #e6e6e6;
 }
 
+.tablelight{
+  background: #fff;
+}
+
+.tabledark{
+  background: #e6e6e6;
+}
+
+.fancytable{
+  text-align: left;
+  border: 1px solid black;
+  margin:0;
+  padding: 0;
+}
+
+
+.fancytable td{
+  color:#fff;
+  background: #000;
+  padding-bottom: 5px;
+}
+
+
+.fancytable th{
+  padding:2px;
+}
 
 /*############## AUS WIKI @ HOME #######################*/
 
