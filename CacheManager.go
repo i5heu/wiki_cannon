@@ -18,6 +18,8 @@ func refreshCache() {
 		Projectfunc("project-true")
 		Lasteditfunc("lastedit-false")
 		Lasteditfunc("lastedit-true")
+		Shortcutfunc("shortcut-false")
+		Shortcutfunc("shortcut-true")
 		TMPCACHEWRITE = false
 		time.Sleep(500 * time.Millisecond)
 

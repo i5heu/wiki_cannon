@@ -81,6 +81,10 @@ p {
   margin: 10px  0 15px 0;
 }
 
+b, strong{
+  font-weight: bold;
+}
+
 blockquote {
   display: block;
   font-size:94%;

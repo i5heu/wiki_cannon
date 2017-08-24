@@ -41,6 +41,7 @@ func ApiHandler2(w http.ResponseWriter, r *http.Request) { //THIS ONE IS WORKING
 	errSearch := decoder.Decode(&json)
 	if errSearch != nil {
 		fmt.Fprintf(w, "ERROR")
+		fmt.Println(errSearch)
 		checkErr(err)
 		return
 	}
@@ -64,10 +65,11 @@ func ApiHandler2(w http.ResponseWriter, r *http.Request) { //THIS ONE IS WORKING
 func ItemWrite(w http.ResponseWriter, json API2STRUCT) {
 	db.Exec("INSERT INTO items(APP,title1,title2,text1,text2,tags1,num1,num2,num3,needlogin) VALUES(?,?,?,?,?,?,?,?,?,?)", json.APPWRITE, json.Title1, json.Title2, json.Text1, json.Text2, json.Tags1, json.Num1, json.Num2, json.Num3, json.Needlogin)
 
-	Eventloger("Write Password", "PwdManager", 0)
+	foo := "Write " + json.Title1
+	Eventloger(foo, json.APPWRITE, 0)
 
 	refreshCache()
-	fmt.Fprintf(w, `{"status":"OK"}`)
+	fmt.Fprintf(w, `{"Status":"OK"}`)
 	return
 }
 

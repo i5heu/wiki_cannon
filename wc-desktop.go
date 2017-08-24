@@ -21,6 +21,7 @@ type lista struct {
 	Eventlog      template.HTML
 	Project       template.HTML
 	Namespace     template.HTML
+	Shortcut      template.HTML
 	Lastedit      template.HTML
 	Rendertime    time.Duration
 }
@@ -42,6 +43,7 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	namespacename := "namespace-" + strconv.FormatBool(checkLogin(r))
 	projectname := "project-" + strconv.FormatBool(checkLogin(r))
 	lasteditname := "lastedit-" + strconv.FormatBool(checkLogin(r))
+	shortcut := "shortcut-" + strconv.FormatBool(checkLogin(r))
 
 	t := "login: false"
 	if checkLogin(r) == true {
@@ -51,11 +53,11 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	lists := lista{}
 
 	if TMPCACHEWRITE == false {
-		lists = lista{login, t, wcversion, WcVersionUpdateBOOL, WcVersionUpdate, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], TMPCACHE[projectname], TMPCACHE[namespacename], TMPCACHE[lasteditname], time.Since(start)}
+		lists = lista{login, t, wcversion, WcVersionUpdateBOOL, WcVersionUpdate, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], TMPCACHE[projectname], TMPCACHE[namespacename], TMPCACHE[shortcut], TMPCACHE[lasteditname], time.Since(start)}
 	} else if TMPCACHECACHEWRITE == false {
-		lists = lista{login, t, wcversion, WcVersionUpdateBOOL, WcVersionUpdate, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], TMPCACHE[projectname], TMPCACHECACHE[namespacename], TMPCACHECACHE[lasteditname], time.Since(start)}
+		lists = lista{login, t, wcversion, WcVersionUpdateBOOL, WcVersionUpdate, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], TMPCACHE[projectname], TMPCACHECACHE[namespacename], TMPCACHECACHE[shortcut], TMPCACHECACHE[lasteditname], time.Since(start)}
 	} else {
-		lists = lista{login, "PLEASE RELOAD", wcversion, WcVersionUpdateBOOL, WcVersionUpdate, template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), time.Since(start)}
+		lists = lista{login, "PLEASE RELOAD", wcversion, WcVersionUpdateBOOL, WcVersionUpdate, template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), time.Since(start)}
 	}
 
 	if err != nil {
@@ -198,6 +200,26 @@ func Projectfunc(foo string) {
 		checkErr(err)
 
 		ProjectTMP += template.HTML("<tr><td class='borderfull'>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title1))) + template.HTML("</td><td class='borderfull'>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title2))) + template.HTML("</td><td class='borderfull'>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(num2))) + template.HTML("</td></tr>")
+	}
+
+	TMPCACHE[foo] = ProjectTMP
+}
+
+func Shortcutfunc(foo string) {
+	var ProjectTMP template.HTML
+
+	ids, err := db.Query("SELECT title1,text1 FROM items WHERE APP='shortcut' ORDER BY num1 DESC")
+	defer ids.Close()
+	checkErr(err)
+
+	for ids.Next() {
+		var title1 string
+		var text1 string
+
+		_ = ids.Scan(&title1, &text1)
+		checkErr(err)
+
+		ProjectTMP += template.HTML("<tr><td class='borderfull'> <a href='") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(text1))) + template.HTML("'>") + template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title1))) + template.HTML("</a></td></tr>")
 	}
 
 	TMPCACHE[foo] = ProjectTMP

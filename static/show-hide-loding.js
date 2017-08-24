@@ -10,6 +10,12 @@ function defaultModalShow(){
 
 
 $( document ).ready(function() {
+
+  LoadingPoints();
+
+});
+
+function LoadingPoints(){ // Makes the Loading Points ... .. .
   var LodingIndicatorCunter = 0;
   var LodingIndicatorPoint = "";
   $(".LodingIndicator").html("");
@@ -24,4 +30,4 @@ $( document ).ready(function() {
       LodingIndicatorCunter = 0
     }
   }, 600);
-});
+}
