@@ -4,7 +4,7 @@ $( document ).ready(function() {
   $(document).keyup(function(e) {
   if (! ($(e.target).is('input, textarea, .ed, #editarea, .divinput, .textarea, #tags__, #namespace_, #slug_, .texta'))) { //NOT TRIGGER IF INPUT ETC.
 
- console.log(e.keyCode);
+ // console.log(e.keyCode);
 
     switch(e.keyCode){
       case 32:
