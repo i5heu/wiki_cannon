@@ -34,7 +34,7 @@ function AddManagerSend(){
 
 
   var xhr = new XMLHttpRequest();
-  var url = "http://localhost:8080/api2";
+  var url = "/api2";
   xhr.open("POST", url, true);
   xhr.setRequestHeader("Content-type", "application/json");
   xhr.onreadystatechange = function () {
