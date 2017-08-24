@@ -61,7 +61,7 @@ func NewentryHandler(w http.ResponseWriter, r *http.Request) {
 		} else {
 			fmt.Fprintf(w, `Article already exist - title was chaged to curent Timestamp`)
 		}
-
+		refreshCache()
 	}
 	fmt.Fprintf(w, `You have to login to do this! -> %s`, t)
 

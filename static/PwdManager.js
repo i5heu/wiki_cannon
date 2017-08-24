@@ -33,7 +33,7 @@ $( document ).ready(function() {
 
 function PwdManagerMaterPW(){
   defaultModalShow();
-  $("#DefaultModalContent").html(`<input id="masterpw">MasterPWD</input> <button id="PwdManagerTriggerAfterMaterPW">SHOW ME</button>`)
+  $("#DefaultModalContent").html(`<input id="masterpw" type="password">MasterPWD</input> <button id="PwdManagerTriggerAfterMaterPW">SHOW ME</button>`)
 }
 
 function PwdManagerMaterPWSave(){
@@ -61,7 +61,7 @@ function PwdManager(){
                     $(json.PwdResult).each(function(index, item) {
                         var decrypted = CryptoJS.AES.decrypt(item.text1, pwdhash);
 
-                        foo = "<tr class='" + switcher + "'><td>"+item.title1+"</td><td>"+item.title2+"</td><td>"+decrypted.toString(CryptoJS.enc.Utf8)+"</td></tr>"
+                        foo = "<tr class='" + switcher + "'><td>"+item.title1+"</td><td>"+item.title2+"</td><td class='ShowAtHover'>"+decrypted.toString(CryptoJS.enc.Utf8)+"</td></tr>"
 
 
                         $('#DefaultModalContent tr:last').after(foo);

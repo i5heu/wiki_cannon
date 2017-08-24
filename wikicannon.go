@@ -59,33 +59,8 @@ func main() {
 	fmt.Println("START")
 	go func() {
 		for {
-			TMPCACHEWRITE = true
-			time.Sleep(500 * time.Millisecond)
-			Geldlogfunc("geldlog-false")
-			Geldlogfunc("geldlog-true")
-			cache(false, "article-false")
-			cache(true, "article-true")
-			Namespacefunc("namespace-true")
-			Namespacefunc("namespace-false")
-			Eventlogfunc("event-false")
-			Eventlogfunc("event-true")
-			Projectfunc("project-false")
-			Projectfunc("project-true")
-			Lasteditfunc("lastedit-false")
-			Lasteditfunc("lastedit-true")
-			TMPCACHEWRITE = false
-			time.Sleep(500 * time.Millisecond)
-
-			TMPCACHECACHEWRITE = true
-			time.Sleep(500 * time.Millisecond)
-
-			for key, value := range TMPCACHE {
-				TMPCACHECACHE[key] = value
-			}
-
-			TMPCACHECACHEWRITE = false
-
-			time.Sleep(5 * time.Second)
+			refreshCache()
+			time.Sleep(10 * time.Minute)
 		}
 	}()
 

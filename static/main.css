@@ -545,6 +545,19 @@ header ul {
 }
 
 
+/*############################ PASSWORD MANAGER ######################*/
+
+.ShowAtHover{
+  background: black;
+  color: black;
+}
+
+.ShowAtHover:hover{
+  background: #fff;
+  color: black;
+}
+
+
 /* ########################## MODAL #################################### */
 
 .modal{

@@ -66,6 +66,7 @@ func ItemWrite(w http.ResponseWriter, json API2STRUCT) {
 
 	Eventloger("Write Password", "PwdManager", 0)
 
+	refreshCache()
 	fmt.Fprintf(w, `{"status":"OK"}`)
 	return
 }

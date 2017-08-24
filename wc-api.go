@@ -77,7 +77,7 @@ func AddGeldlog(w http.ResponseWriter, r *http.Request) {
 
 	eventname := "ADD >" + ReplaceSpecialChars(newTitle) + " - " + ReplaceSpecialChars(numberswithcoma(newNum)) + "€"
 	Eventloger(eventname, "geldlog", 0)
-
+	refreshCache()
 	fmt.Fprintf(w, `<h1>WAS SEND!</h1> <meta http-equiv="refresh" content="0; url=/">	`)
 
 }
@@ -109,7 +109,7 @@ func ArticleEdit(w http.ResponseWriter, r *http.Request) {
 		Eventloger(eventname, "wc-newentry", eventID)
 
 		checkErr(err)
-
+		refreshCache()
 		http.ServeFile(w, r, "./template/newentry.html")
 
 	}
@@ -153,6 +153,8 @@ func Project(w http.ResponseWriter, r *http.Request) {
 
 	db.Exec("INSERT INTO `items` ( `APP`, `title1`, `title2`, `tags1`, `num1`, `num2`) VALUES (?,?,?,?,?,?);", "project", ReplaceSpecialChars(newTitle1), ReplaceSpecialChars(newTitle2), ReplaceSpecialChars(newTags1), newNum1, newNum2)
 
+	refreshCache()
+
 	http.Redirect(w, r, "/project/", 302)
 	eventname := "ADD >" + ReplaceSpecialChars(newTitle1) + "< to Project"
 	Eventloger(eventname, "project", 0)
@@ -174,6 +176,8 @@ func ProjectDel(w http.ResponseWriter, r *http.Request, idTMP string) {
 	Eventloger(eventname, "project", id)
 
 	db.Exec("DELETE from items WHERE ItemID = ?", id)
+
+	refreshCache()
 
 	http.Redirect(w, r, "/project/", 302)
 	return
