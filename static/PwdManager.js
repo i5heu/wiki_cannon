@@ -12,10 +12,6 @@ $( document ).ready(function() {
     PwdManager();
   });
 
-  $("#DefaultModalClose").mousedown(function() {
-    pwdhash = 0
-    defaultModalHide();
-  });
 
   $('#DefaultModalContainer').on( 'click', '.AddPassword', function () {
     PwdManagerAddview();
