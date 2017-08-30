@@ -12,11 +12,12 @@ function SearchTextSearch(){
               url: "/api-search/",
               data:data,
               success: function (response){
-                    $(".flexparent").append('<div class="SearchFlexChild" id="TextSearch"></div>')
+                    $(".flexparent").append('<br><br>FULLTEXT:<div class="SearchFlexChild" id="TextSearch"></div>')
                     var json = $.parseJSON(response);
                     console.log(GetSearchTerm());
                     $(json.SearchResult).each(function(index, item) {
-                        $('#TextSearch').append("<div>#" + item.id +`  <a href="` + item.namespace + "/" +item.title + `"> `+item.namespace + "/" +item.title+`</a>  [` +  item.tags  + `] >> <p class="lightgreybackgorund">`+ item.text +" </p></div>");
+                        $('#TextSearch').append("<div>#" + item.id +`  <a href="/p/`+ item.namespace + "/" +item.title + `"> `+item.namespace + "/" +item.title+`</a>  [` +  item.tags  + `] >> <p class="lightgreybackgorund">`+ item.text +" </p></div>");
+                        console.log(item.namespace);
                     });
 
                   }

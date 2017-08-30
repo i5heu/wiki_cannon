@@ -60,7 +60,7 @@ func ApiSearch(w http.ResponseWriter, r *http.Request) {
 		TagsTMP := string(bluemonday.UGCPolicy().SanitizeBytes([]byte(tags)))
 		TextTMP := string(bluemonday.UGCPolicy().SanitizeBytes([]byte(text)))
 
-		jsonoutputtmp2 := `{ "id" : ` + strconv.Itoa(id) + ` , "namespace" :" ` + namespace + `","title":"` + TitleTMP + `","tags":"` + TagsTMP + `","text":"` + ReplaceSpecialCharsWithSpaceSpaceALLOWED(TextTMP) + `" }`
+		jsonoutputtmp2 := `{ "id" : ` + strconv.Itoa(id) + ` , "namespace" :"` + namespace + `","title":"` + TitleTMP + `","tags":"` + TagsTMP + `","text":"` + ReplaceSpecialCharsWithSpaceSpaceALLOWED(TextTMP) + `" }`
 
 		jsonoutputtmp = append(jsonoutputtmp, jsonoutputtmp2)
 	}
