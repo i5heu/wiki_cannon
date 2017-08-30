@@ -1,35 +1,73 @@
 package main
 
 import (
+	"crypto/sha256"
 	"database/sql"
+	"encoding/hex"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
 	"time"
 
+	"github.com/BurntSushi/toml"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/microcosm-cc/bluemonday"
 )
 
 //VERSION
-var wcversion string = "WC-Beta-1.2.26"
+var wcversion string = "WC-Beta-1.2.27"
 
 // Global sql.DB to access the database by all handlers
 var db *sql.DB
 var err error
-var HtmlStructHeader string = templatefolder + `/header.html`
-var HtmlStructFooter string = templatefolder + `/footer.html`
+var HtmlStructHeader string
+var HtmlStructFooter string
 
 var cwd, _ = os.Getwd()
 var fs = http.FileServer(http.Dir("static"))
 var WcVersionUpdate string = ""
 var WcVersionUpdateBOOL bool = false
 
+var templatesDesktop, templatesEdit, templatesView, namespaceView, templatesProject, templatesSearch *template.Template
+
+type Config struct {
+	Dblogin        string
+	Guestmode      bool
+	AdminPWD       string
+	GuestPWD       string
+	Templatefolder string
+	AdminHASH      string
+}
+
+var conf Config
+
 func main() {
+
+	if _, err := toml.DecodeFile("config.toml", &conf); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	var foo = sha256.Sum256([]byte(conf.AdminPWD)) //sha256 Parser for Password Token
+	conf.AdminHASH = hex.EncodeToString(foo[:])
+
+	HtmlStructHeader = conf.Templatefolder + `/header.html`
+	HtmlStructFooter = conf.Templatefolder + `/footer.html`
+
+	templatesDesktop = template.Must(template.ParseFiles("./template/desktop.html", HtmlStructHeader, HtmlStructFooter))
+	templatesEdit = template.Must(template.ParseFiles("./template/edit.html", HtmlStructHeader, HtmlStructFooter))
+	namespaceView = template.Must(template.ParseFiles("./template/namespace.html", HtmlStructHeader, HtmlStructFooter))
+	templatesView = template.Must(template.ParseFiles("./template/view.html", HtmlStructHeader, HtmlStructFooter))
+	templatesProject = template.Must(template.ParseFiles("./template/project.html", HtmlStructHeader, HtmlStructFooter))
+	templatesSearch = template.Must(template.ParseFiles("./template/search.html", HtmlStructFooter, HtmlStructHeader))
+
+	// ################ END CONFIG ###########################
+
 	// Create an sql.DB and check for errors
-	db, err = sql.Open("mysql", dblogin)
+	db, err = sql.Open("mysql", conf.Dblogin)
 	db.SetConnMaxLifetime(time.Second * 2)
 	db.SetMaxIdleConns(10)
 	db.SetMaxOpenConns(25)

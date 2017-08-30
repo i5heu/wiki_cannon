@@ -19,7 +19,6 @@ type search struct {
 	SeachResults []SearchResult
 }
 
-var templatesSearch = template.Must(template.ParseFiles("./template/search.html", HtmlStructFooter, HtmlStructHeader))
 var tmpSearch []SearchResult
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {

@@ -33,9 +33,6 @@ type namespace struct {
 	NamespaceResults []NamespaceResult
 }
 
-var namespaceView = template.Must(template.ParseFiles("./template/namespace.html", HtmlStructHeader, HtmlStructFooter))
-var templatesView = template.Must(template.ParseFiles("./template/view.html", HtmlStructHeader, HtmlStructFooter))
-
 func ViewHandler(w http.ResponseWriter, r *http.Request) {
 	guestmodechek(w, r)
 

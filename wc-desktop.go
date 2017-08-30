@@ -26,7 +26,6 @@ type lista struct {
 	Rendertime    time.Duration
 }
 
-var templatesDesktop = template.Must(template.ParseFiles("./template/desktop.html", HtmlStructHeader, HtmlStructFooter))
 var TMPCACHE = make(map[string]template.HTML)
 var TMPCACHECACHE = make(map[string]template.HTML)
 var TMPCACHEWRITE bool = false

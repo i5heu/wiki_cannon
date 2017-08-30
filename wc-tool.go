@@ -34,7 +34,7 @@ func checkLogin(r *http.Request) bool {
 		return false
 	}
 
-	if cookie == personalpwd {
+	if cookie == conf.AdminHASH {
 		return true
 	}
 	return false
@@ -73,7 +73,7 @@ func Eventloger(name string, changeAPP string, changeID int) {
 ///////////////////
 func guestmodechek(w http.ResponseWriter, r *http.Request) {
 
-	if guestmode == false {
+	if conf.Guestmode == false {
 		return
 	}
 
@@ -88,7 +88,7 @@ func guestmodechek(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if cookie == guestpwd {
+	if cookie == conf.GuestPWD {
 		return
 	}
 	http.Redirect(w, r, "/static/guestlogin.html", 302)

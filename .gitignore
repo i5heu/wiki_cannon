@@ -1,1 +1,2 @@
-wiki-config.go
+# ignore a file type
+#*.toml

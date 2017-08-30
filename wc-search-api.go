@@ -31,7 +31,7 @@ func ApiSearch(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if personalpwd == Sjson.PWD {
+	if conf.AdminHASH == Sjson.PWD {
 		SearchLogin = true
 	}
 

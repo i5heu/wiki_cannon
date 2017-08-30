@@ -22,8 +22,6 @@ type pro struct {
 	ProjectResults []ProjectResult
 }
 
-var templatesProject = template.Must(template.ParseFiles("./template/project.html", HtmlStructHeader, HtmlStructFooter))
-
 func ProjectHandler(w http.ResponseWriter, r *http.Request) { // Das ist der IndexHandler
 	guestmodechek(w, r)
 	if checkLogin(r) == false {

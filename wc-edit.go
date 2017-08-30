@@ -19,8 +19,6 @@ type edit struct {
 	Text      template.HTML
 }
 
-var templatesEdit = template.Must(template.ParseFiles("./template/edit.html", HtmlStructHeader, HtmlStructFooter))
-
 func EditHandler(w http.ResponseWriter, r *http.Request) {
 	guestmodechek(w, r)
 

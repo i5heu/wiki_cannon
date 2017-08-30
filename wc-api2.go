@@ -61,7 +61,7 @@ func ApiHandler2(w http.ResponseWriter, r *http.Request) { //THIS ONE IS WORKING
 		return
 	}
 
-	if personalpwd == jsondata.PWD {
+	if conf.AdminHASH == jsondata.PWD {
 		APILogin = true
 	}
 
