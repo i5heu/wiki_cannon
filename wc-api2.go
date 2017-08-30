@@ -147,7 +147,7 @@ func ProjectRead(w http.ResponseWriter, jsondata API2STRUCT) {
 
 	var ids *sql.Rows
 
-	ids, err = db.Query("SELECT ItemID,timecreate,title1,title2,text1,text2,tags1,num1,num2,num3 FROM items WHERE APP='ProjectTask' AND num1 = ?", jsondata.ID)
+	ids, err = db.Query("SELECT ItemID,timecreate,title1,title2,text1,text2,tags1,num1,num2,num3 FROM items WHERE APP='ProjectTask' AND num3 = ? ORDER BY num1 DESC", jsondata.ID)
 	defer ids.Close()
 
 	checkErr(err)

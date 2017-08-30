@@ -1,4 +1,4 @@
-function AjaxSendWithStatusReturn(APP,data){
+function AjaxSendWithStatusReturn(data){
 
     $("#LoadingIndicator").show();
 
@@ -18,6 +18,5 @@ function AjaxSendWithStatusReturn(APP,data){
         console.log(data);
 
         xhr.send(data);
-
 
   }
