@@ -87,13 +87,13 @@ $( document ).ready(function() {
 
   $('#DefaultModalContent').on( 'click', '#ProjectAddTask', function () {
     $("#DefaultModalContent").html(`
-      <input type="text" id="ProjectTaskTitle1" placeholder="Title1"></input><br>
-      <input type="text" id="ProjectTaskTitle2" placeholder="Title2"></input><br>
-      <input type="text" id="ProjectTaskText1" placeholder="Text1"></input><br>
-      <input type="text" id="ProjectTaskText2" placeholder="Text2"></input><br>
-      <input type="text" id="ProjectTaskTags1" placeholder="Tags1"></input><br>
-      <input type="text" id="ProjectTaskNum1" placeholder="Num1"></input><br>
-      <input type="text" id="ProjectTaskNum2" placeholder="Num2"></input><br>
+      <input type="text" id="ProjectTaskTitle1" placeholder="Title"></input><br>
+      <input type="text" id="ProjectTaskTitle2" placeholder="Category"></input><br>
+      <input type="text" id="ProjectTaskText1" placeholder="Description short"></input><br>
+      <input type="text" id="ProjectTaskText2" placeholder="Description Full"></input><br>
+      <input type="text" id="ProjectTaskTags1" placeholder="Tags"></input><br>
+      <input type="text" id="ProjectTaskNum1" placeholder="Points"></input><br>
+      <input type="text" id="ProjectTaskNum2" placeholder="Points Project"></input><br>
       <button id="ProjectTaskSend">Send</button>`)
   });
 
