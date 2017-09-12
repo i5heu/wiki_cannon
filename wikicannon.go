@@ -105,18 +105,19 @@ func main() {
 			defer resp.Body.Close()
 			body, err := ioutil.ReadAll(resp.Body)
 			checkErr(err)
+			if err == nil {
+				CurentVersionReponse := string(body)
 
-			CurentVersionReponse := string(body)
+				CurentVersionReponse = strings.Join(strings.Fields(CurentVersionReponse), " ")
 
-			CurentVersionReponse = strings.Join(strings.Fields(CurentVersionReponse), " ")
+				CurentVersionReponse = string(bluemonday.UGCPolicy().SanitizeBytes([]byte(CurentVersionReponse)))
 
-			CurentVersionReponse = string(bluemonday.UGCPolicy().SanitizeBytes([]byte(CurentVersionReponse)))
-
-			if CurentVersionReponse != wcversion {
-				WcVersionUpdate = CurentVersionReponse
-				WcVersionUpdateBOOL = true
-			} else {
-				WcVersionUpdateBOOL = false
+				if CurentVersionReponse != wcversion {
+					WcVersionUpdate = CurentVersionReponse
+					WcVersionUpdateBOOL = true
+				} else {
+					WcVersionUpdateBOOL = false
+				}
 			}
 			time.Sleep(15 * time.Minute)
 		}
