@@ -34,12 +34,19 @@ var WcVersionUpdateBOOL bool = false
 var templatesDesktop, templatesEdit, templatesView, namespaceView, templatesProject, templatesSearch *template.Template
 
 type Config struct {
-	Dblogin        string
-	Guestmode      bool
-	AdminPWD       string
-	GuestPWD       string
-	Templatefolder string
-	AdminHASH      string
+	Dblogin                  string
+	Guestmode                bool
+	AdminPWD                 string
+	GuestPWD                 string
+	Templatefolder           string
+	AdminHASH                string
+	JabberNotification       bool
+	JabberHost               string
+	JabberUser               string
+	JabberPassword           string
+	JabberServerName         string
+	JabberJIDreciever        string
+	JabberInsecureSkipVerify bool
 }
 
 var conf Config
@@ -102,21 +109,23 @@ func main() {
 			}
 			resp, err := client.Get("https://i5heu.github.io/wiki_cannon/curentversion.html")
 			checkErr(err)
-			defer resp.Body.Close()
-			body, err := ioutil.ReadAll(resp.Body)
-			checkErr(err)
 			if err == nil {
-				CurentVersionReponse := string(body)
+				defer resp.Body.Close()
+				body, err := ioutil.ReadAll(resp.Body)
+				checkErr(err)
+				if err == nil {
+					CurentVersionReponse := string(body)
 
-				CurentVersionReponse = strings.Join(strings.Fields(CurentVersionReponse), " ")
+					CurentVersionReponse = strings.Join(strings.Fields(CurentVersionReponse), " ")
 
-				CurentVersionReponse = string(bluemonday.UGCPolicy().SanitizeBytes([]byte(CurentVersionReponse)))
+					CurentVersionReponse = string(bluemonday.UGCPolicy().SanitizeBytes([]byte(CurentVersionReponse)))
 
-				if CurentVersionReponse != wcversion {
-					WcVersionUpdate = CurentVersionReponse
-					WcVersionUpdateBOOL = true
-				} else {
-					WcVersionUpdateBOOL = false
+					if CurentVersionReponse != wcversion {
+						WcVersionUpdate = CurentVersionReponse
+						WcVersionUpdateBOOL = true
+					} else {
+						WcVersionUpdateBOOL = false
+					}
 				}
 			}
 			time.Sleep(15 * time.Minute)
@@ -152,6 +161,8 @@ func FaviconHandler(w http.ResponseWriter, r *http.Request) {
 func checkErr(err error) {
 	if err != nil {
 		fmt.Println("\033[0;31m", err, "\033[0m")
+		foo := "WikiERR:\n" + err.Error()
+		sendXMPP(foo)
 		err = nil
 	}
 }

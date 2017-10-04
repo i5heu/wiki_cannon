@@ -3,3 +3,12 @@ Guestmode = true
 AdminPWD = "wiki"
 GuestPWD = "cannon"
 Templatefolder = "/home/her/CODE/wiki_cannon/template"
+
+
+JabberNotification = true
+JabberHost         = "i5h.de:5222"
+JabberUser         = "test@i5h.de"
+JabberPassword     = "test123"
+JabberServerName   = "ejabberd"
+JabberJIDreciever  = "marvin@i5h.de"
+JabberInsecureSkipVerify = true

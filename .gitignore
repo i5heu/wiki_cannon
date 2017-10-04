@@ -1,2 +1,3 @@
 # ignore a file type
 *.toml
+/config.toml
