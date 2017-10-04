@@ -7,7 +7,7 @@ var AddShortcutHtml = `
 <b>AddShortcut</b><br><br>
 <input id="AddManagerTitle1">Title</input><br>
 <input id="AddManagerText1">Link</input><br>
-<input id="AddManagerNum1" >Priority</input><br>
+<input id="AddManagerNum1" type="number" >Priority</input><br>
 <button id="AddShortcutSend">Send</button>
 `
 

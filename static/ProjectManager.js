@@ -92,8 +92,8 @@ $( document ).ready(function() {
       <input type="text" id="ProjectTaskText1" placeholder="Description short"></input><br>
       <input type="text" id="ProjectTaskText2" placeholder="Description Full"></input><br>
       <input type="text" id="ProjectTaskTags1" placeholder="Tags"></input><br>
-      <input type="text" id="ProjectTaskNum1" placeholder="Points"></input><br>
-      <input type="text" id="ProjectTaskNum2" placeholder="Points Project"></input><br>
+      <input type="number" id="ProjectTaskNum1" placeholder="Points"></input><br>
+      <input type="number" id="ProjectTaskNum2" placeholder="Points Project"></input><br>
       <button id="ProjectTaskSend">Send</button>`)
   });
 
