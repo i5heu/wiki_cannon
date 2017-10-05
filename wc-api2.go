@@ -82,14 +82,19 @@ func ApiHandler2(w http.ResponseWriter, r *http.Request) { //THIS ONE IS WORKING
 }
 
 func ItemWrite(w http.ResponseWriter, jsondata API2STRUCT) {
+	ItemWriter(jsondata)
+
+	fmt.Fprintf(w, `{"Status":"OK"}`)
+	return
+}
+
+func ItemWriter(jsondata API2STRUCT) {
 	db.Exec("INSERT INTO items(APP,title1,title2,text1,text2,tags1,num1,num2,num3,needlogin) VALUES(?,?,?,?,?,?,?,?,?,?)", jsondata.APPWRITE, jsondata.Title1, jsondata.Title2, jsondata.Text1, jsondata.Text2, jsondata.Tags1, jsondata.Num1, jsondata.Num2, jsondata.Num3, jsondata.Needlogin)
 
 	foo := "Write " + jsondata.Title1
 	Eventloger(foo, jsondata.APPWRITE, 0)
 
 	refreshCache()
-	fmt.Fprintf(w, `{"Status":"OK"}`)
-	return
 }
 
 func ItemDelete(w http.ResponseWriter, jsondata API2STRUCT) {

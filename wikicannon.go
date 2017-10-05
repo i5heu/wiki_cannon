@@ -81,13 +81,7 @@ func main() {
 
 	// Open doesn't open a connection. Validate DSN data:
 	err = db.Ping()
-	if err != nil {
-		panic(err.Error()) // proper error handling instead of panic
-	}
-
-	if err != nil {
-		panic(err.Error())
-	}
+	checkErr(err)
 	// sql.DB should be long lived "defer" closes it once this function ends
 	defer db.Close()
 
@@ -130,6 +124,10 @@ func main() {
 			}
 			time.Sleep(15 * time.Minute)
 		}
+	}()
+
+	go func() {
+		reciveXMPP()
 	}()
 
 	http.HandleFunc("/desk/", DesktopHandler)
