@@ -1,5 +1,10 @@
 {{template "header" }}
-<p style="color:#fff; font-size:0.85em; background:#000; margin:0; padding:2px 0 2px 3px;"> {{.LoginText}} | Logictime: {{.Rendertime}} || {{.CurentVersion}}{{if .Update}}  <span style="color:#fff; background:red;font-weight: 900;"> NEW VERSION {{.UpdateVersion}}  AVAILABLE</span>{{end}}</p>
+
+{{if .DarkTemplate}}
+<link rel="stylesheet" href="/static/dark.css">
+{{end}}
+
+<p class="desk-status"> {{.LoginText}} | Logictime: {{.Rendertime}} || {{.CurentVersion}}{{if .Update}}  <span style="color:#fff; background:red;font-weight: 900;"> NEW VERSION {{.UpdateVersion}}  AVAILABLE</span>{{end}}</p>
 
 
 <script>

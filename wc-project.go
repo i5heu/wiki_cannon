@@ -20,6 +20,7 @@ type ProjectResult struct {
 type pro struct {
 	Test           template.HTML
 	ProjectResults []ProjectResult
+	DarkTemplate   bool
 }
 
 func ProjectHandler(w http.ResponseWriter, r *http.Request) { // Das ist der IndexHandler
@@ -61,7 +62,9 @@ func ProjectHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 		ProjectTMP = append(ProjectTMP, ProjectResult{id, Title1TMP, Title2TMP, Tags1TMP, num1, num2, ProjectClassTMP})
 	}
 
-	lists := pro{template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte("Project"))), ProjectTMP}
+	DarkTemplate := ChekDarkTemplate(r)
+
+	lists := pro{template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte("Project"))), ProjectTMP, DarkTemplate}
 
 	templatesProject.Execute(w, lists)
 

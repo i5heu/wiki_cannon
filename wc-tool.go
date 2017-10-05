@@ -41,6 +41,24 @@ func checkLogin(r *http.Request) bool {
 
 }
 
+func ChekDarkTemplate(r *http.Request) bool {
+	var cookie string
+	var cookieTMP *http.Cookie
+
+	if sessionExists(r, "darktemplate") == true {
+		cookieTMP, _ = r.Cookie("darktemplate")
+		cookie = cookieTMP.Value
+	} else {
+		return false
+	}
+
+	if cookie == "true" {
+		return true
+	}
+	return false
+
+}
+
 ////////////////////////////
 func ReplaceSpecialChars(s string) (sc string) {
 	chars := []string{"]", "^", "\\\\", "[", ".", "(", ")", "<", ">", "+", "/", "#", "?", "=", "ß", "*", "'", "´", "\"", "%", ";", ":", "&", " "}

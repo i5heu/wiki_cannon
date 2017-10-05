@@ -1,5 +1,9 @@
 {{template "header" }}
 
+{{if .DarkTemplate}}
+<link rel="stylesheet" href="/static/dark.css">
+{{end}}
+
 <b>Searchterm:"<span id="searchterm">{{.Searchterm}}</span>" -orderd by lastedit </b>
 
 <div class="flexparent paddingright10">

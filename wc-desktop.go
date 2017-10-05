@@ -23,6 +23,7 @@ type lista struct {
 	Namespace     template.HTML
 	Shortcut      template.HTML
 	Lastedit      template.HTML
+	DarkTemplate  bool
 	Rendertime    time.Duration
 }
 
@@ -51,12 +52,14 @@ func DesktopHandler(w http.ResponseWriter, r *http.Request) { // Das ist der Ind
 	}
 	lists := lista{}
 
+	DarkTemplate := ChekDarkTemplate(r)
+
 	if TMPCACHEWRITE == false {
-		lists = lista{login, t, wcversion, WcVersionUpdateBOOL, WcVersionUpdate, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], TMPCACHE[projectname], TMPCACHE[namespacename], TMPCACHE[shortcut], TMPCACHE[lasteditname], time.Since(start)}
+		lists = lista{login, t, wcversion, WcVersionUpdateBOOL, WcVersionUpdate, TMPCACHE[cachetimername], TMPCACHE[cachegeldlogname], TMPCACHE[cacheeventname], TMPCACHE[projectname], TMPCACHE[namespacename], TMPCACHE[shortcut], TMPCACHE[lasteditname], DarkTemplate, time.Since(start)}
 	} else if TMPCACHECACHEWRITE == false {
-		lists = lista{login, t, wcversion, WcVersionUpdateBOOL, WcVersionUpdate, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], TMPCACHE[projectname], TMPCACHECACHE[namespacename], TMPCACHECACHE[shortcut], TMPCACHECACHE[lasteditname], time.Since(start)}
+		lists = lista{login, t, wcversion, WcVersionUpdateBOOL, WcVersionUpdate, TMPCACHECACHE[cachetimername], TMPCACHECACHE[cachegeldlogname], TMPCACHECACHE[cacheeventname], TMPCACHE[projectname], TMPCACHECACHE[namespacename], TMPCACHECACHE[shortcut], TMPCACHECACHE[lasteditname], DarkTemplate, time.Since(start)}
 	} else {
-		lists = lista{login, "PLEASE RELOAD", wcversion, WcVersionUpdateBOOL, WcVersionUpdate, template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), time.Since(start)}
+		lists = lista{login, "PLEASE RELOAD", wcversion, WcVersionUpdateBOOL, WcVersionUpdate, template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), template.HTML("<b>Please reload this page</b>"), DarkTemplate, time.Since(start)}
 	}
 
 	if err != nil {

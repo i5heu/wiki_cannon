@@ -1,5 +1,9 @@
 {{template "header" }}
-sdadasdsa
+
+{{if .DarkTemplate}}
+<link rel="stylesheet" href="/static/dark.css">
+{{end}}
+
 {{range $.NamespaceResults}}
 <a href="/p/{{.Articletitle}}">#{{.Articletitle}}<a><br>
 <b>{{.ArticleId}} -->{{.Articletitle}}</b>

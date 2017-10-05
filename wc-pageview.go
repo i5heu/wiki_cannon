@@ -13,13 +13,14 @@ import (
 )
 
 type view struct {
-	Articlename string
-	Path        string
-	Title       template.HTML
-	Tags        string
-	Text        template.HTML
-	Viewcounter int
-	Editcounter int
+	Articlename  string
+	Path         string
+	Title        template.HTML
+	Tags         string
+	Text         template.HTML
+	Viewcounter  int
+	Editcounter  int
+	DarkTemplate bool
 }
 
 type NamespaceResult struct {
@@ -31,6 +32,7 @@ type NamespaceResult struct {
 type namespace struct {
 	Searchterm       string
 	NamespaceResults []NamespaceResult
+	DarkTemplate     bool
 }
 
 func ViewHandler(w http.ResponseWriter, r *http.Request) {
@@ -80,7 +82,9 @@ func ViewHandler(w http.ResponseWriter, r *http.Request) {
 		TitleTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(title)))
 		TextTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes(blackfriday.MarkdownCommon([]byte(text))))
 
-		views := view{encodetpath1[2], title, TitleTMP, tags, TextTMP, viewcounter, editcounter}
+		DarkTemplate := ChekDarkTemplate(r)
+
+		views := view{encodetpath1[2], title, TitleTMP, tags, TextTMP, viewcounter, editcounter, DarkTemplate}
 		templatesView.Execute(w, views)
 
 		db.Exec("UPDATE `article` SET viewcounter = IFNULL(`viewcounter`, 0) + 1 WHERE id = ?", id)
@@ -129,7 +133,10 @@ func NamespaceHandler(w http.ResponseWriter, r *http.Request) {
 		TextTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes(blackfriday.MarkdownCommon([]byte(text))))
 		tmpNamespace = append(tmpNamespace, NamespaceResult{id, TitleTMP, TextTMP})
 	}
-	searchs := namespace{searchterm, tmpNamespace}
+
+	DarkTemplate := ChekDarkTemplate(r)
+
+	searchs := namespace{searchterm, tmpNamespace, DarkTemplate}
 
 	namespaceView.Execute(w, searchs)
 }

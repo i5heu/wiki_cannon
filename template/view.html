@@ -1,5 +1,9 @@
 {{template "header" }}
 
+{{if .DarkTemplate}}
+<link rel="stylesheet" href="/static/dark.css">
+{{end}}
+
 <article>
 <a href="/e/{{.Path}}">EDIT</a>
 <h1>{{.Title}}</h1>

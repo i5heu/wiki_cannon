@@ -15,7 +15,7 @@ html{
   word-wrap: break-word;
   font-size:100%;
  line-height:1.20em;
- font-family: "Liberation Sans";
+ font-family: monospace;
 }
 
 code {
@@ -214,7 +214,9 @@ article{
 margin: 0 auto 100px auto;
 padding:20px;
 max-width:600px;
-border-left: 1px solid black;}
+border-left: 1px solid black;
+font-family: "Liberation Sans";
+}
 
 article h1{
 font-family:"Courier New", Courier, monospace;
@@ -640,4 +642,12 @@ background-color: rgba(0,0,0,0.2);
   display: inline;
   margin: 0;
   padding: 0;
+}
+
+.desk-status{
+  color:#fff;
+  font-size:0.85em;
+  background:#000;
+  margin:0;
+  padding:2px 0 2px 3px;
 }

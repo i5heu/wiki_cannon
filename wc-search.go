@@ -17,6 +17,7 @@ type SearchResult struct {
 type search struct {
 	Searchterm   string
 	SeachResults []SearchResult
+	DarkTemplate bool
 }
 
 var tmpSearch []SearchResult
@@ -66,7 +67,8 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 		TagsTMP := template.HTML(bluemonday.UGCPolicy().SanitizeBytes([]byte(tags)))
 		tmpSearch = append(tmpSearch, SearchResult{id, TitleTMP, TagsTMP})
 	}
-	searchs := search{searchterm, tmpSearch}
+	DarkTemplate := ChekDarkTemplate(r)
+	searchs := search{searchterm, tmpSearch, DarkTemplate}
 
 	templatesSearch.Execute(w, searchs)
 }
