@@ -126,7 +126,9 @@ func main() {
 		}
 	}()
 
-	reciveXMPP()
+	go func() {
+		reciveXMPP()
+	}()
 
 	http.HandleFunc("/desk/", DesktopHandler)
 	http.HandleFunc("/newentry", NewentryHandler)
