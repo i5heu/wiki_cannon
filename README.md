@@ -1,5 +1,5 @@
 # wiki_cannon
-this is a simple to install and run personal Wiki!  
+this is a simple to install personal Wiki with vital functions for your life!  
 
 ### Requirements:
 MySQL  
@@ -11,9 +11,9 @@ edit the wiki-config.go
 go into /wiki_cannon    
 run ```go get ./...```    
 run ```go run *.go```  
-  
-go with your webbrowser to ```YOURIP:8080```  
-  
 
-  
+go with your webbrowser to ```YOURIP:8080```  
+
+
+
 *FINISH*
