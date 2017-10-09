@@ -452,8 +452,8 @@ header input:focus{outline: none;}
   margin:auto 3px;
   cursor:pointer;}
 .header_icon:hover {
-  color:black; transition: color 0.5s;
-  text-shadow: 2px 2px 3px #fff; transition: text-shadow 0.5s;}
+  color:red; transition: color 0.5s;
+  }
 @media screen and (max-width: 900px) { /*BEGIN @MEDIA*/
   .header_icon {margin:auto;}
 }

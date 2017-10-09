@@ -16,7 +16,8 @@ $( document ).ready(function() {
 
   $("#AddManager").mousedown(function() {
     defaultModalShow();
-    $("#DefaultModalContent").html(AddManagerHtml)
+    $("#DefaultModalContent").html(AddManagerHtml);
+    $( "#menue" ).hide();
   });
 
   $('#DefaultModalContainer').on( 'click', '#AddShortcut', function () {
