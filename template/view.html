@@ -24,6 +24,8 @@ Viewcounter: {{.Viewcounter}}
 <b>
 Editcounter: {{.Editcounter}}
 </b><br>
-{{.Tags}}
+{{.Tags}}<br>
+<br>
+Delete Article: <div id="RemoveArticleDIV"> <button id="RemoveArticle" data-id="{{.ArticleID}}">Del</button> </div>
 <hr>
 {{template "footer" .}}

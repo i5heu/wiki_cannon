@@ -141,3 +141,7 @@ func CheckIfOnlyNumbers(w http.ResponseWriter, r *http.Request, v string) (re bo
 func ItemBackuper(id int) {
 	db.Exec("INSERT INTO BUitems(ItemID,timecreate,timelastedit,needlogin,APP,viewcounter,editcounter,title1,title2,text1,text2,tags1,num1,num2,num3)SELECT ItemID,timecreate,timelastedit,needlogin,APP,viewcounter,editcounter,title1,title2,text1,text2,tags1,num1,num2,num3 FROM items WHERE ItemID = ?", id)
 }
+
+func ArticleBackuper(id int) {
+	db.Exec("INSERT INTO BUarticle(id,timec,timelastedit,needlogin,namespace,title,text,tags,viewcounter,editcounter)SELECT id,timec,timelastedit,needlogin,namespace,title,text,tags,viewcounter,editcounter FROM article WHERE id = ?", id)
+}

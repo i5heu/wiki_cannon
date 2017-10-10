@@ -35,6 +35,7 @@ type API2STRUCT struct {
 
 type ItemData struct {
 	ItemID     string
+	APP        string
 	Timecreate string
 	Title1     string
 	Title2     string
@@ -65,17 +66,25 @@ func ApiHandler2(w http.ResponseWriter, r *http.Request) { //THIS ONE IS WORKING
 		APILogin = true
 	}
 
-	switch jsondata.APP {
-	case "ItemWrite":
-		ItemWrite(w, jsondata)
-	case "ItemDelete":
-		ItemDelete(w, jsondata)
-	case "PwdManager":
-		PwdManager(w, jsondata)
-	case "ProjectRead":
-		ProjectRead(w, jsondata)
-	default:
-		fmt.Fprintf(w, `{"Status":"ERROR"}`)
+	if APILogin == true {
+		switch jsondata.APP {
+		case "ItemWrite":
+			ItemWrite(w, jsondata)
+		case "ItemDelete":
+			ItemDelete(w, jsondata)
+		case "ArticleDel":
+			ArticleDel(w, jsondata)
+		case "PwdManager":
+			PwdManager(w, jsondata)
+		case "ProjectRead":
+			ProjectRead(w, jsondata)
+		case "ItemAll":
+			AllItem(w, jsondata)
+		default:
+			fmt.Fprintf(w, `{"Status":"ERROR"}`)
+		}
+	} else {
+		fmt.Fprintf(w, `{"Status":"NOT LOGGED IN"}`)
 	}
 
 	fmt.Println("Api2Handler:", time.Since(startAPI2), APILogin)
@@ -101,13 +110,29 @@ func ItemDelete(w http.ResponseWriter, jsondata API2STRUCT) {
 	id := jsondata.ID
 	ItemBackuper(id)
 
-	eventname := "DEL >" + strconv.Itoa(id) + "< from ProjectTask"
-	Eventloger(eventname, "ProjectTask", id)
+	eventname := "DEL Item >" + strconv.Itoa(id) + "< "
+	Eventloger(eventname, "ItemDEL", id)
 
 	db.Exec("DELETE from items WHERE ItemID = ?", id)
 
 	fmt.Fprintf(w, `{"Status":"OK"}`)
-	fmt.Println("ProjectTaskDELETE")
+	fmt.Println("ItemDelete")
+	return
+}
+
+func ArticleDel(w http.ResponseWriter, jsondata API2STRUCT) {
+	id := jsondata.ID
+	ArticleBackuper(id)
+
+	eventname := "DEL Article >" + strconv.Itoa(id) + "<"
+	Eventloger(eventname, "ArticleDEL", id)
+
+	db.Exec("DELETE from article WHERE Id = ?", id)
+
+	refreshCache()
+
+	fmt.Fprintf(w, `{"Status":"OK"}`)
+	fmt.Println("ArticleDelete")
 	return
 }
 
@@ -186,5 +211,54 @@ func ProjectRead(w http.ResponseWriter, jsondata API2STRUCT) {
 	fmt.Fprintf(w, string(foo2))
 
 	fmt.Println("ProjectRead ")
+	return
+}
+
+func AllItem(w http.ResponseWriter, jsondata API2STRUCT) {
+
+	type AllData struct {
+		APPreturn string
+		DATA      []ItemData
+	}
+
+	var AllDataCA AllData
+
+	var ids *sql.Rows
+
+	ids, err = db.Query("SELECT ItemID,APP,timecreate,title1,title2,text1,text2,tags1,num1,num2,num3 FROM items ORDER BY timecreate DESC")
+	defer ids.Close()
+
+	checkErr(err)
+	for ids.Next() {
+		var ItemID, timecreate, title1, title2, text1, text2, tags1, APP string
+		var num1, num2, num3 int
+
+		_ = ids.Scan(&ItemID, &APP, &timecreate, &title1, &title2, &text1, &text2, &tags1, &num1, &num2, &num3)
+		checkErr(err)
+
+		data := ItemData{
+			ItemID:     ItemID,
+			APP:        APP,
+			Timecreate: timecreate,
+			Title1:     title1,
+			Title2:     title2,
+			Text1:      text1,
+			Text2:      text2,
+			Tags1:      tags1,
+			Num1:       num1,
+			Num2:       num2,
+			Num3:       num3,
+		}
+
+		AllDataCA.DATA = append(AllDataCA.DATA, data)
+	}
+
+	AllDataCA.APPreturn = "ItemAll"
+
+	foo2, _ := json.Marshal(AllDataCA)
+
+	fmt.Fprintf(w, string(foo2))
+
+	fmt.Println("AllItem")
 	return
 }

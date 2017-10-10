@@ -22,6 +22,18 @@ $( document ).ready(function() {
 
 
 
+  $('#RemoveArticleDIV').on( 'click', '#RemoveArticle', function () {
+    var TaskID = $(this).data("id");
+
+    $("#RemoveArticleDIV").html(`CONFIRM --- <button id="RemoveArticle2" style="background:red; color:#fff;" data-id="`+TaskID+`">DEL</button> --- ATENTION ARTICLE WILL BE DELETET`)
+  });
+
+  $('#RemoveArticleDIV').on( 'click', '#RemoveArticle2', function () {
+    var TaskID = $(this).data("id");
+
+    var data = JSON.stringify({ "APP":"ArticleDel", "PWD":$.cookie("pwd"),"ID":parseInt(TaskID,10)});
+    ArticleDel(data);
+  });
 
   //MOBILE MENUE BUTTON
   $( ".menue-button" ).click(function() {
@@ -83,3 +95,28 @@ $(function() { //shorthand document.ready function
 
 
 });//DOCUMENT READY
+
+
+function ArticleDel(data){
+
+    $("#LoadingIndicator").show();
+
+    var xhr = new XMLHttpRequest();
+    var url = "/api2";
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var json = JSON.parse(xhr.responseText);
+            $("#LoadingIndicator").hide();
+            console.log(json.Status);
+            window.location.href = "/";
+            return true
+            }
+      };
+
+        console.log(data);
+
+        xhr.send(data);
+
+  }

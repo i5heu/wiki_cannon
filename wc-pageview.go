@@ -13,6 +13,7 @@ import (
 )
 
 type view struct {
+	ArticleID    int
 	Articlename  string
 	Path         string
 	Title        template.HTML
@@ -84,7 +85,7 @@ func ViewHandler(w http.ResponseWriter, r *http.Request) {
 
 		DarkTemplate := ChekDarkTemplate(r)
 
-		views := view{encodetpath1[2], title, TitleTMP, tags, TextTMP, viewcounter, editcounter, DarkTemplate}
+		views := view{id, encodetpath1[2], title, TitleTMP, tags, TextTMP, viewcounter, editcounter, DarkTemplate}
 		templatesView.Execute(w, views)
 
 		db.Exec("UPDATE `article` SET viewcounter = IFNULL(`viewcounter`, 0) + 1 WHERE id = ?", id)
