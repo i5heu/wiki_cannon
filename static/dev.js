@@ -120,3 +120,10 @@ function ArticleDel(data){
         xhr.send(data);
 
   }
+
+
+  function ToogleMenue(){
+    if($(window).width() < 901){
+      $( "#menue" ).hide();
+    }
+  }

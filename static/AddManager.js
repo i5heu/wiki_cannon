@@ -17,7 +17,7 @@ $( document ).ready(function() {
   $("#AddManager").mousedown(function() {
     defaultModalShow();
     $("#DefaultModalContent").html(AddManagerHtml);
-    $( "#menue" ).hide();
+    ToogleMenue();
   });
 
   $('#DefaultModalContainer').on( 'click', '#AddShortcut', function () {

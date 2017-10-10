@@ -5,6 +5,7 @@ $( document ).ready(function() {
   $("#DelManager").mousedown(function() {
     defaultModalShow();
     LoadAllItems();
+    ToogleMenue();
   });
 
   $('#DefaultModalContent').on( 'click', '.DelManagerItemDelButton', function () {

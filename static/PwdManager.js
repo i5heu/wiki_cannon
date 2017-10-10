@@ -5,7 +5,7 @@ $( document ).ready(function() {
 
   $("#PwdManagerTrigger").mousedown(function() {
     PwdManagerMaterPW();
-    $( "#menue" ).hide();
+    ToogleMenue();
   });
 
   $('#DefaultModalContainer').on( 'click', '#PwdManagerTriggerAfterMaterPW', function () {

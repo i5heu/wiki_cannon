@@ -3,7 +3,7 @@ $( document ).ready(function() {
   $('#header_option_gear').click(function () {
     defaultModalShow()
     $("#DefaultModalContent").html(`<button id="OptionDarkMode">Togle DarkMode</button>`)
-    $( "#menue" ).hide();
+    ToogleMenue();
   })
 
 
