@@ -651,3 +651,13 @@ background-color: rgba(0,0,0,0.2);
   margin:0;
   padding:2px 0 2px 3px;
 }
+
+.desk-status-right{
+  display: inline;
+  float: right;
+  margin-right: 5px;
+}
+
+#DeskRefreshCache:hover{
+  color: red;
+}

@@ -80,6 +80,8 @@ func ApiHandler2(w http.ResponseWriter, r *http.Request) { //THIS ONE IS WORKING
 			ProjectRead(w, jsondata)
 		case "ItemAll":
 			AllItem(w, jsondata)
+		case "CacheRefresh":
+			refreshCache()
 		default:
 			fmt.Fprintf(w, `{"Status":"ERROR"}`)
 		}
@@ -114,6 +116,8 @@ func ItemDelete(w http.ResponseWriter, jsondata API2STRUCT) {
 	Eventloger(eventname, "ItemDEL", id)
 
 	db.Exec("DELETE from items WHERE ItemID = ?", id)
+
+	refreshCache()
 
 	fmt.Fprintf(w, `{"Status":"OK"}`)
 	fmt.Println("ItemDelete")

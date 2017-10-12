@@ -42,6 +42,11 @@ $( document ).ready(function() {
     $( "#settingsinpage" ).hide();
   });
 
+
+  $( "#DeskRefreshCache" ).click(function() {
+    RefrashCache();
+  });
+
 //BEGIN GO BUTTON - HIDE AND SHOW THE SEARCHBAR - AND REMOVE AFTER GOTO by SHOW FOR BETTER PLACE
 $( "#go_button" ).click(function() {//OPEN
 openGO()
@@ -126,4 +131,28 @@ function ArticleDel(data){
     if($(window).width() < 901){
       $( "#menue" ).hide();
     }
+  }
+
+  function RefrashCache() {
+    var data = JSON.stringify({ "APP":"RefrashCache", "PWD":$.cookie("pwd")});
+
+    $("#LoadingIndicator").show();
+
+    var xhr = new XMLHttpRequest();
+    var url = "/api2";
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var json = JSON.parse(xhr.responseText);
+            $("#LoadingIndicator").hide();
+            console.log(json.Status);
+            location.reload();
+            return true
+            }
+      };
+
+        console.log(data);
+
+        xhr.send(data);
   }

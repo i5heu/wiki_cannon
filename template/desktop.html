@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="/static/dark.css">
 {{end}}
 
-<p class="desk-status"> {{.LoginText}} | Logictime: {{.Rendertime}} || {{.CurentVersion}}{{if .Update}}  <span style="color:#fff; background:red;font-weight: 900;"> NEW VERSION {{.UpdateVersion}}  AVAILABLE</span>{{end}}</p>
+<div class="desk-status"> {{.LoginText}} | Logictime: {{.Rendertime}} || {{.CurentVersion}}{{if .Update}}  <span style="color:#fff; background:red;font-weight: 900;"> NEW VERSION {{.UpdateVersion}}  AVAILABLE</span>{{end}}<div class="desk-status-right"><span id="DeskRefreshCache"><i class="fa fa-refresh" aria-hidden="true"></i></span></div></div>
 
 
 <script>
