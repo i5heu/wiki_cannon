@@ -13,7 +13,8 @@ import (
 	"time"
 
 	"github.com/BurntSushi/toml"
-	_ "github.com/go-sql-driver/mysql"
+	//_ "github.com/go-sql-driver/mysql"
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/microcosm-cc/bluemonday"
 )
 
@@ -74,15 +75,15 @@ func main() {
 	// ################ END CONFIG ###########################
 
 	// Create an sql.DB and check for errors
-	db, err = sql.Open("mysql", conf.Dblogin)
-	db.SetConnMaxLifetime(time.Second * 2)
-	db.SetMaxIdleConns(10)
-	db.SetMaxOpenConns(25)
+	db, err = sql.Open("sqlite3", "./test.sql")
+	//db.SetConnMaxLifetime(time.Second * 2)
+	//db.SetMaxIdleConns(10)
+	db.SetMaxOpenConns(1)
 
-	// Open doesn't open a connection. Validate DSN data:
+	//Open doesn't open a connection. Validate DSN data:
 	err = db.Ping()
 	checkErr(err)
-	// sql.DB should be long lived "defer" closes it once this function ends
+	//sql.DB should be long lived "defer" closes it once this function ends
 	defer db.Close()
 
 	CreateTable()

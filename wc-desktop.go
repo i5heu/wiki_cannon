@@ -99,7 +99,8 @@ func Geldlogfunc(foo string) {
 
 	var GeldlogTMP template.HTML
 
-	ids, err := db.Query("SELECT SUM(num1) FROM `items` WHERE APP='geldlog' AND MONTH(timecreate) = MONTH(NOW())")
+	ids, err := db.Query("SELECT SUM(num1) FROM `items` WHERE APP='geldlog' AND strftime('%M',timecreate) = strftime('%M',DATE())")
+	checkErr(err)
 	defer ids.Close()
 	ids.Next()
 	var sume string
@@ -128,8 +129,8 @@ func Eventlogfunc(foo string) {
 	var EventlogTMP template.HTML
 
 	ids, err := db.Query("SELECT id,name,changeAPP num1 FROM `eventlog` ORDER by time DESC LIMIT 25")
-	defer ids.Close()
 	checkErr(err)
+	defer ids.Close()
 
 	for ids.Next() {
 		var id string
@@ -149,8 +150,8 @@ func Namespacefunc(foo string) {
 	var NamespaceTMP template.HTML
 
 	ids, err := db.Query("SELECT DISTINCT(namespace) FROM article ORDER BY namespace ASC;")
-	defer ids.Close()
 	checkErr(err)
+	defer ids.Close()
 
 	for ids.Next() {
 		var namespace string
@@ -168,8 +169,8 @@ func Lasteditfunc(foo string) {
 	var TMP template.HTML
 
 	ids, err := db.Query("SELECT title, namespace FROM article ORDER BY timelastedit DESC LIMIT 50;")
-	defer ids.Close()
 	checkErr(err)
+	defer ids.Close()
 
 	for ids.Next() {
 		var title, namespace string
@@ -190,8 +191,8 @@ func Projectfunc(foo string) {
 	var ProjectTMP template.HTML
 
 	ids, err := db.Query("SELECT title1,title2,num2 FROM items WHERE APP='project' ORDER BY num2 DESC LIMIT 50")
-	defer ids.Close()
 	checkErr(err)
+	defer ids.Close()
 
 	for ids.Next() {
 		var title1 string
@@ -211,8 +212,8 @@ func Shortcutfunc(foo string) {
 	var ProjectTMP template.HTML
 
 	ids, err := db.Query("SELECT title1,text1 FROM items WHERE APP='shortcut' ORDER BY num1 DESC")
-	defer ids.Close()
 	checkErr(err)
+	defer ids.Close()
 
 	for ids.Next() {
 		var title1 string
