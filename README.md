@@ -1,4 +1,7 @@
-# wiki_cannon
+
+## THIS PROJECT WAS MOVED TO https://github.com/i5heu/wikinota
+
+## wiki_cannon
 this is a simple to install personal Wiki with vital functions for your life!  
 
 ### Requirements:
